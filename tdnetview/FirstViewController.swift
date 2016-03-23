@@ -205,7 +205,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                 
                 self.getAsync(next_url,callback:{ result in
                     self.parsePage(result!)
-                    self.updateTable()
                 });
             });
         });
@@ -252,6 +251,24 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
             }
+        }
+
+        //next page
+        
+        let pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
+        let next_ret = Regexp(pattern).groups(result)
+        if(next_ret != nil){
+            let ret:[[String]] = next_ret!
+        
+            var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
+            print(next_url)
+        
+            self.getAsync(next_url,callback:{ result_next in
+                self.parsePage(result_next!)
+            });
+        }else{
+            //last
+            self.updateTable()
         }
     }
     
