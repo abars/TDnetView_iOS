@@ -81,6 +81,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         //self.refreshControl = refreshControl
         self.tableView.addSubview(refreshControl)
         
+        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        
         getData()
     }
 
@@ -90,18 +92,19 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     // セルに表示するテキスト
-    var texts = ["Test"]
+    var texts:[[String]] = []
+    //"Test abjbsikafns iojioaskdmoaskd opakopdkaopsd kopakdopksp"]
     
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
     func refresh() {
-        //var sortedAlphabet = alphabet.reverse()
-        
-        //for (index, element) in enumerate(sortedAlphabet) {
-        //    alphabet[index] = element
-        //}
-        print("sort")
+        texts = []
+
         self.tableView.reloadData()
+        
+        self.getData();
+        self.tableView.reloadData()
+        
         self.refreshControl.endRefreshing()
     }
     
@@ -166,17 +169,20 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func insertTable(result:String){
+    func insertTable(result:String,url:String){
+        /*
         let row = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
+*/
         
-        self.texts.append(result)
-        
+        self.texts.append([result,url])
+        /*
         self.tableView.beginUpdates()
         self.tableView.insertRowsAtIndexPaths([
             NSIndexPath(forRow: self.texts.count-1, inSection: 0)
             ], withRowAnimation: .Automatic)
         self.tableView.endUpdates()
+*/
     }
     
     func updateTable(){
@@ -195,6 +201,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let ret:[[String]] = Regexp(pattern).groups(result!)!
                 
                 var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
+                print(next_url)
                 
                 self.getAsync(next_url,callback:{ result in
                     self.parsePage(result!)
@@ -238,9 +245,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){
                         if(cnt>=self.regx.TDNET_ID_N){
-                            var data=url_list![0][2]
-                            var url=url_list![0][1]
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+" "+data)
+                            var data:String=url_list![0][2]
+                            var url:String=url_list![0][1]
+                            self.insertTable(date_id+" "+company_code_id+" "+company_id+" "+data,url:url)
                         }
                     }
                 }
@@ -256,6 +263,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         // set the method(HTTP-GET)
         request.HTTPMethod = "GET"
+        request.cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData;
         
         // use NSURLSession
         var task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
@@ -263,7 +271,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                 var result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
             } else {
-                //print(error)
+                print(error)
             }
         })
         task.resume()
@@ -274,7 +282,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
-        cell.textLabel?.text = texts[indexPath.row]
+        cell.textLabel?.text = texts[indexPath.row][0]
         cell.textLabel?.numberOfLines=0
         
         cell.sizeToFit()
@@ -295,11 +303,11 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
-        print(texts[indexPath.row])
+        var url_str:String = self.regx.TDNET_BASE_URL+self.texts[indexPath.row][1];
+        let url = NSURL(string: url_str)
+        if UIApplication.sharedApplication().canOpenURL(url!){
+            UIApplication.sharedApplication().openURL(url!)
+        }
     }
-    
-    //func updateCell(cell:UITableViewCell,atIndexPath:NSIndexPath) {
-        
-    //}
 }
 
