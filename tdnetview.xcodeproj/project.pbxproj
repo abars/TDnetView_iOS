@@ -14,6 +14,8 @@
 		89ACACE01AD8D7E900AAF967 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACDF1AD8D7E900AAF967 /* Images.xcassets */; };
 		89ACACE31AD8D7E900AAF967 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */; };
 		89ACACEF1AD8D7E900AAF967 /* tdnetviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */; };
+		89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
+		89BF9EC31CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		89ACACE81AD8D7E900AAF967 /* tdnetviewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tdnetviewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89ACACED1AD8D7E900AAF967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tdnetviewTests.swift; sourceTree = "<group>"; };
+		89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tdnetview.entitlements; sourceTree = "<group>"; };
+		89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 		89ACACD31AD8D7E900AAF967 /* tdnetview */ = {
 			isa = PBXGroup;
 			children = (
+				89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */,
+				89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */,
 				89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */,
 				89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */,
 				89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */,
@@ -159,11 +165,19 @@
 		89ACACC91AD8D7E800AAF967 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = abars;
 				TargetAttributes = {
 					89ACACD01AD8D7E900AAF967 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 8HT39MV6J6;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+						};
 					};
 					89ACACE71AD8D7E900AAF967 = {
 						CreatedOnToolsVersion = 6.3;
@@ -218,6 +232,7 @@
 				89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */,
 				89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */,
 				89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */,
+				89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89ACACEF1AD8D7E900AAF967 /* tdnetviewTests.swift in Sources */,
+				89BF9EC31CA282AB00126B8F /* SwiftyJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,9 +362,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tdnetview/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -356,9 +375,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tdnetview/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -415,6 +437,7 @@
 				89ACACF41AD8D7E900AAF967 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		89ACACF51AD8D7E900AAF967 /* Build configuration list for PBXNativeTarget "tdnetviewTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +446,7 @@
 				89ACACF71AD8D7E900AAF967 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
