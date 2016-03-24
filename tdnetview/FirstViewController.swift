@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
@@ -28,6 +29,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.addSubview(refreshControl)
         
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        
+        var menuItem: UIMenuItem = UIMenuItem(title: "編集", action: "edit:")
+        var menuItem2: UIMenuItem = UIMenuItem(title: "削除", action: "remove:")
+        var menuItem3: UIMenuItem = UIMenuItem(title: "登録", action: "regist:")
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
+        UIMenuController.sharedMenuController().update()
+        self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
         getData()
     }
@@ -195,6 +203,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             });
         }else{
             //last
+            self.insertTable("test",url:"url")
+            
             self.texts=self.new_texts
             self.updateTable()
             self.refreshControl.endRefreshing()
@@ -226,7 +236,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //セルの内容を変更
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        
+        cell.idx=indexPath.row;
+        cell.view=self;
         
         cell.textLabel?.text = texts[indexPath.row][0]
         cell.textLabel?.numberOfLines=0
@@ -254,6 +267,28 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
         }
+    }
+
+    // ★ 以下UIMenuControllerをカスタマイズするのに必要
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
+    }
+    
+    func tweet(idx:Int){
+    let text = "twitter share text "+String(idx)
+        print(text)
+    
+    let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
+    composeViewController.setInitialText(text)
+    
+    self.presentViewController(composeViewController, animated: true, completion: nil)
     }
 }
 
