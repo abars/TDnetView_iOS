@@ -30,9 +30,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         
-        var menuItem: UIMenuItem = UIMenuItem(title: "編集", action: "edit:")
-        var menuItem2: UIMenuItem = UIMenuItem(title: "削除", action: "remove:")
-        var menuItem3: UIMenuItem = UIMenuItem(title: "登録", action: "regist:")
+        var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "edit:")
+        var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "remove:")
+        var menuItem3: UIMenuItem = UIMenuItem(title: "Search", action: "regist:")
         UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -102,13 +102,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func insertTable(result:String,url:String){
+    func insertTable(result:String,url:String,tweet:String){
         /*
         let row = NSIndexPath(forRow: 0, inSection: 0)
         self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
 */
         
-        self.new_texts.append([result,url])
+        self.new_texts.append([result,url,tweet])
         /*
         self.tableView.beginUpdates()
         self.tableView.insertRowsAtIndexPaths([
@@ -181,7 +181,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=url_list![0][2]
                             var url:String=url_list![0][1]
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data,url:url)
+                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data,url:url,tweet:""+company_id+" "+data+" "+self.regx.TDNET_BASE_URL+url)
                         }
                     }
                 }
@@ -203,7 +203,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             });
         }else{
             //last
-            self.insertTable("test",url:"url")
+            if(self.new_texts.count==0){
+                self.insertTable("data not found",url:"",tweet:"")
+            }
             
             self.texts=self.new_texts
             self.updateTable()
@@ -282,13 +284,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tweet(idx:Int){
-    let text = "twitter share text "+String(idx)
+        let text = self.texts[idx][2]
         print(text)
     
-    let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
-    composeViewController.setInitialText(text)
+        let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
+        composeViewController.setInitialText(text)
     
-    self.presentViewController(composeViewController, animated: true, completion: nil)
+        self.presentViewController(composeViewController, animated: true, completion: nil)
     }
 }
 
