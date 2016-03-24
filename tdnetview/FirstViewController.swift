@@ -93,19 +93,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     // セルに表示するテキスト
     var texts:[[String]] = []
-    //"Test abjbsikafns iojioaskdmoaskd opakopdkaopsd kopakdopksp"]
+    var new_texts:[[String]] = []
     
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
     func refresh() {
-        texts = []
-
-        self.tableView.reloadData()
-        
         self.getData();
         self.tableView.reloadData()
-        
-        self.refreshControl.endRefreshing()
     }
     
     struct TDnetRegx{
@@ -175,7 +169,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
 */
         
-        self.texts.append([result,url])
+        self.new_texts.append([result,url])
         /*
         self.tableView.beginUpdates()
         self.tableView.insertRowsAtIndexPaths([
@@ -202,6 +196,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                 
                 var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
                 print(next_url)
+                
+                self.new_texts=[]
                 
                 self.getAsync(next_url,callback:{ result in
                     self.parsePage(result!)
@@ -268,7 +264,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             });
         }else{
             //last
+            self.texts=self.new_texts
             self.updateTable()
+            self.refreshControl.endRefreshing()
         }
     }
     
