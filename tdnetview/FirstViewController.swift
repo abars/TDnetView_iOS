@@ -8,60 +8,6 @@
 
 import UIKit
 
-class Regexp {
-    let internalRegexp: NSRegularExpression
-    let pattern: String
-    
-    init(_ pattern: String) {
-        self.pattern = pattern
-        self.internalRegexp = try! NSRegularExpression( pattern: pattern, options: [NSRegularExpressionOptions.CaseInsensitive ,NSRegularExpressionOptions.DotMatchesLineSeparators])
-    }
-    
-    func isMatch(input: String) -> Bool {
-        let matches = self.internalRegexp.matchesInString( input, options: [], range:NSMakeRange(0, input.characters.count) )
-        return matches.count > 0
-    }
-    
-    func matches(input: String) -> [String]? {
-        if self.isMatch(input) {
-            let matches = self.internalRegexp.matchesInString( input, options: [], range:NSMakeRange(0, input.characters.count) )
-            var results: [String] = []
-            for i in 0 ..< matches.count {
-                results.append( (input as NSString).substringWithRange(matches[i].range) )
-            }
-            return results
-        }
-        return nil
-    }
-
-    func groups(input: String) -> [[String]]? {
-        let matches = self.internalRegexp.matchesInString(input, options: [], range:NSMakeRange(0, input.characters.count) )
-        if matches.count > 0 {
-            var result: [[String]] = []
-            for i in 0 ..< matches.count {
-                /*
-                let nsrange: NSRange = (matches[i] as NSTextCheckingResult).range
-                let nsstring: NSString = input as NSString
-                let group: String = nsstring.substringWithRange(nsrange)
-                result.append(group)
-                */
-                
-                var temp : [String] = []
-                for var j = 0; j < matches[i].numberOfRanges; j++
-                {
-                    let nsstring: NSString = input as NSString
-                    temp.append(nsstring.substringWithRange(matches[i].rangeAtIndex(j)))
-                }
-                result.append(temp)
-                
-            }
-            return result
-        } else {
-            return nil
-        }
-    }
-}
-
 class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     @IBOutlet weak var tableView: UITableView!
@@ -102,22 +48,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.reloadData()
     }
     
-    struct TDnetRegx{
-    var VERSION:Int=0
-    var APPENGINE_BASE_URL:String="http://tdnet-search.appspot.com/"
-    var TDNET_TOP_URL:String="https://www.release.tdnet.info/inbs/I_main_00.html"
-    var TDNET_BASE_URL:String="https://www.release.tdnet.info/inbs/"
-    var TDNET_DAY_PAGE_PATTERN:String="frame src=\"(.*)\" name=\"frame_l\""
-    var TDNET_NEXT_PAGE_PATTERN:String="location=\'(.*)?\'\" type=\"button\" value=\"次画面\""
-    var TDNET_TR_PATTERN:String="<tr>(.*?)</tr>"
-    var TDNET_TD_PATTERN:String="<td.*?>(.*?)</td>"
-    var TDNET_CONTENT_PATTERN:String="<a href=\"(.*?)\" target=.*>(.*?)</a>"
-    var TDNET_ID_N:Int=4
-    var TDNET_DATE_ID:Int=0
-    var TDNET_COMPANY_CODE_ID:Int=1
-    var TDNET_COMPANY_ID:Int=2
-    var TDNET_DATA_ID:Int=3
-    }
+
     var regx:TDnetRegx=TDnetRegx()
     
     func convertStringToDictionary(text: String) -> [String:AnyObject]? {
@@ -242,7 +173,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=url_list![0][2]
                             var url:String=url_list![0][1]
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+" "+data,url:url)
+                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data,url:url)
                         }
                     }
                 }

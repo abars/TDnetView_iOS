@@ -16,6 +16,8 @@
 		89ACACEF1AD8D7E900AAF967 /* tdnetviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */; };
 		89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 		89BF9EC31CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
+		89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0731CA4A8AB00FD692B /* Regexp.swift */; };
+		89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,8 @@
 		89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tdnetviewTests.swift; sourceTree = "<group>"; };
 		89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tdnetview.entitlements; sourceTree = "<group>"; };
 		89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		89C9D0731CA4A8AB00FD692B /* Regexp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regexp.swift; sourceTree = "<group>"; };
+		89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDnetRegx.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,11 +91,13 @@
 				89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */,
 				89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */,
 				89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */,
+				89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */,
 				89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */,
 				89ACACDC1AD8D7E900AAF967 /* Main.storyboard */,
 				89ACACDF1AD8D7E900AAF967 /* Images.xcassets */,
 				89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */,
 				89ACACD41AD8D7E900AAF967 /* Supporting Files */,
+				89C9D0731CA4A8AB00FD692B /* Regexp.swift */,
 			);
 			path = tdnetview;
 			sourceTree = "<group>";
@@ -229,6 +235,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */,
+				89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */,
 				89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */,
 				89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */,
 				89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */,
