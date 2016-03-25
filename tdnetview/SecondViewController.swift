@@ -34,7 +34,10 @@ class SecondViewController: FirstViewController,UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField!) -> Bool{
         print( textField.text )
-        getData( textField.text! )
+        if(textField.text != ""){
+            getData( textField.text! )
+        }
+        textField.resignFirstResponder()
         return true
     }
 

@@ -30,7 +30,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.addSubview(refreshControl)
         }
         
-        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         
         var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "edit:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "remove:")
@@ -88,7 +88,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
         result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
         
-        print(result2)
+        //print(result2)
         
         var dict=self.convertStringToDictionary(result2)
         
@@ -171,7 +171,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             });
         });
     }
-    
+
+    func truncate(td_str:String) -> String{
+        var td_str2=td_str.stringByReplacingOccurrencesOfString(" ", withString: "")
+        td_str2=td_str2.stringByReplacingOccurrencesOfString("　", withString: "")
+        td_str2=td_str2.stringByReplacingOccurrencesOfString("\n", withString: "")
+        return td_str2
+    }
+
     func parsePage(result:String){
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
         if(tr_list != nil){
@@ -190,13 +197,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                     for td in td_list! {
                         let td_str=td[1]
                         if(cnt==self.regx.TDNET_DATE_ID){
-                            date_id=td_str
+                            date_id=self.truncate(td_str)
                         }
                         if(cnt==self.regx.TDNET_COMPANY_CODE_ID){
-                            company_code_id=td_str
+                            company_code_id=self.truncate(td_str)
                         }
                         if(cnt==self.regx.TDNET_COMPANY_ID){
-                            company_id=td_str
+                            company_id=self.truncate(td_str)
                         }
                         if(cnt==self.regx.TDNET_DATA_ID){
                             data_id=td_str
@@ -212,7 +219,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){
                         if(cnt>=self.regx.TDNET_ID_N){
-                            var data:String=url_list![0][2]
+                            var data:String=self.truncate(url_list![0][2])
                             var url:String=url_list![0][1]
                             if(full != ""){
                                 full="\n"+full
@@ -276,23 +283,11 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     //セルの内容を変更
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-        var idx:Int = indexPath.row;
         
-        /*
-        if(isSearchScreen()){
-            if(indexPath.row==0){
-                var cell2:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("helloCell")!
-                cell2.textField.delegate = self;
-                return cell2
-            }
-            idx--
-        }
-        */
-        
-        cell.idx=idx
+        cell.idx=indexPath.row
         cell.view=self;
         
-        cell.textLabel?.text = texts[idx][0]
+        cell.textLabel?.text = texts[indexPath.row][0]
         cell.textLabel?.numberOfLines=0
         
         cell.sizeToFit()
