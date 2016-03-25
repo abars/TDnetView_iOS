@@ -22,11 +22,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         tableView.rowHeight = UITableViewAutomaticDimension
 
-        //refreshControl = UIRefreshControl()
-        //self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張って更新")
-        refreshControl.addTarget(self, action: Selector("refresh"), forControlEvents: UIControlEvents.ValueChanged)
-        //self.refreshControl = refreshControl
-        self.tableView.addSubview(refreshControl)
+        if(!isSearchScreen()){
+            //refreshControl = UIRefreshControl()
+            //self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張って更新")
+            refreshControl.addTarget(self, action: Selector("refresh"), forControlEvents: UIControlEvents.ValueChanged)
+            //self.refreshControl = refreshControl
+            self.tableView.addSubview(refreshControl)
+        }
         
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         
@@ -37,7 +39,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
-        getData()
+        if(!isSearchScreen()){
+            getData("")
+        }
+    }
+    
+    func isSearchScreen() -> Bool{
+        return false;
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,7 +60,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
     func refresh() {
-        self.getData();
+        self.getData("");
         self.tableView.reloadData()
     }
     
@@ -73,7 +81,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func updateRegx(result:String){
         var result2:String="{\"version\":1}"
         
-        result2=result.stringByReplacingOccurrencesOfString("'", withString: "\"")
+        //swiftのjsonは""でくくる必要があるが、tdnetsearchのregxは''でくくっているので変換する
+        //ただし、正規表現中の\'は退避する必要がある
+        
+        result2=result.stringByReplacingOccurrencesOfString("\\'", withString: "[single_quortation]")
+        result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
+        result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
+        
+        print(result2)
         
         var dict=self.convertStringToDictionary(result2)
         
@@ -124,19 +139,31 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         });
     }
     
-    func getData() {
-        let urlString = "http://tdnet-search.appspot.com/?mode=regx";
+    func getData(search_str:String) {
+        let urlString = "http://tdnet-search.appspot.com/?mode=regx"
         getAsync(urlString,callback:{ result in
             self.updateRegx(result!)
 
-            self.getAsync(self.regx.TDNET_TOP_URL,callback:{ result in
+            self.new_texts=[]
+
+            var tdnet_url = self.regx.TDNET_TOP_URL
+            if(search_str != ""){
+                var encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+                tdnet_url = "http://tdnet-search.appspot.com/?page_unit=100&query="+encoded;
+                //mode=full&
+
+                self.getAsync(tdnet_url,callback:{ result in
+                    self.parsePage(result!)
+                });
+                return
+            }
+
+            self.getAsync(tdnet_url,callback:{ result in
                 let pattern = self.regx.TDNET_DAY_PAGE_PATTERN
                 let ret:[[String]] = Regexp(pattern).groups(result!)!
                 
                 var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
                 print(next_url)
-                
-                self.new_texts=[]
                 
                 self.getAsync(next_url,callback:{ result in
                     self.parsePage(result!)
@@ -158,6 +185,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                     var company_code_id:String=""
                     var company_id:String=""
                     var data_id:String=""
+                    var full:String=""
                     
                     for td in td_list! {
                         let td_str=td[1]
@@ -173,6 +201,11 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                         if(cnt==self.regx.TDNET_DATA_ID){
                             data_id=td_str
                         }
+                        if(cnt==self.regx.TDNET_DATA_ID+1){
+                            if(isSearchScreen()){
+                                full=td_str;
+                            }
+                        }
                         cnt++
                     }
                     
@@ -181,7 +214,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=url_list![0][2]
                             var url:String=url_list![0][1]
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data,url:url,tweet:""+company_id+" "+data+" "+self.regx.TDNET_BASE_URL+url)
+                            if(full != ""){
+                                full="\n"+full
+                            }
+                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data+full,url:url,tweet:""+company_id+" "+data+" "+self.regx.TDNET_BASE_URL+url)
                         }
                     }
                 }
@@ -190,8 +226,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         //next page
         
-        let pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
+        var pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
         let next_ret = Regexp(pattern).groups(result)
+
         if(next_ret != nil){
             let ret:[[String]] = next_ret!
         
@@ -239,11 +276,23 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     //セルの内容を変更
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        var idx:Int = indexPath.row;
         
-        cell.idx=indexPath.row;
+        /*
+        if(isSearchScreen()){
+            if(indexPath.row==0){
+                var cell2:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("helloCell")!
+                cell2.textField.delegate = self;
+                return cell2
+            }
+            idx--
+        }
+        */
+        
+        cell.idx=idx
         cell.view=self;
         
-        cell.textLabel?.text = texts[indexPath.row][0]
+        cell.textLabel?.text = texts[idx][0]
         cell.textLabel?.numberOfLines=0
         
         cell.sizeToFit()

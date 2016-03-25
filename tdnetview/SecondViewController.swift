@@ -8,11 +8,23 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: FirstViewController,UITextFieldDelegate {
+
+    @IBOutlet weak var myTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        myTextField.delegate = self
+        
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidDisappear(animated:Bool) {
+        myTextField.text=""
+        super.texts=[]
+        super.updateTable()
+        super.viewDidDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +32,15 @@ class SecondViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func textFieldShouldReturn(textField: UITextField!) -> Bool{
+        print( textField.text )
+        getData( textField.text! )
+        return true
+    }
+
+    override func isSearchScreen() -> Bool{
+        return true;
+    }
 
 }
 
