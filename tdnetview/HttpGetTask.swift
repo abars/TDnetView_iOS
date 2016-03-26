@@ -85,7 +85,7 @@ func updateRegx(result:String){
 }
 
     func getData(search_str:String) {
-        let urlString = "http://tdnet-search.appspot.com/?mode=regx"
+        let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"
         getAsync(urlString,callback:{ result in
             self.updateRegx(result!)
             
@@ -94,8 +94,7 @@ func updateRegx(result:String){
             var tdnet_url = self.regx.TDNET_TOP_URL
             if(search_str != ""){
                 var encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-                tdnet_url = "http://tdnet-search.appspot.com/?page_unit=100&query="+encoded;
-                //mode=full&
+                tdnet_url = self.regx.APPENGINE_BASE_URL+"?page_unit=100&mode=full&query="+encoded;
                 
                 self.getAsync(tdnet_url,callback:{ result in
                     self.parsePage(result!)
@@ -165,11 +164,29 @@ func updateRegx(result:String){
                     if(url_list != nil){
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=self.truncate(url_list![0][2])
-                            var url:String=self.regx.TDNET_BASE_URL+url_list![0][1]
-                            if(full != ""){
-                                full="\n"+full
+                            var prefix:String=self.regx.TDNET_BASE_URL
+                            if(self.first_view.isSearchScreen()){
+                                prefix=self.regx.APPENGINE_BASE_URL
                             }
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data+full,url:url,tweet:""+company_id+" "+data+" "+url,company_code_id:company_code_id)
+                            if(Regexp("日々の開示事項").matches(data) != nil){
+                                continue
+                            }
+                            var url:String=prefix+url_list![0][1]
+                            var sep:String="\n"
+                            
+                            if(full != ""){
+                                full=""+sep+sep+full
+                            }
+                            
+                            var cell_text:String = ""+date_id+" "+company_code_id+" "+company_id+sep+data+full
+
+                            if(self.first_view.isSearchScreen()){
+                                cell_text = cell_text.stringByReplacingOccurrencesOfString("\n", withString: "<br/>")
+                            }
+                            
+                            var tweet_text:String = ""+company_id+" "+data+" "+url
+                            
+                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id)
                         }
                     }
                 }

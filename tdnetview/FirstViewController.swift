@@ -83,7 +83,41 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.idx=indexPath.row
         cell.view=self;
         
-        cell.textLabel?.text = texts[indexPath.row][0]
+        //cell.textLabel?.text = texts[indexPath.row][0]
+        
+        /*
+        var data:NSData? = texts[indexPath.row][0].dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)
+        var err:NSError?
+        var attributedText:NSAttributedString = NSAttributedString(
+            data: data,
+            options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType],
+            documentAttributes: nil,
+            error: &err)
+        */
+        
+        if(isSearchScreen()){
+            let cell_text:String = texts[indexPath.row][0]
+            let string:String = "<style>body{font-size:16px;}</style>"+cell_text
+        
+            let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
+            let attributedOptions : [String: AnyObject] = [
+                NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+            ]
+        
+            var attributedString:NSAttributedString?
+        
+            do{
+                attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            }catch{
+                print(error)
+            }
+        
+            cell.textLabel?.attributedText = attributedString!
+        }else{
+            cell.textLabel?.text = texts[indexPath.row][0]
+        }
+        
         cell.textLabel?.numberOfLines=0
         
         cell.sizeToFit()
