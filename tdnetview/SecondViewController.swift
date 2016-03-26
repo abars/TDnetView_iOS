@@ -35,7 +35,7 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
     func searchBarSearchButtonClicked(mySearchBar: UISearchBar!){
         print( mySearchBar.text )
         if(mySearchBar.text != ""){
-            getData( mySearchBar.text! )
+            self.http_get_task.getData( mySearchBar.text! )
         }
         mySearchBar.resignFirstResponder()
         //return true
