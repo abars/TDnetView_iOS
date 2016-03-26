@@ -21,7 +21,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view, typically from a nib.
         
         http_get_task = HttpGetTask(self)
-        mark = Mark()
+        
+        var myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.mark = myAp.mark
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -40,7 +42,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "mark:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2]
+        var menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: "yahoo:")
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
@@ -118,6 +121,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.textLabel?.text = texts[indexPath.row][0]
         }
         
+        let ARTICLE_COMAPNY_ID:Int = 3;
+        
+        if(mark.is_mark(texts[indexPath.row][ARTICLE_COMAPNY_ID])){
+            cell.backgroundColor=UIColor(red:137/255.0 , green:195/255.0 , blue:235/255.0 , alpha:1.0)
+        }else{
+            cell.backgroundColor=UIColor.clearColor()
+        }
+        
         cell.textLabel?.numberOfLines=0
         
         cell.sizeToFit()
@@ -171,6 +182,22 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         let text = self.texts[idx][3]
         print("mark "+text)
         self.mark.add_remove(text)
+        updateTable()
     }
+
+    func yahoo(idx:Int){
+        var company : String = self.texts[idx][3]
+        company = (company as NSString).substringToIndex(4)
+        print("yahoo "+company)
+
+        var text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
+
+        var url_str:String = text
+        let url = NSURL(string: url_str)
+        if UIApplication.sharedApplication().canOpenURL(url!){
+            UIApplication.sharedApplication().openURL(url!)
+        }
+    }
+
 }
 

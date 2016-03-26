@@ -28,7 +28,7 @@ class CustomTableViewCell: UITableViewCell
     
     // 必要なメニューのみ表示します
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == "mark:" || action == "tweet:" {
+        if action == "mark:" || action == "tweet:" || action == "yahoo:"{
             return true
         } else {
             return false
@@ -44,6 +44,12 @@ class CustomTableViewCell: UITableViewCell
     func mark(sender: AnyObject) {
         dispatch_async(dispatch_get_main_queue(), {
             self.view?.mark(self.idx)
+        })
+    }
+
+    func yahoo(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.view?.yahoo(self.idx)
         })
     }
 }
