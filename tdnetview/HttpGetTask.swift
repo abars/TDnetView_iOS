@@ -160,6 +160,12 @@ func updateRegx(result:String){
                         cnt++
                     }
                     
+                    //if(self.first_view.isMarkScreen()){
+                    //    if(!self.first_view.mark.is_mark(company_id)){
+                    //        continue
+                    //    }
+                    //}
+                    
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){
                         if(cnt>=self.regx.TDNET_ID_N){
@@ -168,7 +174,7 @@ func updateRegx(result:String){
                             if(self.first_view.isSearchScreen()){
                                 prefix=self.regx.APPENGINE_BASE_URL
                             }
-                            if(Regexp("日々の開示事項").matches(data) != nil){
+                            if(Regexp("日々の開示").matches(data) != nil){
                                 continue
                             }
                             var url:String=prefix+url_list![0][1]

@@ -41,8 +41,8 @@ class Mark{
             if(i != 0){
                 query+=" OR ";
             }
-            query+=mark_list[i]
+            query+="code:"+mark_list[i]
         }
-        return "code:"+query;
+        return ""+query+"";
     }
 }
