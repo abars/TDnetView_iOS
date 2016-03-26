@@ -193,7 +193,7 @@ func insertTable(result:String,url:String,tweet:String){
         }else{
             //last
             if(self.new_texts.count==0){
-                self.insertTable("data not found",url:"",tweet:"")
+                self.insertTable("no data found",url:"",tweet:"")
             }
             
             dispatch_async(dispatch_get_main_queue(), {

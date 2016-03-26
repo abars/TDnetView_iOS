@@ -20,6 +20,7 @@
 		89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */; };
 		89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */; };
 		89C9D07C1CA567B900FD692B /* HttpGetTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07B1CA567B900FD692B /* HttpGetTask.swift */; };
+		89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07D1CA61DBA00FD692B /* Mark.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDnetRegx.swift; sourceTree = "<group>"; };
 		89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		89C9D07B1CA567B900FD692B /* HttpGetTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpGetTask.swift; sourceTree = "<group>"; };
+		89C9D07D1CA61DBA00FD692B /* Mark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				89C9D0731CA4A8AB00FD692B /* Regexp.swift */,
 				89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */,
 				89C9D07B1CA567B900FD692B /* HttpGetTask.swift */,
+				89C9D07D1CA61DBA00FD692B /* Mark.swift */,
 			);
 			path = tdnetview;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 			files = (
 				89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */,
 				89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */,
+				89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */,
 				89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */,
 				89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */,
 				89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */,

@@ -14,12 +14,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     var http_get_task : HttpGetTask!
+    var mark : Mark!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         http_get_task = HttpGetTask(self)
+        mark = Mark()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -36,10 +38,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         
-        var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "edit:")
-        var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "remove:")
-        var menuItem3: UIMenuItem = UIMenuItem(title: "Search", action: "regist:")
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
+        var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "mark:")
+        var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2]
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
@@ -130,6 +131,12 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         composeViewController.setInitialText(text)
     
         self.presentViewController(composeViewController, animated: true, completion: nil)
+    }
+    
+    func mark(idx:Int){
+        let text = self.texts[idx][2]
+        print("mark "+text)
+        self.mark.add_remove(text)
     }
 }
 

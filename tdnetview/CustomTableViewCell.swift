@@ -28,31 +28,22 @@ class CustomTableViewCell: UITableViewCell
     
     // 必要なメニューのみ表示します
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == "remove:" || action == "edit:" || action == "regist:" {
+        if action == "mark:" || action == "tweet:" {
             return true
         } else {
             return false
         }
     }
     
-    func remove(sender: AnyObject) {
-        // 削除を押したときに呼ばれる
-        //var indexPath = self.tableView.indexPathForSelectedRow;
-        // copy content to pasteboard
-        //NSString *string = self.list[indexPath.row];
-        //[UIPasteboard generalPasteboard].string = string;
-        //print("tweet");
+    func tweet(sender: AnyObject) {
         dispatch_async(dispatch_get_main_queue(), {
             self.view?.tweet(self.idx)
         })
-
     }
     
-    func edit(sender: AnyObject) {
-        // 編集を押したときに呼ばれる
-    }
-    
-    func regist(sender: AnyObject) {
-        // 登録を押したときに呼ばれる
+    func mark(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.view?.mark(self.idx)
+        })
     }
 }
