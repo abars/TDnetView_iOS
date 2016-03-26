@@ -184,7 +184,12 @@ func updateRegx(result:String){
                                 full=""+sep+sep+full
                             }
                             
-                            var cell_text:String = ""+date_id+" "+company_code_id+" "+company_id+sep+data+full
+                            var space:String="　"
+                            if(self.first_view.isSearchScreen()){
+                                space="&nbsp;"
+                            }
+                            
+                            var cell_text:String = ""+date_id+space+company_code_id+space+company_id+sep+data+full
 
                             if(self.first_view.isSearchScreen()){
                                 cell_text = cell_text.stringByReplacingOccurrencesOfString("\n", withString: "<br/>")
