@@ -8,20 +8,20 @@
 
 import UIKit
 
-class SecondViewController: FirstViewController,UITextFieldDelegate {
+class SecondViewController: FirstViewController,UISearchBarDelegate {
 
-    @IBOutlet weak var myTextField: UITextField!
+    @IBOutlet weak var mySearchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        myTextField.delegate = self
+        mySearchBar.delegate = self
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewDidDisappear(animated:Bool) {
-        myTextField.text=""
+        mySearchBar.text=""
         super.texts=[]
         super.updateTable()
         super.viewDidDisappear(animated)
@@ -32,13 +32,13 @@ class SecondViewController: FirstViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    func textFieldShouldReturn(textField: UITextField!) -> Bool{
-        print( textField.text )
-        if(textField.text != ""){
-            getData( textField.text! )
+    func searchBarSearchButtonClicked(mySearchBar: UISearchBar!){
+        print( mySearchBar.text )
+        if(mySearchBar.text != ""){
+            getData( mySearchBar.text! )
         }
-        textField.resignFirstResponder()
-        return true
+        mySearchBar.resignFirstResponder()
+        //return true
     }
 
     override func isSearchScreen() -> Bool{

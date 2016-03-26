@@ -250,10 +250,12 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             if(self.new_texts.count==0){
                 self.insertTable("data not found",url:"",tweet:"")
             }
-            
-            self.texts=self.new_texts
-            self.updateTable()
-            self.refreshControl.endRefreshing()
+
+            dispatch_async(dispatch_get_main_queue(), {
+                self.texts=self.new_texts
+                self.updateTable()
+                self.refreshControl.endRefreshing()
+            })
         }
     }
     
@@ -329,7 +331,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tweet(idx:Int){
         let text = self.texts[idx][2]
-        print(text)
+        print("tweet "+text)
     
         let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
         composeViewController.setInitialText(text)

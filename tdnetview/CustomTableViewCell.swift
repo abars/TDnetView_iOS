@@ -41,7 +41,10 @@ class CustomTableViewCell: UITableViewCell
         // copy content to pasteboard
         //NSString *string = self.list[indexPath.row];
         //[UIPasteboard generalPasteboard].string = string;
-        view?.tweet(idx)
+        //print("tweet");
+        dispatch_async(dispatch_get_main_queue(), {
+            self.view?.tweet(self.idx)
+        })
 
     }
     

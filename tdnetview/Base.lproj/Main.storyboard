@@ -32,16 +32,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="EqZ-Q7-PgU">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <searchBar key="tableFooterView" contentMode="redraw" id="TLr-lz-cAz">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
-                        </textField>
+                        </searchBar>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Search" image="second" id="cPa-gy-q4n"/>
                     <connections>
-                        <outlet property="myTextField" destination="EqZ-Q7-PgU" id="jOS-aR-3YQ"/>
+                        <outlet property="mySearchBar" destination="TLr-lz-cAz" id="Zke-Eb-oKa"/>
                         <outlet property="tableView" destination="bvB-8H-ZJ0" id="VJG-rR-g8s"/>
                     </connections>
                 </viewController>
