@@ -40,7 +40,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         
-        var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "mark:")
+        var menuItem: UIMenuItem = UIMenuItem(title: "Mark/Unmark", action: "mark:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
         var menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: "yahoo:")
         UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
