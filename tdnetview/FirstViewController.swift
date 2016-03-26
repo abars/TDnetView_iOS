@@ -36,7 +36,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.addSubview(refreshControl)
         }
         
-        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
+        //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         
         var menuItem: UIMenuItem = UIMenuItem(title: "Mark", action: "mark:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
@@ -134,7 +134,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func mark(idx:Int){
-        let text = self.texts[idx][2]
+        let text = self.texts[idx][3]
         print("mark "+text)
         self.mark.add_remove(text)
     }

@@ -68,13 +68,13 @@ func updateRegx(result:String){
     }
 }
 
-func insertTable(result:String,url:String,tweet:String){
+    func insertTable(result:String,url:String,tweet:String,company_code_id:String){
     /*
     let row = NSIndexPath(forRow: 0, inSection: 0)
     self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
     */
     
-    self.new_texts.append([result,url,tweet])
+    self.new_texts.append([result,url,tweet,company_code_id])
     /*
     self.tableView.beginUpdates()
     self.tableView.insertRowsAtIndexPaths([
@@ -169,7 +169,7 @@ func insertTable(result:String,url:String,tweet:String){
                             if(full != ""){
                                 full="\n"+full
                             }
-                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data+full,url:url,tweet:""+company_id+" "+data+" "+self.regx.TDNET_BASE_URL+url)
+                            self.insertTable(date_id+" "+company_code_id+" "+company_id+"\n"+data+full,url:url,tweet:""+company_id+" "+data+" "+url,company_code_id:company_code_id)
                         }
                     }
                 }
@@ -193,7 +193,7 @@ func insertTable(result:String,url:String,tweet:String){
         }else{
             //last
             if(self.new_texts.count==0){
-                self.insertTable("no data found",url:"",tweet:"")
+                self.insertTable("no data found",url:"",tweet:"",company_code_id: "")
             }
             
             dispatch_async(dispatch_get_main_queue(), {
