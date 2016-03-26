@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Today-->
+        <!--First View Controller-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="FirstViewController" customModule="tdnetview" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +31,7 @@
                             <constraint firstItem="vnX-Q8-N0D" firstAttribute="leading" secondItem="zTO-iN-XkD" secondAttribute="leadingMargin" constant="-20" id="hsh-KC-2YH"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Today" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" systemItem="recents" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="tableView" destination="vnX-Q8-N0D" id="V9s-cM-7BK"/>
                     </connections>
@@ -40,7 +40,7 @@
             </objects>
             <point key="canvasLocation" x="750" y="-303"/>
         </scene>
-        <!--Search-->
+        <!--Second View Controller-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SecondViewController" customModule="tdnetview" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,7 +72,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="FPr-G8-M3R" secondAttribute="trailing" constant="-20" id="ye1-ky-HGu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="mySearchBar" destination="TTa-G6-5KS" id="ton-tr-0JM"/>
                         <outlet property="tableView" destination="FPr-G8-M3R" id="Lok-af-0Sf"/>
@@ -127,7 +127,7 @@
                             <constraint firstItem="8Wl-4J-TxN" firstAttribute="top" secondItem="7DT-X2-lHH" secondAttribute="bottom" id="vPb-ae-ZrP"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Mark" image="first" id="QGC-bh-Hqt" userLabel="Mark"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="QGC-bh-Hqt" userLabel="Mark"/>
                     <connections>
                         <outlet property="tableView" destination="7DT-X2-lHH" id="FOg-yC-Bpm"/>
                     </connections>
@@ -137,8 +137,4 @@
             <point key="canvasLocation" x="47" y="908"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
-    </resources>
 </document>

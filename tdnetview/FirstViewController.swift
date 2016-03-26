@@ -40,7 +40,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
         
-        var menuItem: UIMenuItem = UIMenuItem(title: "Mark/Unmark", action: "mark:")
+        var menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: "mark:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
         var menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: "yahoo:")
         UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
@@ -83,6 +83,20 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
 
     func updateTable(){
+        if(!(isSearchScreen() || isMarkScreen())){
+        var cnt:Int=0
+        for text in self.texts {
+            if(mark.is_mark(text[3])){
+                cnt++
+            }
+        }
+        if(cnt>=1){
+            self.tabBarItem.badgeValue = String(cnt)
+        }else{
+            self.tabBarItem.badgeValue=nil
+        }
+        }
+
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
         });
