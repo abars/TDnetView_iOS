@@ -34,4 +34,15 @@ class Mark{
     func is_mark(company_id:String) -> Bool{
         return mark_list.contains(company_id)
     }
+    
+    func get_query() -> String{
+        var query : String=""
+        for(var i:Int=0;i<mark_list.count;i++){
+            if(i != 0){
+                query+=" OR ";
+            }
+            query+=mark_list[i]
+        }
+        return "code:"+query;
+    }
 }

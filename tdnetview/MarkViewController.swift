@@ -8,42 +8,34 @@
 
 import UIKit
 
-class SecondViewController: FirstViewController,UISearchBarDelegate {
-
-    @IBOutlet weak var mySearchBar: UISearchBar!
-
+class MarkViewController: FirstViewController,UISearchBarDelegate {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mySearchBar.delegate = self
-        
         // Do any additional setup after loading the view, typically from a nib.
     }
-    
-    override func viewDidDisappear(animated:Bool) {
-        //mySearchBar.text=""
-        //super.texts=[]
-        //super.updateTable()
-        super.viewDidDisappear(animated)
+
+    override func viewDidAppear(animated:Bool) {
+        refresh()
+        super.viewDidAppear(animated)
     }
 
+    override func viewDidDisappear(animated:Bool) {
+        super.viewDidDisappear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    func searchBarSearchButtonClicked(mySearchBar: UISearchBar!){
-        print( mySearchBar.text )
-        if(mySearchBar.text != ""){
-            self.http_get_task.getData( mySearchBar.text! )
-        }
-        mySearchBar.resignFirstResponder()
-        //return true
-    }
-
+    
     override func isSearchScreen() -> Bool{
+        return false;
+    }
+    
+    override func isMarkScreen() -> Bool{
         return true;
     }
-
 }
 

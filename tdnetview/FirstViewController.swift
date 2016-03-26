@@ -47,12 +47,17 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
-        if(!isSearchScreen()){
-            http_get_task.getData("")
+        if(!isSearchScreen() && !isMarkScreen()){
+            //http_get_task.getData("")
+            refresh()
         }
     }
     
     func isSearchScreen() -> Bool{
+        return false;
+    }
+    
+    func isMarkScreen() -> Bool{
         return false;
     }
 
@@ -67,8 +72,13 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
     func refresh() {
-        http_get_task.getData("");
-        self.tableView.reloadData()
+        var query:String=""
+        if(isMarkScreen()){
+            query=mark.get_query()
+            print(query)
+        }
+        http_get_task.getData(query);
+        //self.tableView.reloadData()
     }
     
 
@@ -123,7 +133,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let ARTICLE_COMAPNY_ID:Int = 3;
         
-        if(mark.is_mark(texts[indexPath.row][ARTICLE_COMAPNY_ID])){
+        if(mark.is_mark(texts[indexPath.row][ARTICLE_COMAPNY_ID]) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:137/255.0 , green:195/255.0 , blue:235/255.0 , alpha:1.0)
         }else{
             cell.backgroundColor=UIColor.clearColor()
@@ -183,6 +193,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("mark "+text)
         self.mark.add_remove(text)
         updateTable()
+        
+        if(isMarkScreen()){
+            refresh()   //deleteをケア
+        }
     }
 
     func yahoo(idx:Int){

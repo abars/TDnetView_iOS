@@ -21,6 +21,7 @@
 		89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */; };
 		89C9D07C1CA567B900FD692B /* HttpGetTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07B1CA567B900FD692B /* HttpGetTask.swift */; };
 		89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07D1CA61DBA00FD692B /* Mark.swift */; };
+		89C9D0801CA6C49B00FD692B /* MarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		89C9D07B1CA567B900FD692B /* HttpGetTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpGetTask.swift; sourceTree = "<group>"; };
 		89C9D07D1CA61DBA00FD692B /* Mark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
+		89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */,
 				89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */,
 				89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */,
+				89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */,
 				89ACACDC1AD8D7E900AAF967 /* Main.storyboard */,
 				89ACACDF1AD8D7E900AAF967 /* Images.xcassets */,
 				89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */,
@@ -251,6 +254,7 @@
 				89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */,
 				89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */,
 				89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */,
+				89C9D0801CA6C49B00FD692B /* MarkViewController.swift in Sources */,
 				89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */,
 				89C9D07C1CA567B900FD692B /* HttpGetTask.swift in Sources */,
 			);
