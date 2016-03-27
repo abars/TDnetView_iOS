@@ -17,7 +17,9 @@ class MarkViewController: FirstViewController,UISearchBarDelegate {
     }
 
     override func viewDidAppear(animated:Bool) {
-        refresh()
+        if(mark.is_updated()){
+            refresh()
+        }
         super.viewDidAppear(animated)
     }
 

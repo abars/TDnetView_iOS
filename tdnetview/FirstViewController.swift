@@ -47,7 +47,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
-        if(!isSearchScreen() && !isMarkScreen()){
+        if(!isSearchScreen()){
             //http_get_task.getData("")
             refresh()
         }

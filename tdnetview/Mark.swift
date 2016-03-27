@@ -12,6 +12,7 @@ class Mark{
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     var mark_list:[String] = []
+    var is_updated_flag:Bool = false
     
     init() {
         if(userDefaults.objectForKey("mark") != nil){
@@ -29,6 +30,8 @@ class Mark{
 
         userDefaults.setObject(mark_list, forKey: "mark")
         userDefaults.synchronize()
+        
+        is_updated_flag=true
     }
     
     func is_mark(company_id:String) -> Bool{
@@ -44,5 +47,11 @@ class Mark{
             query+="code:"+mark_list[i]
         }
         return ""+query+"";
+    }
+    
+    func is_updated() -> Bool{
+        var ret:Bool = is_updated_flag
+        is_updated_flag=false
+        return ret
     }
 }

@@ -37,14 +37,9 @@ func updateRegx(result:String){
     result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
     result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
     
-    //print(result2)
-    
     var dict=self.convertStringToDictionary(result2)
     
     let json = JSON(dict!)
-    //for (key, subJson) in json {
-    //    print(key)
-    //}
     
     self.regx.VERSION=json["version"].int!
     self.regx.TDNET_ID_N=json["id_n"].int!
@@ -83,12 +78,15 @@ func updateRegx(result:String){
 }
 
     func getData(search_str:String) {
-        let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"
-        getAsync(urlString,callback:{ result in
-            self.updateRegx(result!)
-            
+        if(regx.VERSION==0){
+            let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"
+            getAsync(urlString,callback:{ result in
+                self.updateRegx(result!)
+                self.getText(search_str)
+            });
+        }else{
             self.getText(search_str)
-        });
+        }
     }
     
     func getText(search_str:String) {
