@@ -87,7 +87,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         if(cnt>=1){
-            self.tabBarItem.badgeValue = String(cnt)
+            //self.tabBarItem.badgeValue = String(cnt)
         }else{
             self.tabBarItem.badgeValue=nil
         }
