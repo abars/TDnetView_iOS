@@ -30,12 +30,10 @@ func convertStringToDictionary(text: String) -> [String:AnyObject]? {
 }
 
 func updateRegx(result:String){
-    var result2:String="{\"version\":1}"
-    
     //swiftのjsonは""でくくる必要があるが、tdnetsearchのregxは''でくくっているので変換する
     //ただし、正規表現中の\'は退避する必要がある
     
-    result2=result.stringByReplacingOccurrencesOfString("\\'", withString: "[single_quortation]")
+    var result2=result.stringByReplacingOccurrencesOfString("\\'", withString: "[single_quortation]")
     result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
     result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
     
@@ -89,29 +87,34 @@ func updateRegx(result:String){
         getAsync(urlString,callback:{ result in
             self.updateRegx(result!)
             
-            self.new_texts=[]
-            
-            var tdnet_url = self.regx.TDNET_TOP_URL
-            if(search_str != ""){
-                var encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-                tdnet_url = self.regx.APPENGINE_BASE_URL+"?page_unit=100&mode=full&query="+encoded;
-                
-                self.getAsync(tdnet_url,callback:{ result in
-                    self.parsePage(result!)
-                });
-                return
-            }
+            self.getText(search_str)
+        });
+    }
+    
+    func getText(search_str:String) {
+        self.new_texts=[]
+        
+        var tdnet_url = self.regx.TDNET_TOP_URL
+        if(search_str != ""){
+            var encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            var page_unit:String = "page_unit="+String(100)+"&"
+            tdnet_url = self.regx.APPENGINE_BASE_URL+"?"+page_unit+"mode=full&query="+encoded;
             
             self.getAsync(tdnet_url,callback:{ result in
-                let pattern = self.regx.TDNET_DAY_PAGE_PATTERN
-                let ret:[[String]] = Regexp(pattern).groups(result!)!
-                
-                var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
-                print(next_url)
-                
-                self.getAsync(next_url,callback:{ result in
-                    self.parsePage(result!)
-                });
+                self.parsePage(result!)
+            });
+            return
+        }
+        
+        self.getAsync(tdnet_url,callback:{ result in
+            let pattern = self.regx.TDNET_DAY_PAGE_PATTERN
+            let ret:[[String]] = Regexp(pattern).groups(result!)!
+            
+            var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
+            print(next_url)
+            
+            self.getAsync(next_url,callback:{ result in
+                self.parsePage(result!)
             });
         });
     }
@@ -171,7 +174,7 @@ func updateRegx(result:String){
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=self.truncate(url_list![0][2])
                             var prefix:String=self.regx.TDNET_BASE_URL
-                            if(self.first_view.isSearchScreen()){
+                            if(self.first_view.isSearchScreen() || self.first_view.isMarkScreen()){
                                 prefix=self.regx.APPENGINE_BASE_URL
                             }
                             if(Regexp("日々の開示").matches(data) != nil){
