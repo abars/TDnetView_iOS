@@ -26,16 +26,23 @@ class Article{
 
 class HttpGetTask{
 
-var regx:TDnetRegx=TDnetRegx()
-var cache_texts:[Article] = []
-var new_texts:[Article] = []
-var first_view:FirstViewController;
+    static let MODE_RECENT:Int=0
+    static let MODE_SEARCH:Int=1
+    static let MODE_MARK:Int=2
+    static let MODE_CRON:Int=3
 
-init(_ view: FirstViewController) {
-    self.first_view=view
-}
+    private var regx:TDnetRegx=TDnetRegx()
+    private var cache_texts:[Article] = []
+    private var new_texts:[Article] = []
+    private var mode:Int = 0
+    private var callback:([Article]->());
 
-func convertStringToDictionary(text: String) -> [String:AnyObject]? {
+    init(mode:Int,callback:([Article]) -> ()) {
+        self.mode=mode
+        self.callback=callback
+    }
+
+private func convertStringToDictionary(text: String) -> [String:AnyObject]? {
     if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
         do {
             return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:AnyObject]
@@ -46,7 +53,7 @@ func convertStringToDictionary(text: String) -> [String:AnyObject]? {
     return nil
 }
 
-func updateRegx(result:String){
+private func updateRegx(result:String){
     //swiftのjsonは""でくくる必要があるが、tdnetsearchのregxは''でくくっているので変換する
     //ただし、正規表現中の\'は退避する必要がある
     
@@ -78,7 +85,7 @@ func updateRegx(result:String){
     }
 }
 
-    func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String){
+    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String){
     /*
     let row = NSIndexPath(forRow: 0, inSection: 0)
     self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
@@ -113,11 +120,21 @@ func updateRegx(result:String){
         }
     }
     
-    func getText(search_str:String) {
-        if(self.first_view.isMarkScreen() || self.first_view.isSearchScreen()){
+    func setCacheCron(cache:[Article]){
+        self.cache_texts=cache
+    }
+
+    private func setCacheWithoutCron(){
+        if(self.mode==HttpGetTask.MODE_MARK || self.mode==HttpGetTask.MODE_SEARCH){
             self.cache_texts=[]
         }else{
             self.cache_texts=self.new_texts
+        }
+    }
+    
+    private func getText(search_str:String) {
+        if(self.mode != HttpGetTask.MODE_CRON){
+            self.setCacheWithoutCron()
         }
         self.new_texts=[]
         
@@ -146,14 +163,14 @@ func updateRegx(result:String){
         });
     }
     
-    func truncate(td_str:String) -> String{
+    private func truncate(td_str:String) -> String{
         var td_str2=td_str.stringByReplacingOccurrencesOfString(" ", withString: "")
         td_str2=td_str2.stringByReplacingOccurrencesOfString("　", withString: "")
         td_str2=td_str2.stringByReplacingOccurrencesOfString("\n", withString: "")
         return td_str2
     }
     
-    func parsePage(result:String){
+    private func parsePage(result:String){
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
         var cache_hit=false
         if(tr_list != nil){
@@ -184,7 +201,7 @@ func updateRegx(result:String){
                             data_id=td_str
                         }
                         if(cnt==self.regx.TDNET_DATA_ID+1){
-                            if(first_view.isSearchScreen()){
+                            if(self.mode==HttpGetTask.MODE_SEARCH){
                                 full=td_str;
                             }
                         }
@@ -210,7 +227,7 @@ func updateRegx(result:String){
                         if(cnt>=self.regx.TDNET_ID_N){
                             var data:String=self.truncate(url_list![0][2])
                             var prefix:String=self.regx.TDNET_BASE_URL
-                            if(self.first_view.isSearchScreen() || self.first_view.isMarkScreen()){
+                            if(self.mode==HttpGetTask.MODE_SEARCH || self.mode==HttpGetTask.MODE_MARK){
                                 prefix=self.regx.APPENGINE_BASE_URL
                             }
                             if(Regexp("日々の開示").matches(data) != nil){
@@ -224,13 +241,13 @@ func updateRegx(result:String){
                             }
                             
                             var space:String="　"
-                            if(self.first_view.isSearchScreen()){
+                            if(self.mode==HttpGetTask.MODE_SEARCH){
                                 space="&nbsp;"
                             }
                             
                             var cell_text:String = ""+date_id+space+company_code_id+space+company_id+sep+data+full
 
-                            if(self.first_view.isSearchScreen()){
+                            if(self.mode==HttpGetTask.MODE_SEARCH){
                                 cell_text = cell_text.stringByReplacingOccurrencesOfString("\n", withString: "<br/>")
                             }
                             
@@ -268,14 +285,13 @@ func updateRegx(result:String){
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.first_view.texts=self.new_texts
-                self.first_view.updateTable()
+                self.callback(self.new_texts)                
             })
         }
     }
     
     // HTTP-GET
-    func getAsync(urlString:String,callback:(String?) -> ()) {
+    private func getAsync(urlString:String,callback:(String?) -> ()) {
         
         // create the url-request
         var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)

@@ -192,6 +192,9 @@
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = 8HT39MV6J6;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 0;
 							};

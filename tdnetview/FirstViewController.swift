@@ -20,7 +20,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        http_get_task = HttpGetTask(self)
+        var mode:Int = HttpGetTask.MODE_RECENT
+        if(self.isSearchScreen()){
+            mode=HttpGetTask.MODE_SEARCH
+        }
+        if(self.isMarkScreen()){
+            mode=HttpGetTask.MODE_MARK
+        }
+        http_get_task = HttpGetTask(mode:mode,callback:self.fetchCallback)
         
         var myAp = UIApplication.sharedApplication().delegate as! AppDelegate
         self.mark = myAp.mark
@@ -48,6 +55,11 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(!isSearchScreen()){
             refresh()
         }
+    }
+    
+    func fetchCallback(new_item:[Article]){
+        self.texts=new_item
+        self.updateTable()
     }
     
     func isSearchScreen() -> Bool{
