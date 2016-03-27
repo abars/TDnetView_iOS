@@ -78,7 +78,7 @@ func updateRegx(result:String){
     }
 }
 
-    func insertTable(result:String,url:String,tweet:String,company_code_id:String){
+    func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String){
     /*
     let row = NSIndexPath(forRow: 0, inSection: 0)
     self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
@@ -89,6 +89,7 @@ func updateRegx(result:String){
         one.url=url
         one.tweet=tweet
         one.code=company_code_id
+        one.cache=cache
         
         self.new_texts.append(one)
     /*
@@ -113,7 +114,11 @@ func updateRegx(result:String){
     }
     
     func getText(search_str:String) {
-        self.cache_texts=self.new_texts
+        if(self.first_view.isMarkScreen() || self.first_view.isSearchScreen()){
+            self.cache_texts=[]
+        }else{
+            self.cache_texts=self.new_texts
+        }
         self.new_texts=[]
         
         var tdnet_url = self.regx.TDNET_TOP_URL
@@ -150,6 +155,7 @@ func updateRegx(result:String){
     
     func parsePage(result:String){
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
+        var cache_hit=false
         if(tr_list != nil){
             for tr in tr_list! {
                 let tr_str=tr[1]
@@ -183,6 +189,14 @@ func updateRegx(result:String){
                             }
                         }
                         cnt++
+                    }
+                    
+                    if(self.cache_texts.count>=1){
+                        if(self.cache_texts[0].cache==tr_str){
+                            print("cache_hit")
+                            cache_hit=true
+                            break
+                        }
                     }
                     
                     //if(self.first_view.isMarkScreen()){
@@ -222,7 +236,7 @@ func updateRegx(result:String){
                             
                             var tweet_text:String = ""+company_id+" "+data+" "+url
                             
-                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id)
+                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:tr_str)
                         }
                     }
                 }
@@ -234,7 +248,7 @@ func updateRegx(result:String){
         var pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
         let next_ret = Regexp(pattern).groups(result)
         
-        if(next_ret != nil){
+        if(next_ret != nil && cache_hit==false){
             let ret:[[String]] = next_ret!
             
             var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
@@ -245,8 +259,12 @@ func updateRegx(result:String){
             });
         }else{
             //last
+            if(cache_hit){
+                self.new_texts.appendContentsOf(self.cache_texts)
+            }
+
             if(self.new_texts.count==0){
-                self.insertTable("no data found",url:"",tweet:"",company_code_id: "")
+                self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"")
             }
             
             dispatch_async(dispatch_get_main_queue(), {

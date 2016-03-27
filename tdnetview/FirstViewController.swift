@@ -38,8 +38,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.addSubview(refreshControl)
         }
         
-        //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 50, 0)
-        
         var menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: "mark:")
         var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
         var menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: "yahoo:")
@@ -48,7 +46,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
         
         if(!isSearchScreen()){
-            //http_get_task.getData("")
             refresh()
         }
     }
@@ -78,7 +75,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             print(query)
         }
         http_get_task.getData(query);
-        //self.tableView.reloadData()
     }
     
 
@@ -110,18 +106,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.idx=indexPath.row
         cell.view=self;
         
-        //cell.textLabel?.text = texts[indexPath.row][0]
-        
-        /*
-        var data:NSData? = texts[indexPath.row][0].dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)
-        var err:NSError?
-        var attributedText:NSAttributedString = NSAttributedString(
-            data: data,
-            options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType],
-            documentAttributes: nil,
-            error: &err)
-        */
-        
         if(isSearchScreen()){
             let cell_text:String = texts[indexPath.row].cell
             let string:String = "<style>body{font-size:16px;}</style>"+cell_text
@@ -144,8 +128,6 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         }else{
             cell.textLabel?.text = texts[indexPath.row].cell
         }
-        
-        let ARTICLE_COMAPNY_ID:Int = 3;
         
         if(mark.is_mark(texts[indexPath.row].code) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:137/255.0 , green:195/255.0 , blue:235/255.0 , alpha:1.0)
@@ -194,6 +176,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tweet(idx:Int){
         let text = self.texts[idx].tweet
+        if(text==""){
+            return
+        }
     
         let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
         composeViewController.setInitialText(text)
@@ -203,6 +188,10 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func mark(idx:Int){
         let text = self.texts[idx].code
+        if(text==""){
+            return
+        }
+        
         self.mark.add_remove(text)
         updateTable()
         
@@ -213,6 +202,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     func yahoo(idx:Int){
         var company : String = self.texts[idx].code
+        if(company==""){
+            return
+        }
         company = (company as NSString).substringToIndex(4)
 
         var text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
