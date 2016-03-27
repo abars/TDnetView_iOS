@@ -8,10 +8,27 @@
 
 import Foundation
 
+class Article{
+    init(){
+        cell=""
+        url=""
+        tweet=""
+        code=""
+        cache=""
+    }
+    
+    var cell:String
+    var url:String
+    var tweet:String
+    var code:String
+    var cache:String
+}
+
 class HttpGetTask{
 
 var regx:TDnetRegx=TDnetRegx()
-var new_texts:[[String]] = []
+var cache_texts:[Article] = []
+var new_texts:[Article] = []
 var first_view:FirstViewController;
 
 init(_ view: FirstViewController) {
@@ -67,7 +84,13 @@ func updateRegx(result:String){
     self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
     */
     
-    self.new_texts.append([result,url,tweet,company_code_id])
+        var one:Article = Article()
+        one.cell=result
+        one.url=url
+        one.tweet=tweet
+        one.code=company_code_id
+        
+        self.new_texts.append(one)
     /*
     self.tableView.beginUpdates()
     self.tableView.insertRowsAtIndexPaths([
@@ -90,6 +113,7 @@ func updateRegx(result:String){
     }
     
     func getText(search_str:String) {
+        self.cache_texts=self.new_texts
         self.new_texts=[]
         
         var tdnet_url = self.regx.TDNET_TOP_URL

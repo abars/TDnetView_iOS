@@ -67,7 +67,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     // セルに表示するテキスト
-    var texts:[[String]] = []
+    var texts:[Article] = []
     
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
@@ -86,7 +86,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(!(isSearchScreen() || isMarkScreen())){
         var cnt:Int=0
         for text in self.texts {
-            if(mark.is_mark(text[3])){
+            if(mark.is_mark(text.code)){
                 cnt++
             }
         }
@@ -123,7 +123,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         */
         
         if(isSearchScreen()){
-            let cell_text:String = texts[indexPath.row][0]
+            let cell_text:String = texts[indexPath.row].cell
             let string:String = "<style>body{font-size:16px;}</style>"+cell_text
         
             let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -142,12 +142,12 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         
             cell.textLabel?.attributedText = attributedString!
         }else{
-            cell.textLabel?.text = texts[indexPath.row][0]
+            cell.textLabel?.text = texts[indexPath.row].cell
         }
         
         let ARTICLE_COMAPNY_ID:Int = 3;
         
-        if(mark.is_mark(texts[indexPath.row][ARTICLE_COMAPNY_ID]) && !isMarkScreen()){
+        if(mark.is_mark(texts[indexPath.row].code) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:137/255.0 , green:195/255.0 , blue:235/255.0 , alpha:1.0)
         }else{
             cell.backgroundColor=UIColor.clearColor()
@@ -173,7 +173,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
-        var url_str:String = self.texts[indexPath.row][1];
+        var url_str:String = self.texts[indexPath.row].url
         let url = NSURL(string: url_str)
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
@@ -193,8 +193,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tweet(idx:Int){
-        let text = self.texts[idx][2]
-        print("tweet "+text)
+        let text = self.texts[idx].tweet
     
         let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
         composeViewController.setInitialText(text)
@@ -203,8 +202,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func mark(idx:Int){
-        let text = self.texts[idx][3]
-        print("mark "+text)
+        let text = self.texts[idx].code
         self.mark.add_remove(text)
         updateTable()
         
@@ -214,9 +212,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func yahoo(idx:Int){
-        var company : String = self.texts[idx][3]
+        var company : String = self.texts[idx].code
         company = (company as NSString).substringToIndex(4)
-        print("yahoo "+company)
 
         var text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
 
