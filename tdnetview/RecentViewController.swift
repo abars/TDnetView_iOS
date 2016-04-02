@@ -178,7 +178,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
         cell.idx=indexPath.row
-        cell.view=self;
+        var url:String=texts[indexPath.row].url
+        if(url=="next" || url=="prev"){
+            cell.util=true
+        }
+        cell.view=self
         
         if(isSearchScreen()){
             let cell_text:String = texts[indexPath.row].cell

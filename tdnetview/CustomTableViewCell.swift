@@ -12,6 +12,7 @@ import Foundation
 class CustomTableViewCell: UITableViewCell
 {
     var idx:Int = -1;
+    var util:Bool = false
     var view:RecentViewController? = nil;
     
     required init(coder aDecoder: NSCoder) {
@@ -26,8 +27,10 @@ class CustomTableViewCell: UITableViewCell
         return true
     }
     
-    // 必要なメニューのみ表示します
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        if(util){
+            return false
+        }
         if action == #selector(CustomTableViewCell.mark(_:)) || action == #selector(CustomTableViewCell.tweet(_:)) || action == #selector(CustomTableViewCell.yahoo(_:)) || action == #selector(CustomTableViewCell.remove(_:)) || action == #selector(CustomTableViewCell.search(_:)) {
             return true
         } else {
