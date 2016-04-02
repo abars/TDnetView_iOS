@@ -28,6 +28,11 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
         super.viewDidAppear(animated)
     }
 
+    override func viewDidDisappear(animated:Bool) {
+        self.registMenuNormal()
+        super.viewDidDisappear(animated)
+    }
+
     func refreshList(){
         mySearchBar.text=""
         
