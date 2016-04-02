@@ -16,6 +16,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     
     var http_get_task : HttpGetTask!
     var mark : Mark!
+    var search_query: String = ""
+    
+    var page : Int = 0
+    let PAGE_UNIT : Int = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +79,20 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         UIMenuController.sharedMenuController().update()
     }
 
-    func fetchCallback(new_item:[Article]){
+    func fetchCallback(var new_item:[Article]){
+        if(new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())){
+            if(page>=1){
+                let prev:Article = Article()
+                prev.cell="Prev"
+                prev.url="prev"
+                new_item.insert(prev,atIndex:0)
+            }
+            let next:Article = Article()
+            next.cell="Next"
+            next.url="next"
+            new_item.append(next)
+        }
+        
         self.texts=new_item
         self.updateTable()
     }
@@ -98,6 +115,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     
     var refreshControl : UIRefreshControl = UIRefreshControl();
     var refreshing : Bool = false
+    
+    func clear() {
+        self.texts=[]
+        self.updateTable()
+    }
 
     func refresh() {
         if(refreshing){
@@ -111,8 +133,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             query=mark.get_query()
             print(query)
         }
+        if(isSearchScreen()){
+            query=self.search_query
+        }
         self.refreshControl.beginRefreshing()
-        http_get_task.getData(query);
+        http_get_task.getData(query,page:page,page_unit:PAGE_UNIT);
     }
     
 
@@ -196,6 +221,21 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
 
     func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         let url_str:String = self.texts[indexPath.row].url
+        if(url_str==""){
+            return
+        }
+        if(url_str=="prev"){
+            page=page-1
+            clear()
+            refresh()
+            return
+        }
+        if(url_str=="next"){
+            page=page+1
+            clear()
+            refresh()
+            return
+        }
         let url = NSURL(string: url_str)
         if(url==nil){
             return

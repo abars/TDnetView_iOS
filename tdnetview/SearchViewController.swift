@@ -91,8 +91,13 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         userDefaults.synchronize()
      
         super.registMenuNormal()
+        
+        self.search_query=text
+        self.page=0
+        
+        refresh()
 
-        self.http_get_task.getData( text )
+        //self.http_get_task.getData( text,page:page,page_unit:PAGE_UNIT)
     }
 
     override func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {

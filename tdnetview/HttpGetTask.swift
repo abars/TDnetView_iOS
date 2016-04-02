@@ -108,15 +108,15 @@ private func updateRegx(result:String){
     */
 }
 
-    func getData(search_str:String) {
+    func getData(search_str:String,page:Int,page_unit:Int) {
         if(regx.VERSION==0){
             let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"
             getAsync(urlString,callback:{ result in
                 self.updateRegx(result!)
-                self.getText(search_str)
+                self.getText(search_str,page:page,page_unit:page_unit)
             });
         }else{
-            self.getText(search_str)
+            self.getText(search_str,page:page,page_unit:page_unit)
         }
     }
     
@@ -132,7 +132,7 @@ private func updateRegx(result:String){
         }
     }
     
-    private func getText(search_str:String) {
+    private func getText(search_str:String,page:Int,page_unit:Int) {
         if(self.mode != HttpGetTask.MODE_CRON){
             self.setCacheWithoutCron()
         }
@@ -141,7 +141,7 @@ private func updateRegx(result:String){
         var tdnet_url = self.regx.TDNET_TOP_URL
         if(search_str != ""){
             let encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-            let page_unit:String = "page_unit="+String(100)+"&"
+            let page_unit:String = "page_unit="+String(page_unit)+"&page="+String(page+1)+"&"
             tdnet_url = self.regx.APPENGINE_BASE_URL+"?"+page_unit+"mode=full&query="+encoded;
             
             self.getAsync(tdnet_url,callback:{ result in

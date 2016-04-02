@@ -140,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         http_get_task.setCacheCron(cache)
-        http_get_task.getData("")
+        http_get_task.getData("",page:0,page_unit:0)
     }
     
     func fetch_callback(new_item:[Article]){
