@@ -17,10 +17,11 @@ class MarkViewController: RecentViewController,UISearchBarDelegate {
     }
 
     override func viewDidAppear(animated:Bool) {
+        super.viewDidAppear(animated)
+
         if(mark.is_updated()){
             refresh()
         }
-        super.viewDidAppear(animated)
     }
 
     override func viewDidDisappear(animated:Bool) {

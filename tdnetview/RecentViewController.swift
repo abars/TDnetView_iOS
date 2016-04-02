@@ -24,8 +24,6 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //self.canDisplayBannerAds = false
-
         // Do any additional setup after loading the view, typically from a nib.
         
         var mode:Int = HttpGetTask.MODE_RECENT
@@ -46,10 +44,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
 
         if(!isSearchScreen()){
-            //refreshControl = UIRefreshControl()
-            //self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張って更新")
             refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
-            //self.refreshControl = refreshControl
             self.tableView.addSubview(refreshControl)
         }
         
@@ -87,21 +82,27 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         UIMenuController.sharedMenuController().update()
     }
 
-    func fetchCallback(var new_item:[Article]){
-        if(new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())){
-            if(page>=1){
-                let prev:Article = Article()
-                prev.cell="Prev"
-                prev.url="prev"
-                new_item.insert(prev,atIndex:0)
-            }
+    func fetchCallback(new_item:[Article]){
+        self.texts=[]
+        
+        let add_pager:Bool = new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())
+        
+        if(add_pager && page>=1){
+            let prev:Article = Article()
+            prev.cell="Prev"
+            prev.url="prev"
+            self.texts.insert(prev,atIndex:0)
+        }
+        
+        self.texts.appendContentsOf(new_item)
+        
+        if(add_pager){
             let next:Article = Article()
             next.cell="Next"
             next.url="next"
-            new_item.append(next)
+            self.texts.append(next)
         }
         
-        self.texts=new_item
         self.updateTable()
     }
     
@@ -311,7 +312,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func search(idx:Int){
-        var company : String = self.texts[idx].code
+        let company : String = self.texts[idx].code
         print(company)
         if(company==""){
             return
@@ -320,8 +321,9 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         dispatch_async(dispatch_get_main_queue(), {
             let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
             if let tabvc = myAp.window!.rootViewController as? UITabBarController  {
-                tabvc.selectedIndex = 2
-                var view:SearchViewController = (tabvc.viewControllers![2] as? SearchViewController)!
+                let SEARCH_VIEW_INDEX:Int = 2
+                tabvc.selectedIndex = SEARCH_VIEW_INDEX
+                let view:SearchViewController = (tabvc.viewControllers![SEARCH_VIEW_INDEX] as? SearchViewController)!
                 view.searchRequest("code:"+company)
             }
         })

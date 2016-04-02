@@ -79,7 +79,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
             searchCore(mySearchBar.text!,update_history: true)
         }
         mySearchBar.resignFirstResponder()
-        //return true
     }
     
     func searchRequest(query:String){
@@ -118,8 +117,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         self.page=0
         
         refresh()
-
-        //self.http_get_task.getData( text,page:page,page_unit:PAGE_UNIT)
     }
 
     override func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
@@ -141,7 +138,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         let text:String = self.texts[idx].cell
         if(search_cache.contains(text)){
             let idx:Int = search_cache.indexOf(text)!
-            print(idx)
             search_cache.removeAtIndex(idx)
         }
         userDefaults.setObject(search_cache, forKey: "search")
