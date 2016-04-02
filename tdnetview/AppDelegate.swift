@@ -19,16 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         registNotification(application)
-        //sendNotification("test")
-        
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
+        //sendNotification("test",url:"url")
         //cron({})
         
         return true
     }
 
     func registNotification(application: UIApplication) {
+        let types:UIUserNotificationType = ([.Alert, .Sound, .Badge])
+        let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+
+        /*
         if application.respondsToSelector("registerUserNotificationSettings:") {
             if #available(iOS 8.0, *) {
                 let types:UIUserNotificationType = ([.Alert, .Sound, .Badge])
@@ -43,10 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Register for Push Notifications before iOS 8
             application.registerForRemoteNotificationTypes([.Alert, .Sound, .Badge])
         }
+ */
     }
     
     func sendNotification(message:String,url:String) {
-        var notification = UILocalNotification()
+        let notification = UILocalNotification()
         notification.fireDate = NSDate(timeIntervalSinceNow: 1);//1秒後
         notification.timeZone = NSTimeZone.defaultTimeZone()
         notification.alertBody = message
@@ -101,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("got notification")
         
         if let userInfo = notification.userInfo {
-            var url_str:String? = userInfo["url"] as? String
+            let url_str:String? = userInfo["url"] as? String
             let url = NSURL(string: url_str!)
             print(url)
             if UIApplication.sharedApplication().canOpenURL(url!){
@@ -114,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     func cron(complete_handler: () -> Void){
-        var http_get_task:HttpGetTask = HttpGetTask(
+        let http_get_task:HttpGetTask = HttpGetTask(
             mode:HttpGetTask.MODE_CRON,
             callback:{article in
                 self.fetch_callback(article)
@@ -123,20 +129,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         
         if(userDefaults.objectForKey("cron") != nil){
-            cron_cache = []//userDefaults.objectForKey("cron") as! [String]
+            cron_cache = userDefaults.objectForKey("cron") as! [String]
         }
         
         var cache:[Article] = []
-        var art:Article = Article()
         if(cron_cache.count>=1){
+            let art:Article = Article()
             art.cache=cron_cache[0]
             cache.append(art)
         }
         
         http_get_task.setCacheCron(cache)
         http_get_task.getData("")
-        
-        print("task")
     }
     
     func fetch_callback(new_item:[Article]){

@@ -47,7 +47,7 @@ class Regexp {
                 */
                 
                 var temp : [String] = []
-                for var j = 0; j < matches[i].numberOfRanges; j++
+                for j in 0..<matches[i].numberOfRanges
                 {
                     let nsstring: NSString = input as NSString
                     temp.append(nsstring.substringWithRange(matches[i].rangeAtIndex(j)))

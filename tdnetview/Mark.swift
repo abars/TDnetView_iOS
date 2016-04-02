@@ -22,7 +22,7 @@ class Mark{
     
     func add_remove(company_id:String){
         if(mark_list.contains(company_id)){
-            var idx:Int = mark_list.indexOf(company_id)!
+            let idx:Int = mark_list.indexOf(company_id)!
             mark_list.removeAtIndex(idx)
         }else{
             mark_list.insert(company_id, atIndex: 0)
@@ -40,7 +40,7 @@ class Mark{
     
     func get_query() -> String{
         var query : String=""
-        for(var i:Int=0;i<mark_list.count;i++){
+        for i in 0..<mark_list.count{
             if(i != 0){
                 query+=" OR ";
             }
@@ -50,7 +50,7 @@ class Mark{
     }
     
     func is_updated() -> Bool{
-        var ret:Bool = is_updated_flag
+        let ret:Bool = is_updated_flag
         is_updated_flag=false
         return ret
     }

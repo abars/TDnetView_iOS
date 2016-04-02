@@ -61,7 +61,7 @@ private func updateRegx(result:String){
     result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
     result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
     
-    var dict=self.convertStringToDictionary(result2)
+    let dict=self.convertStringToDictionary(result2)
     
     let json = JSON(dict!)
     
@@ -91,7 +91,7 @@ private func updateRegx(result:String){
     self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
     */
     
-        var one:Article = Article()
+        let one:Article = Article()
         one.cell=result
         one.url=url
         one.tweet=tweet
@@ -140,8 +140,8 @@ private func updateRegx(result:String){
         
         var tdnet_url = self.regx.TDNET_TOP_URL
         if(search_str != ""){
-            var encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-            var page_unit:String = "page_unit="+String(100)+"&"
+            let encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            let page_unit:String = "page_unit="+String(100)+"&"
             tdnet_url = self.regx.APPENGINE_BASE_URL+"?"+page_unit+"mode=full&query="+encoded;
             
             self.getAsync(tdnet_url,callback:{ result in
@@ -154,7 +154,7 @@ private func updateRegx(result:String){
             let pattern = self.regx.TDNET_DAY_PAGE_PATTERN
             let ret:[[String]] = Regexp(pattern).groups(result!)!
             
-            var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
+            let next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
             print(next_url)
             
             self.getAsync(next_url,callback:{ result in
@@ -205,7 +205,7 @@ private func updateRegx(result:String){
                                 full=td_str;
                             }
                         }
-                        cnt++
+                        cnt=cnt+1
                     }
                     
                     if(self.cache_texts.count>=1){
@@ -225,7 +225,7 @@ private func updateRegx(result:String){
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){
                         if(cnt>=self.regx.TDNET_ID_N){
-                            var data:String=self.truncate(url_list![0][2])
+                            let data:String=self.truncate(url_list![0][2])
                             var prefix:String=self.regx.TDNET_BASE_URL
                             if(self.mode==HttpGetTask.MODE_SEARCH || self.mode==HttpGetTask.MODE_MARK){
                                 prefix=self.regx.APPENGINE_BASE_URL
@@ -233,8 +233,8 @@ private func updateRegx(result:String){
                             if(Regexp("日々の開示").matches(data) != nil){
                                 continue
                             }
-                            var url:String=prefix+url_list![0][1]
-                            var sep:String="\n"
+                            let url:String=prefix+url_list![0][1]
+                            let sep:String="\n"
                             
                             if(full != ""){
                                 full=""+sep+sep+full
@@ -251,7 +251,7 @@ private func updateRegx(result:String){
                                 cell_text = cell_text.stringByReplacingOccurrencesOfString("\n", withString: "<br/>")
                             }
                             
-                            var tweet_text:String = ""+company_id+" "+data+" "+url
+                            let tweet_text:String = ""+company_id+" "+data+" "+url
                             
                             self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:tr_str)
                         }
@@ -262,13 +262,13 @@ private func updateRegx(result:String){
         
         //next page
         
-        var pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
+        let pattern = self.regx.TDNET_NEXT_PAGE_PATTERN
         let next_ret = Regexp(pattern).groups(result)
         
         if(next_ret != nil && cache_hit==false){
             let ret:[[String]] = next_ret!
             
-            var next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
+            let next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
             print(next_url)
             
             self.getAsync(next_url,callback:{ result_next in
@@ -294,16 +294,16 @@ private func updateRegx(result:String){
     private func getAsync(urlString:String,callback:(String?) -> ()) {
         
         // create the url-request
-        var request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         
         // set the method(HTTP-GET)
         request.HTTPMethod = "GET"
         request.cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData;
         
         // use NSURLSession
-        var task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
             if (error == nil) {
-                var result = String(data: data!, encoding: NSUTF8StringEncoding)
+                let result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
             } else {
                 print(error)

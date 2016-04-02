@@ -33,7 +33,7 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    func searchBarSearchButtonClicked(mySearchBar: UISearchBar!){
+    func searchBarSearchButtonClicked(mySearchBar: UISearchBar){
         print( mySearchBar.text )
         if(mySearchBar.text != ""){
             self.texts=[]

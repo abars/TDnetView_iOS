@@ -29,7 +29,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         http_get_task = HttpGetTask(mode:mode,callback:self.fetchCallback)
         
-        var myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
         self.mark = myAp.mark
         
         tableView.delegate = self
@@ -40,14 +40,14 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(!isSearchScreen()){
             //refreshControl = UIRefreshControl()
             //self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張って更新")
-            refreshControl.addTarget(self, action: Selector("refresh"), forControlEvents: UIControlEvents.ValueChanged)
+            refreshControl.addTarget(self, action: #selector(FirstViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
             //self.refreshControl = refreshControl
             self.tableView.addSubview(refreshControl)
         }
         
-        var menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: "mark:")
-        var menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: "tweet:")
-        var menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: "yahoo:")
+        let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(FirstViewController.mark(_:)))
+        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(FirstViewController.tweet(_:)))
+        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(FirstViewController.yahoo(_:)))
         UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
         UIMenuController.sharedMenuController().update()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -96,7 +96,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         var cnt:Int=0
         for text in self.texts {
             if(mark.is_mark(text.code)){
-                cnt++
+                cnt += 1
             }
         }
         if(cnt>=1){
@@ -168,7 +168,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
-        var url_str:String = self.texts[indexPath.row].url
+        let url_str:String = self.texts[indexPath.row].url
         let url = NSURL(string: url_str)
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
@@ -184,7 +184,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         return true
     }
     
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
     }
     
     func tweet(idx:Int){
@@ -220,9 +220,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         company = (company as NSString).substringToIndex(4)
 
-        var text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
+        let text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
 
-        var url_str:String = text
+        let url_str:String = text
         let url = NSURL(string: url_str)
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)

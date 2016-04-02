@@ -28,7 +28,7 @@ class CustomTableViewCell: UITableViewCell
     
     // 必要なメニューのみ表示します
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == "mark:" || action == "tweet:" || action == "yahoo:"{
+        if action == #selector(CustomTableViewCell.mark(_:)) || action == #selector(CustomTableViewCell.tweet(_:)) || action == #selector(CustomTableViewCell.yahoo(_:)){
             return true
         } else {
             return false
