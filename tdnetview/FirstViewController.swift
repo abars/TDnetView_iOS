@@ -45,18 +45,28 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tableView.addSubview(refreshControl)
         }
         
-        let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(FirstViewController.mark(_:)))
-        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(FirstViewController.tweet(_:)))
-        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(FirstViewController.yahoo(_:)))
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
-        UIMenuController.sharedMenuController().update()
+        registMenuNormal()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
-        
+
         if(!isSearchScreen()){
             refresh()
         }
     }
     
+    func registMenuNormal(){
+        let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(FirstViewController.mark(_:)))
+        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(FirstViewController.tweet(_:)))
+        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(FirstViewController.yahoo(_:)))
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
+        UIMenuController.sharedMenuController().update()
+    }
+
+    func registMenuList(){
+        let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(FirstViewController.remove(_:)))
+        UIMenuController.sharedMenuController().menuItems = [menuItem]
+        UIMenuController.sharedMenuController().update()
+    }
+
     func fetchCallback(new_item:[Article]){
         self.texts=new_item
         self.updateTable()
@@ -81,6 +91,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     var refreshControl : UIRefreshControl = UIRefreshControl();
 
     func refresh() {
+        if(self.refreshControl.refreshing){
+            return
+        }
         var query:String=""
         if(isMarkScreen()){
             query=mark.get_query()
@@ -170,6 +183,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         let url_str:String = self.texts[indexPath.row].url
         let url = NSURL(string: url_str)
+        if(url==nil){
+            return
+        }
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
         }
@@ -228,6 +244,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             UIApplication.sharedApplication().openURL(url!)
         }
     }
-
+    
+    func remove(idx:Int){
+    }
 }
 
