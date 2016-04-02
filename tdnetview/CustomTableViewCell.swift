@@ -12,7 +12,7 @@ import Foundation
 class CustomTableViewCell: UITableViewCell
 {
     var idx:Int = -1;
-    var view:FirstViewController? = nil;
+    var view:RecentViewController? = nil;
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!

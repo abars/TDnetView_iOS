@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  SearchViewController
 //  tdnetview
 //
 //  Created by abars on 2015/04/11.
@@ -9,7 +9,7 @@
 import UIKit
 import iAd
 
-class SecondViewController: FirstViewController,UISearchBarDelegate {
+class SearchViewController: RecentViewController,UISearchBarDelegate {
 
     @IBOutlet weak var mySearchBar: UISearchBar!
 
@@ -41,16 +41,16 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
         
         if(userDefaults.objectForKey("search") != nil){
             search_cache = userDefaults.objectForKey("search") as! [String]
-            if(search_cache.count == 0){
-                search_cache.append("title:株主優待")
-                search_cache.append("per>0 AND per<8 AND pbr>0 AND pbr<0.5")
-            }
-            for search in search_cache{
-                let art:Article = Article()
-                art.cell=search
-                art.url="search"
-                super.texts.append(art)
-            }
+        }
+        if(search_cache.count == 0){
+            search_cache.append("title:株主優待")
+            search_cache.append("per>0 AND per<8 AND pbr>0 AND pbr<0.5")
+        }
+        for search in search_cache{
+            let art:Article = Article()
+            art.cell=search
+            art.url="search"
+            super.texts.append(art)
         }
         
         super.registMenuList()
@@ -73,7 +73,12 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
     }
     
     func searchCore(text:String){
+        let art:Article = Article()
+        art.cell="検索中..."
+        art.url=""
         self.texts=[]
+        self.texts.append(art)
+
         self.updateTable()
         
         if(search_cache.contains(text)){

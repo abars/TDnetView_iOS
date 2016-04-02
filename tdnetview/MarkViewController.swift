@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MarkViewController: FirstViewController,UISearchBarDelegate {
+class MarkViewController: RecentViewController,UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()

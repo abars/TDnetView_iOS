@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  RecentViewController.swift
 //  tdnetview
 //
 //  Created by abars on 2015/04/11.
@@ -10,7 +10,7 @@ import UIKit
 import Social
 import iAd
 
-class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class RecentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -44,7 +44,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(!isSearchScreen()){
             //refreshControl = UIRefreshControl()
             //self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張って更新")
-            refreshControl.addTarget(self, action: #selector(FirstViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
+            refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
             //self.refreshControl = refreshControl
             self.tableView.addSubview(refreshControl)
         }
@@ -60,9 +60,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func registMenuNormal(){
         self.canDisplayBannerAds = false
 
-        let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(FirstViewController.mark(_:)))
-        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(FirstViewController.tweet(_:)))
-        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(FirstViewController.yahoo(_:)))
+        let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(RecentViewController.mark(_:)))
+        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
+        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
         UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
         UIMenuController.sharedMenuController().update()
     }
@@ -70,7 +70,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     func registMenuList(){
         self.canDisplayBannerAds = true
 
-        let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(FirstViewController.remove(_:)))
+        let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(RecentViewController.remove(_:)))
         UIMenuController.sharedMenuController().menuItems = [menuItem]
         UIMenuController.sharedMenuController().update()
     }

@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8981392F1CAF935F0098C728 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8981392E1CAF935F0098C728 /* iAd.framework */; };
+		898139321CAF942B0098C728 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898139301CAF942B0098C728 /* RecentViewController.swift */; };
+		898139331CAF942B0098C728 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898139311CAF942B0098C728 /* SearchViewController.swift */; };
 		89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */; };
-		89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */; };
-		89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */; };
 		89ACACDE1AD8D7E900AAF967 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACDC1AD8D7E900AAF967 /* Main.storyboard */; };
 		89ACACE01AD8D7E900AAF967 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACDF1AD8D7E900AAF967 /* Images.xcassets */; };
 		89ACACE31AD8D7E900AAF967 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */; };
@@ -37,11 +37,11 @@
 
 /* Begin PBXFileReference section */
 		8981392E1CAF935F0098C728 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		898139301CAF942B0098C728 /* RecentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
+		898139311CAF942B0098C728 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		89ACACD11AD8D7E900AAF967 /* tdnetview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tdnetview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89ACACD51AD8D7E900AAF967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		89ACACDD1AD8D7E900AAF967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		89ACACDF1AD8D7E900AAF967 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		89ACACE21AD8D7E900AAF967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -99,12 +99,12 @@
 		89ACACD31AD8D7E900AAF967 /* tdnetview */ = {
 			isa = PBXGroup;
 			children = (
+				898139301CAF942B0098C728 /* RecentViewController.swift */,
+				898139311CAF942B0098C728 /* SearchViewController.swift */,
 				89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */,
 				89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */,
 				89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */,
-				89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */,
 				89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */,
-				89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */,
 				89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */,
 				89ACACDC1AD8D7E900AAF967 /* Main.storyboard */,
 				89ACACDF1AD8D7E900AAF967 /* Images.xcassets */,
@@ -256,11 +256,11 @@
 			files = (
 				89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */,
 				89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */,
+				898139321CAF942B0098C728 /* RecentViewController.swift in Sources */,
 				89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */,
-				89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */,
 				89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */,
+				898139331CAF942B0098C728 /* SearchViewController.swift in Sources */,
 				89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */,
-				89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */,
 				89C9D0801CA6C49B00FD692B /* MarkViewController.swift in Sources */,
 				89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */,
 				89C9D07C1CA567B900FD692B /* HttpGetTask.swift in Sources */,
