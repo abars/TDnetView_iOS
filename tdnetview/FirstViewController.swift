@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import iAd
 
 class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
@@ -18,6 +19,9 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        //self.canDisplayBannerAds = false
+
         // Do any additional setup after loading the view, typically from a nib.
         
         var mode:Int = HttpGetTask.MODE_RECENT
@@ -54,6 +58,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func registMenuNormal(){
+        self.canDisplayBannerAds = false
+
         let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(FirstViewController.mark(_:)))
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(FirstViewController.tweet(_:)))
         let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(FirstViewController.yahoo(_:)))
@@ -62,6 +68,8 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func registMenuList(){
+        self.canDisplayBannerAds = true
+
         let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(FirstViewController.remove(_:)))
         UIMenuController.sharedMenuController().menuItems = [menuItem]
         UIMenuController.sharedMenuController().update()

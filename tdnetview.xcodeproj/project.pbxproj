@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8981392F1CAF935F0098C728 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8981392E1CAF935F0098C728 /* iAd.framework */; };
 		89ACACD71AD8D7E900AAF967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */; };
 		89ACACD91AD8D7E900AAF967 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACD81AD8D7E900AAF967 /* FirstViewController.swift */; };
 		89ACACDB1AD8D7E900AAF967 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACDA1AD8D7E900AAF967 /* SecondViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8981392E1CAF935F0098C728 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		89ACACD11AD8D7E900AAF967 /* tdnetview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tdnetview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89ACACD51AD8D7E900AAF967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8981392F1CAF935F0098C728 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +80,7 @@
 		89ACACC81AD8D7E800AAF967 = {
 			isa = PBXGroup;
 			children = (
+				8981392E1CAF935F0098C728 /* iAd.framework */,
 				89ACACD31AD8D7E900AAF967 /* tdnetview */,
 				89ACACEB1AD8D7E900AAF967 /* tdnetviewTests */,
 				89ACACD21AD8D7E900AAF967 /* Products */,
