@@ -61,13 +61,21 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    override func viewDidAppear(animated:Bool) {
+        super.viewDidAppear(animated)
+        if(mark.is_updated()){
+            updateTable()
+        }
+    }
+
     func registMenuNormal(){
         self.canDisplayBannerAds = false
 
         let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(RecentViewController.mark(_:)))
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
         let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3]
+        let menuItem4: UIMenuItem = UIMenuItem(title: "Search", action: #selector(RecentViewController.search(_:)))
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
         UIMenuController.sharedMenuController().update()
     }
 
@@ -195,7 +203,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         if(mark.is_mark(texts[indexPath.row].code) && !isMarkScreen()){
-            cell.backgroundColor=UIColor(red:137/255.0 , green:195/255.0 , blue:235/255.0 , alpha:1.0)
+            cell.backgroundColor=UIColor(red:95/255.0 , green:199/255.0 , blue:248/255.0 , alpha:1.0)
         }else{
             cell.backgroundColor=UIColor.clearColor()
         }
@@ -300,6 +308,23 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func remove(idx:Int){
+    }
+
+    func search(idx:Int){
+        var company : String = self.texts[idx].code
+        print(company)
+        if(company==""){
+            return
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+            if let tabvc = myAp.window!.rootViewController as? UITabBarController  {
+                tabvc.selectedIndex = 2
+                var view:SearchViewController = (tabvc.viewControllers![2] as? SearchViewController)!
+                view.searchRequest("code:"+company)
+            }
+        })
     }
 }
 

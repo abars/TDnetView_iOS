@@ -15,6 +15,8 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
 
     var search_cache:[String]=[]
     let userDefaults = NSUserDefaults.standardUserDefaults()
+    var current_view:Bool = false
+    var request_query:String = ""
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +27,21 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     }
     
     override func viewDidAppear(animated:Bool) {
-        self.refreshList()
         super.viewDidAppear(animated)
+
+        self.refreshList()
+        current_view=true
+        if(request_query != ""){
+            searchCore(request_query,update_history:false)
+            request_query=""
+        }
     }
 
     override func viewDidDisappear(animated:Bool) {
-        self.registMenuNormal()
         super.viewDidDisappear(animated)
+
+        self.registMenuNormal()
+        current_view=false
     }
 
     func refreshList(){
@@ -66,13 +76,21 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     func searchBarSearchButtonClicked(mySearchBar: UISearchBar){
         print( mySearchBar.text )
         if(mySearchBar.text != ""){
-            searchCore(mySearchBar.text!)
+            searchCore(mySearchBar.text!,update_history: true)
         }
         mySearchBar.resignFirstResponder()
         //return true
     }
     
-    func searchCore(text:String){
+    func searchRequest(query:String){
+        if(current_view){
+            searchCore(query,update_history: false)
+        }else{
+            request_query=query
+        }
+    }
+    
+    func searchCore(text:String,update_history:Bool){
         let art:Article = Article()
         art.cell="検索中..."
         art.url=""
@@ -81,11 +99,15 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
 
         self.updateTable()
         
-        if(search_cache.contains(text)){
-            let idx:Int = search_cache.indexOf(text)!
-            search_cache.removeAtIndex(idx)
+        mySearchBar.text=text
+        
+        if(update_history){
+            if(search_cache.contains(text)){
+                let idx:Int = search_cache.indexOf(text)!
+                search_cache.removeAtIndex(idx)
+            }
+            search_cache.insert(text, atIndex: 0)
         }
-        search_cache.insert(text, atIndex: 0)
         
         userDefaults.setObject(search_cache, forKey: "search")
         userDefaults.synchronize()
@@ -104,9 +126,8 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         let url_str:String = self.texts[indexPath.row].url
         if(url_str=="search"){
             let query:String = self.texts[indexPath.row].cell
-            mySearchBar.text=query
             mySearchBar.resignFirstResponder()
-            searchCore(query)
+            searchCore(query,update_history:true)
             return
         }
         super.tableView(table, didSelectRowAtIndexPath: indexPath)
@@ -117,7 +138,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     }
 
     override func remove(idx:Int){
-        print("remove")
         let text:String = self.texts[idx].cell
         if(search_cache.contains(text)){
             let idx:Int = search_cache.indexOf(text)!
