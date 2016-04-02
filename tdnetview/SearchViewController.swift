@@ -100,6 +100,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         if(url_str=="search"){
             let query:String = self.texts[indexPath.row].cell
             mySearchBar.text=query
+            mySearchBar.resignFirstResponder()
             searchCore(query)
             return
         }

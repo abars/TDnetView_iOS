@@ -97,11 +97,15 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     var texts:[Article] = []
     
     var refreshControl : UIRefreshControl = UIRefreshControl();
+    var refreshing : Bool = false
 
     func refresh() {
-        if(self.refreshControl.refreshing){
+        if(refreshing){
             return
         }
+        
+        refreshing=true
+
         var query:String=""
         if(isMarkScreen()){
             query=mark.get_query()
@@ -131,6 +135,8 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.reloadData()
         });
         self.refreshControl.endRefreshing()
+        
+        refreshing=false
     }
     
     //セルの内容を変更
