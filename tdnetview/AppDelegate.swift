@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
+        //cron({})
+        
         return true
     }
 
@@ -58,10 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // ダウンロードなどの処理
         if(application.isRegisteredForRemoteNotifications()){
-            cron()
+            cron({
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                }
+            )
         }
-       
-        completionHandler(UIBackgroundFetchResult.NewData)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -95,43 +98,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert.show()
         */
         
+        print("got notification")
+        
         if let userInfo = notification.userInfo {
             var url_str:String? = userInfo["url"] as? String
             let url = NSURL(string: url_str!)
+            print(url)
             if UIApplication.sharedApplication().canOpenURL(url!){
                 UIApplication.sharedApplication().openURL(url!)
             }
         }
     }
 
-    var cron_cache:[Article]=[]
+    var cron_cache:[String]=[]
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
-    func cron(){
-        var http_get_task:HttpGetTask = HttpGetTask(mode:HttpGetTask.MODE_CRON,callback:fetch_callback)
+    func cron(complete_handler: () -> Void){
+        var http_get_task:HttpGetTask = HttpGetTask(
+            mode:HttpGetTask.MODE_CRON,
+            callback:{article in
+                self.fetch_callback(article)
+                complete_handler()
+            }
+        )
         
         if(userDefaults.objectForKey("cron") != nil){
-            cron_cache = userDefaults.objectForKey("cron") as! [Article]
+            cron_cache = []//userDefaults.objectForKey("cron") as! [String]
         }
         
-        http_get_task.setCacheCron(cron_cache)
+        var cache:[Article] = []
+        var art:Article = Article()
+        if(cron_cache.count>=1){
+            art.cache=cron_cache[0]
+            cache.append(art)
+        }
+        
+        http_get_task.setCacheCron(cache)
         http_get_task.getData("")
         
         print("task")
     }
     
     func fetch_callback(new_item:[Article]){
-        var new_cache:[Article] = []
+        var new_cache:[String] = []
+        
         for item in new_item{
-            new_cache.insert(item,atIndex: 0)  //最初の一つは必ず登録
-            if(cron_cache[0].cache==item.cache){
-                continue
+            new_cache.append(item.cache)  //最初の一つは必ず登録
+             if(cron_cache.count>=1){
+                if(cron_cache[0]==item.cache){
+                    continue
+                }
             }
+
             if(mark.is_mark(item.code)){
+                print(item.cell)
                 sendNotification(item.cell,url:item.url)
             }
         }
-        
+ 
         userDefaults.setObject(new_cache, forKey: "cron")
         userDefaults.synchronize()
     }

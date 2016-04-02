@@ -24,6 +24,7 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
         //mySearchBar.text=""
         //super.texts=[]
         //super.updateTable()
+        
         super.viewDidDisappear(animated)
     }
 
@@ -35,6 +36,9 @@ class SecondViewController: FirstViewController,UISearchBarDelegate {
     func searchBarSearchButtonClicked(mySearchBar: UISearchBar!){
         print( mySearchBar.text )
         if(mySearchBar.text != ""){
+            self.texts=[]
+            self.updateTable()
+
             self.http_get_task.getData( mySearchBar.text! )
         }
         mySearchBar.resignFirstResponder()

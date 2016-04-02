@@ -86,6 +86,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             query=mark.get_query()
             print(query)
         }
+        self.refreshControl.beginRefreshing()
         http_get_task.getData(query);
     }
     
@@ -104,7 +105,7 @@ class FirstViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.tabBarItem.badgeValue=nil
         }
         }
-
+        
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
         });
