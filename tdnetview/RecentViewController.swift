@@ -180,7 +180,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
         cell.idx=indexPath.row
-        var url:String=texts[indexPath.row].url
+        let url:String=texts[indexPath.row].url
         if(url=="next" || url=="prev"){
             cell.util=true
         }

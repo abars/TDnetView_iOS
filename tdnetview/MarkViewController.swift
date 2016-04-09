@@ -20,6 +20,7 @@ class MarkViewController: RecentViewController,UISearchBarDelegate {
         super.viewDidAppear(animated)
 
         if(mark.is_updated()){
+            mark.clear_update_flag()
             refresh()
         }
     }

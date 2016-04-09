@@ -51,7 +51,10 @@ class Mark{
     
     func is_updated() -> Bool{
         let ret:Bool = is_updated_flag
-        is_updated_flag=false
         return ret
+    }
+    
+    func clear_update_flag(){
+        is_updated_flag=false
     }
 }
