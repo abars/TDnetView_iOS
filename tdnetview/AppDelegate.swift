@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var mark : Mark = Mark()
+    var CRON_DEBUG : Bool = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,7 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         //sendNotification("test",url:"url")
-        //cron({})
+        if(CRON_DEBUG){
+            cron({})
+        }
         
         return true
     }
@@ -53,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func sendNotification(message:String,url:String) {
         let notification = UILocalNotification()
-        notification.fireDate = NSDate(timeIntervalSinceNow: 1);//1秒後
+        notification.fireDate = NSDate(timeIntervalSinceNow: 0);//0秒後
         notification.timeZone = NSTimeZone.defaultTimeZone()
         notification.alertBody = message
         notification.userInfo = ["url":url]
@@ -105,6 +108,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         
         print("got notification")
+
+        // アプリ起動中(フォアグラウンド)に通知が届いた場合
+        if(application.applicationState == UIApplicationState.Active) {
+            // ここに処理を書く
+            return
+        }
+        
+        // アプリがバックグラウンドにある状態で通知が届いた場合
+        if(application.applicationState == UIApplicationState.Inactive) {
+            // ここに処理を書く
+        }
+        
         
         if let userInfo = notification.userInfo {
             let url_str:String? = userInfo["url"] as? String
@@ -121,8 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     func cron(complete_handler: () -> Void){
+        let mode : Int = HttpGetTask.MODE_CRON
+        
         let http_get_task:HttpGetTask = HttpGetTask(
-            mode:HttpGetTask.MODE_CRON,
+            mode:mode,
             callback:{article in
                 self.fetch_callback(article)
                 complete_handler()
@@ -131,6 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if(userDefaults.objectForKey("cron") != nil){
             cron_cache = userDefaults.objectForKey("cron") as! [String]
+            if(CRON_DEBUG){
+                cron_cache=[]
+            }
         }
         
         var cache:[Article] = []
@@ -141,7 +161,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         http_get_task.setCacheCron(cache)
-        http_get_task.getData("",page:0,page_unit:0)
+        if(CRON_DEBUG){
+            http_get_task.getData("recent",page:0,page_unit:10)
+        }else{
+            http_get_task.getData("",page:0,page_unit:0)
+        }
     }
     
     func fetch_callback(new_item:[Article]){
@@ -155,7 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-            if(mark.is_mark(item.code)){
+            if(CRON_DEBUG || mark.is_mark(item.code)){
                 print(item.cell)
                 sendNotification(item.cell,url:item.url)
             }

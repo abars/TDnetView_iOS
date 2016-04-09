@@ -290,8 +290,18 @@ private func updateRegx(result:String){
         }
     }
     
+    private func error(message:String){
+        print(message)
+        self.new_texts=[]
+        self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"")
+        dispatch_async(dispatch_get_main_queue(), {
+            self.callback(self.new_texts)
+        })
+    }
+
     // HTTP-GET
     private func getAsync(urlString:String,callback:(String?) -> ()) {
+        print(urlString)
         
         // create the url-request
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
@@ -302,11 +312,19 @@ private func updateRegx(result:String){
         
         // use NSURLSession
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
+            if let httpResponse = response as? NSHTTPURLResponse {
+                if(httpResponse.statusCode != 200){
+                    self.error("GET request not successful. HTTP status code: "+String(httpResponse.statusCode))
+                    return
+                }
+            }
             if (error == nil) {
                 let result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
+                //print(result)
             } else {
-                print(error)
+                self.error("Error: Not a valid HTTP response "+String(error))
+                return
             }
         })
         task.resume()
