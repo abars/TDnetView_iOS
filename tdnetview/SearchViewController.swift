@@ -17,6 +17,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     let userDefaults = NSUserDefaults.standardUserDefaults()
     var current_view:Bool = false
     var request_query:String = ""
+    var prevent_refresh:Bool = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +27,14 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    override func openPdf(url_str:String){
+        prevent_refresh=true
+        super.openPdf(url_str)
+    }
+    
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
 
-        self.refreshList()
         current_view=true
         if(request_query != ""){
             searchCore(request_query,update_history:false)
@@ -40,6 +45,11 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     override func viewDidDisappear(animated:Bool) {
         super.viewDidDisappear(animated)
 
+        if(!prevent_refresh){
+            self.refreshList()
+        }
+        prevent_refresh=false;
+        
         self.registMenuNormal()
         current_view=false
     }

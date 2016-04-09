@@ -9,8 +9,9 @@
 import UIKit
 import Social
 import iAd
+import SafariServices
 
-class RecentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class RecentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate , SFSafariViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -87,7 +88,8 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         
         let add_pager:Bool = new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())
         
-        if(add_pager && page>=1){
+        //if(add_pager &&
+        if(page>=1){
             let prev:Article = Article()
             prev.cell="Prev"
             prev.url="prev"
@@ -249,15 +251,30 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             refresh()
             return
         }
+        openPdf(url_str)
+    }
+    
+    func openPdf(url_str:String){
         let url = NSURL(string: url_str)
         if(url==nil){
             return
         }
+
+        let svc = SFSafariViewController(URL: url!)
+        self.presentViewController(svc, animated: true, completion: nil)
+        
+        /*
         if UIApplication.sharedApplication().canOpenURL(url!){
             UIApplication.sharedApplication().openURL(url!)
         }
+        */
     }
 
+    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // ★ 以下UIMenuControllerをカスタマイズするのに必要
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true

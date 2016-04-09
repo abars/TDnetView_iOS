@@ -108,10 +108,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let userInfo = notification.userInfo {
             let url_str:String? = userInfo["url"] as? String
-            let url = NSURL(string: url_str!)
-            print(url)
-            if UIApplication.sharedApplication().canOpenURL(url!){
-                UIApplication.sharedApplication().openURL(url!)
+            if let tabvc = window!.rootViewController as? UITabBarController  {
+                let RECENT_VIEW_INDEX:Int = 0
+                tabvc.selectedIndex = RECENT_VIEW_INDEX
+                let view:RecentViewController = (tabvc.viewControllers![RECENT_VIEW_INDEX] as? RecentViewController)!
+                view.openPdf(url_str!)
             }
         }
     }
