@@ -18,6 +18,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     var http_get_task : HttpGetTask!
     var mark : Mark!
     var search_query: String = ""
+    var first_load : Bool = true
     
     var page : Int = 0
     let PAGE_UNIT : Int = 50
@@ -51,14 +52,16 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         
         registMenuNormal()
         self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
-
-        if(!isSearchScreen()){
-            refresh()
-        }
     }
     
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
+        if(!isSearchScreen()){
+            if(first_load){
+                refresh()
+                first_load=false;
+            }
+        }
         if(mark.is_updated()){
             updateTable(self.texts)
         }

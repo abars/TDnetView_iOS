@@ -80,7 +80,7 @@ private func updateRegx(result:String){
     self.regx.TDNET_CONTENT_PATTERN=json["content_pattern"].string!
     
     if(self.regx.VERSION != 1){
-        self.error("Error : invalid regx version")
+        self.error("Regxのバージョンが不正です。")
         return
     }
 }
@@ -251,25 +251,26 @@ private func updateRegx(result:String){
             let ret:[[String]] = next_ret!
             
             let next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
-            //print(next_url)
-            
-            self.getAsync(next_url,callback:{ result_next in
-                self.parsePage(result_next!)
-            });
-        }else{
-            //last
-            if(cache_hit){
-                self.new_texts.appendContentsOf(self.cache_texts)
+            if(next_url != regx.TDNET_BASE_URL){
+                self.getAsync(next_url,callback:{ result_next in
+                    self.parsePage(result_next!)
+                });
+                return
             }
-
-            if(self.new_texts.count==0){
-                self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"")
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.callback(self.new_texts)                
-            })
         }
+        
+        //last
+        if(cache_hit){
+            self.new_texts.appendContentsOf(self.cache_texts)
+        }
+
+        if(self.new_texts.count==0){
+            self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"")
+        }
+            
+        dispatch_async(dispatch_get_main_queue(), {
+            self.callback(self.new_texts)
+        })
     }
     
     private func error(message:String){
@@ -285,6 +286,7 @@ private func updateRegx(result:String){
     private func getAsync(urlString:String,callback:(String?) -> ()) {
         // create the url-request
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        //print(urlString)
         
         // set the method(HTTP-GET)
         request.HTTPMethod = "GET"
@@ -294,7 +296,8 @@ private func updateRegx(result:String){
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
             if let httpResponse = response as? NSHTTPURLResponse {
                 if(httpResponse.statusCode != 200){
-                    self.error("GET request not successful. HTTP status code: "+String(httpResponse.statusCode))
+                    print(urlString)
+                    self.error("サーバとの通信に失敗しました。 "+String(httpResponse.statusCode))
                     return
                 }
             }
@@ -302,7 +305,7 @@ private func updateRegx(result:String){
                 let result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
             } else {
-                self.error("Error: Not a valid HTTP response "+String(error))
+                self.error("サーバとの通信に失敗しました。 "+String(error))
                 return
             }
         })
