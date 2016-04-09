@@ -35,6 +35,11 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
 
+        if(!prevent_refresh){
+            self.refreshList()
+        }
+        prevent_refresh=false;
+        
         current_view=true
         if(request_query != ""){
             searchCore(request_query,update_history:false)
@@ -46,10 +51,9 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         super.viewDidDisappear(animated)
 
         if(!prevent_refresh){
-            self.refreshList()
+            super.clearTable()
         }
-        prevent_refresh=false;
-        
+
         self.registMenuNormal()
         current_view=false
     }
@@ -57,7 +61,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     func refreshList(){
         mySearchBar.text=""
         
-        super.texts=[]
+        var texts : [Article]=[]
         
         if(userDefaults.objectForKey("search") != nil){
             search_cache = userDefaults.objectForKey("search") as! [String]
@@ -70,12 +74,12 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
             let art:Article = Article()
             art.cell=search
             art.url="search"
-            super.texts.append(art)
+            texts.append(art)
         }
         
         super.registMenuList()
         
-        super.updateTable()
+        super.updateTable(texts)
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,10 +107,11 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         let art:Article = Article()
         art.cell="検索中..."
         art.url=""
-        self.texts=[]
-        self.texts.append(art)
+        
+        var new_texts : [Article] = []
+        new_texts.append(art)
 
-        self.updateTable()
+        self.updateTable(new_texts)
         
         mySearchBar.text=text
         

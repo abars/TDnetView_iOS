@@ -60,7 +60,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidAppear(animated:Bool) {
         super.viewDidAppear(animated)
         if(mark.is_updated()){
-            updateTable()
+            updateTable(self.texts)
         }
     }
 
@@ -84,7 +84,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func fetchCallback(new_item:[Article]){
-        self.texts=[]
+        var new_texts:[Article]=[]
         
         let add_pager:Bool = new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())
         
@@ -93,19 +93,19 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             let prev:Article = Article()
             prev.cell="Prev"
             prev.url="prev"
-            self.texts.insert(prev,atIndex:0)
+            new_texts.insert(prev,atIndex:0)
         }
         
-        self.texts.appendContentsOf(new_item)
+        new_texts.appendContentsOf(new_item)
         
         if(add_pager){
             let next:Article = Article()
             next.cell="Next"
             next.url="next"
-            self.texts.append(next)
+            new_texts.append(next)
         }
         
-        self.updateTable()
+        self.updateTable(new_texts)
     }
     
     func isSearchScreen() -> Bool{
@@ -128,8 +128,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshing : Bool = false
     
     func clear() {
-        self.texts=[]
-        self.updateTable()
+        self.updateTable([])
     }
 
     func refresh() {
@@ -150,9 +149,15 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         self.refreshControl.beginRefreshing()
         http_get_task.getData(query,page:page,page_unit:PAGE_UNIT);
     }
-    
 
-    func updateTable(){
+    func clearTable(){
+        dispatch_async(dispatch_get_main_queue(), {
+            self.updateTable([])
+        });
+    }
+
+    func updateTable(new_texts:[Article]){
+        /*
         if(!(isSearchScreen() || isMarkScreen())){
         var cnt:Int=0
         for text in self.texts {
@@ -166,8 +171,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             self.tabBarItem.badgeValue=nil
         }
         }
+ */
         
         dispatch_async(dispatch_get_main_queue(), {
+            self.texts=new_texts
             self.tableView.reloadData()
         });
         self.refreshControl.endRefreshing()
@@ -179,8 +186,13 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
+        var now:Article = Article()
+        if(indexPath.row<self.texts.count){
+            now=self.texts[indexPath.row]
+        }
+        
         cell.idx=indexPath.row
-        let url:String=texts[indexPath.row].url
+        let url:String=now.url
         if(url=="next" || url=="prev"){
             cell.util=true
         }
@@ -206,10 +218,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         
             cell.textLabel?.attributedText = attributedString!
         }else{
-            cell.textLabel?.text = texts[indexPath.row].cell
+            cell.textLabel?.text = now.cell
         }
         
-        if(mark.is_mark(texts[indexPath.row].code) && !isMarkScreen()){
+        if(mark.is_mark(now.code) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:95/255.0 , green:199/255.0 , blue:248/255.0 , alpha:1.0)
         }else{
             cell.backgroundColor=UIColor.clearColor()
@@ -306,7 +318,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         self.mark.add_remove(text)
-        updateTable()
+        updateTable(self.texts)
         
         if(isMarkScreen()){
             refresh()   //deleteをケア
