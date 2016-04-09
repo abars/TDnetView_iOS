@@ -80,7 +80,7 @@ private func updateRegx(result:String){
     self.regx.TDNET_CONTENT_PATTERN=json["content_pattern"].string!
     
     if(self.regx.VERSION != 1){
-        print("regx versin error")
+        self.error("Error : invalid regx version")
         return
     }
 }
@@ -155,7 +155,7 @@ private func updateRegx(result:String){
             let ret:[[String]] = Regexp(pattern).groups(result!)!
             
             let next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
-            print(next_url)
+            //print(next_url)
             
             self.getAsync(next_url,callback:{ result in
                 self.parsePage(result!)
@@ -269,7 +269,7 @@ private func updateRegx(result:String){
             let ret:[[String]] = next_ret!
             
             let next_url:String = self.regx.TDNET_BASE_URL+ret[0][1]
-            print(next_url)
+            //print(next_url)
             
             self.getAsync(next_url,callback:{ result_next in
                 self.parsePage(result_next!)
@@ -301,8 +301,6 @@ private func updateRegx(result:String){
 
     // HTTP-GET
     private func getAsync(urlString:String,callback:(String?) -> ()) {
-        print(urlString)
-        
         // create the url-request
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         
@@ -321,7 +319,6 @@ private func updateRegx(result:String){
             if (error == nil) {
                 let result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
-                //print(result)
             } else {
                 self.error("Error: Not a valid HTTP response "+String(error))
                 return
