@@ -23,6 +23,8 @@ class MarkViewController: RecentViewController,UISearchBarDelegate {
             mark.clear_update_flag()
             refresh()
         }
+
+        self.registMenuMark()
     }
 
     override func viewDidDisappear(animated:Bool) {

@@ -86,11 +86,6 @@ private func updateRegx(result:String){
 }
 
     private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String){
-    /*
-    let row = NSIndexPath(forRow: 0, inSection: 0)
-    self.tableView.reloadRowsAtIndexPaths([row], withRowAnimation: UITableViewRowAnimation.Fade)
-    */
-    
         let one:Article = Article()
         one.cell=result
         one.url=url
@@ -99,14 +94,7 @@ private func updateRegx(result:String){
         one.cache=cache
         
         self.new_texts.append(one)
-    /*
-    self.tableView.beginUpdates()
-    self.tableView.insertRowsAtIndexPaths([
-    NSIndexPath(forRow: self.texts.count-1, inSection: 0)
-    ], withRowAnimation: .Automatic)
-    self.tableView.endUpdates()
-    */
-}
+    }
 
     func getData(search_str:String,page:Int,page_unit:Int) {
         if(regx.VERSION==0){
@@ -215,12 +203,6 @@ private func updateRegx(result:String){
                             break
                         }
                     }
-                    
-                    //if(self.first_view.isMarkScreen()){
-                    //    if(!self.first_view.mark.is_mark(company_id)){
-                    //        continue
-                    //    }
-                    //}
                     
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){

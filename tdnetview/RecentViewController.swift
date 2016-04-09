@@ -62,12 +62,24 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         if(mark.is_updated()){
             updateTable(self.texts)
         }
+        self.registMenuNormal()
     }
 
     func registMenuNormal(){
         self.canDisplayBannerAds = false
 
         let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(RecentViewController.mark(_:)))
+        let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
+        let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
+        let menuItem4: UIMenuItem = UIMenuItem(title: "Search", action: #selector(RecentViewController.search(_:)))
+        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
+        UIMenuController.sharedMenuController().update()
+    }
+    
+    func registMenuMark(){
+        self.canDisplayBannerAds = false
+        
+        let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(RecentViewController.mark(_:)))
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
         let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
         let menuItem4: UIMenuItem = UIMenuItem(title: "Search", action: #selector(RecentViewController.search(_:)))

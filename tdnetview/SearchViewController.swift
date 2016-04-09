@@ -54,7 +54,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
             super.clearTable()
         }
 
-        self.registMenuNormal()
         current_view=false
     }
 
