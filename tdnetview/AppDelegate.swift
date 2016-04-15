@@ -24,7 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //sendNotification("test",url:"url")
         if(CRON_DEBUG){
-            cron({})
+            cron({new in
+                print(new)
+            })
         }
         
         return true
@@ -69,8 +71,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // ダウンロードなどの処理
         if(application.isRegisteredForRemoteNotifications()){
-            cron({
-                    completionHandler(UIBackgroundFetchResult.NewData)
+            cron({new in
+                    if(new){
+                        completionHandler(UIBackgroundFetchResult.NewData)
+                    }else{
+                        completionHandler(UIBackgroundFetchResult.NoData)
+                    }
                 }
             )
         }
@@ -135,14 +141,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var cron_cache:[String]=[]
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
-    func cron(complete_handler: () -> Void){
+    func cron(complete_handler: (Bool) -> Void){
         let mode : Int = HttpGetTask.MODE_CRON
         
         let http_get_task:HttpGetTask = HttpGetTask(
             mode:mode,
             callback:{article in
                 self.fetch_callback(article)
-                complete_handler()
+                var new:Bool = false
+                if(article.count>=1){
+                    new=article[0].new
+                }
+                complete_handler(new)
             }
         )
         
