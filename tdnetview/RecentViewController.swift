@@ -356,7 +356,12 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
         company = (company as NSString).substringToIndex(4)
 
-        let text : String = "http://m.finance.yahoo.co.jp/stock?code="+company;
+        let text : String
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad{
+            text="http://stocks.finance.yahoo.co.jp/stocks/detail/?code="+company+"&d=1y";
+        }else{
+            text="http://m.finance.yahoo.co.jp/stock?code="+company;
+        }
 
         let url_str:String = text
         let url = NSURL(string: url_str)
