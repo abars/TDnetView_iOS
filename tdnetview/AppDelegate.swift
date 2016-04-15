@@ -28,7 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(new)
             })
         }
-        
+
+        let localNotification = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
+        if(localNotification != nil){
+            notifyReceivedLocalNotification(localNotification!)
+        }
+
         return true
     }
 
@@ -112,8 +117,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert.addButtonWithTitle(notification.alertAction!)
         alert.show()
         */
-        
-        print("got notification")
 
         // アプリ起動中(フォアグラウンド)に通知が届いた場合
         if(application.applicationState == UIApplicationState.Active) {
@@ -126,7 +129,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // ここに処理を書く
         }
         
-        
+        notifyReceivedLocalNotification(notification)
+    }
+
+    func notifyReceivedLocalNotification(notification: UILocalNotification){
+        print("got notification")
+
         if let userInfo = notification.userInfo {
             let url_str:String? = userInfo["url"] as? String
             if let tabvc = window!.rootViewController as? UITabBarController  {
@@ -134,6 +142,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 tabvc.selectedIndex = RECENT_VIEW_INDEX
                 let view:RecentViewController = (tabvc.viewControllers![RECENT_VIEW_INDEX] as? RecentViewController)!
                 view.openPdf(url_str!)
+            }else{
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    self.notifyReceivedLocalNotification(notification)
+                }
             }
         }
     }
