@@ -15,6 +15,8 @@ class Article{
         tweet=""
         code=""
         cache=""
+        new=false
+        attribute=nil
     }
     
     var cell:String
@@ -22,6 +24,8 @@ class Article{
     var tweet:String
     var code:String
     var cache:String
+    var new:Bool
+    var attribute:NSAttributedString?
 }
 
 class HttpGetTask{
@@ -85,13 +89,14 @@ private func updateRegx(result:String){
     }
 }
 
-    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String){
+    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String,new:Bool){
         let one:Article = Article()
         one.cell=result
         one.url=url
         one.tweet=tweet
         one.code=company_code_id
         one.cache=cache
+        one.new=new
         
         self.new_texts.append(one)
     }
@@ -196,8 +201,10 @@ private func updateRegx(result:String){
                         cnt=cnt+1
                     }
                     
+                    let cache_str : String = ""+company_id+data_id;
+                    
                     if(self.cache_texts.count>=1){
-                        if(self.cache_texts[0].cache==tr_str){
+                        if(self.cache_texts[0].cache==cache_str && cache_str != ""){
                             print("cache_hit")
                             cache_hit=true
                             break
@@ -235,7 +242,7 @@ private func updateRegx(result:String){
                             
                             let tweet_text:String = ""+company_id+" "+data+" "+url
                             
-                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:tr_str)
+                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:cache_str,new:true)
                         }
                     }
                 }
@@ -261,11 +268,14 @@ private func updateRegx(result:String){
         
         //last
         if(cache_hit){
+            for cache in self.cache_texts{
+                cache.new=false
+            }
             self.new_texts.appendContentsOf(self.cache_texts)
         }
 
         if(self.new_texts.count==0){
-            self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"")
+            self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"",new:false)
         }
             
         dispatch_async(dispatch_get_main_queue(), {
@@ -276,7 +286,7 @@ private func updateRegx(result:String){
     private func error(message:String){
         print(message)
         self.new_texts=[]
-        self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"")
+        self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"",new:false)
         dispatch_async(dispatch_get_main_queue(), {
             self.callback(self.new_texts)
         })

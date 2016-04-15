@@ -214,24 +214,29 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         cell.view=self
         
         if(isSearchScreen()){
-            let cell_text:String = texts[indexPath.row].cell
-            let string:String = "<style>body{font-size:16px;}</style>"+cell_text
-        
-            let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
-            let attributedOptions : [String: AnyObject] = [
-                NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-            ]
-        
-            var attributedString:NSAttributedString?
-        
-            do{
-                attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-            }catch{
-                print(error)
+            if(now.attribute != nil){
+                cell.textLabel?.attributedText=now.attribute!
+            }else{
+                let cell_text:String = now.cell
+                let string:String = "<style>body{font-size:16px;}</style>"+cell_text
+                
+                let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
+                let attributedOptions : [String: AnyObject] = [
+                    NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                    NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+                ]
+                
+                var attributedString:NSAttributedString?
+                
+                do{
+                    attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+                }catch{
+                    print(error)
+                }
+                
+                cell.textLabel?.attributedText = attributedString!
+                now.attribute=attributedString
             }
-        
-            cell.textLabel?.attributedText = attributedString!
         }else{
             cell.textLabel?.text = now.cell
         }
@@ -239,7 +244,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         if(mark.is_mark(now.code) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:95/255.0 , green:199/255.0 , blue:248/255.0 , alpha:1.0)
         }else{
-            cell.backgroundColor=UIColor.clearColor()
+            if(now.new && !isSearchScreen() && !isMarkScreen()){
+                cell.backgroundColor=UIColor(red:240/255.0 , green:240/255.0 , blue:240/255.0 , alpha:1.0)
+            }else{
+                cell.backgroundColor=UIColor.clearColor()
+            }
         }
         
         cell.textLabel?.numberOfLines=0
