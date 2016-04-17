@@ -29,6 +29,7 @@ class Article{
 }
 
 class HttpGetTask{
+    let userDefaults = NSUserDefaults.standardUserDefaults()
 
     static let MODE_RECENT:Int=0
     static let MODE_SEARCH:Int=1
@@ -39,11 +40,17 @@ class HttpGetTask{
     private var cache_texts:[Article] = []
     private var new_texts:[Article] = []
     private var mode:Int = 0
-    private var callback:([Article]->());
+    private var callback:([Article]->())
+    private var recent_cache:String = ""
+    private var new_flag:Bool = false
 
     init(mode:Int,callback:([Article]) -> ()) {
         self.mode=mode
         self.callback=callback
+
+        if(userDefaults.objectForKey("recent") != nil){
+            self.recent_cache = userDefaults.objectForKey("recent") as! String
+        }
     }
 
 private func convertStringToDictionary(text: String) -> [String:AnyObject]? {
@@ -129,7 +136,9 @@ private func updateRegx(result:String){
         if(self.mode != HttpGetTask.MODE_CRON){
             self.setCacheWithoutCron()
         }
+        
         self.new_texts=[]
+        self.new_flag=true
         
         var tdnet_url = self.regx.TDNET_TOP_URL
         if(search_str != ""){
@@ -210,6 +219,9 @@ private func updateRegx(result:String){
                             break
                         }
                     }
+                    if(self.recent_cache==cache_str && cache_str != "" && self.mode==HttpGetTask.MODE_RECENT){
+                        self.new_flag=false;
+                    }
                     
                     let url_list:[[String]]?=Regexp(self.regx.TDNET_CONTENT_PATTERN).groups(data_id)
                     if(url_list != nil){
@@ -242,7 +254,7 @@ private func updateRegx(result:String){
                             
                             let tweet_text:String = ""+company_id+" "+data+" "+url
                             
-                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:cache_str,new:true)
+                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:cache_str,new:self.new_flag)
                         }
                     }
                 }
@@ -272,6 +284,13 @@ private func updateRegx(result:String){
                 cache.new=false
             }
             self.new_texts.appendContentsOf(self.cache_texts)
+        }
+        
+        //recent cache
+        if(self.new_texts.count>=1 && self.mode==HttpGetTask.MODE_RECENT){
+            self.recent_cache=self.new_texts[0].cache
+            userDefaults.setObject(self.recent_cache, forKey: "recent")
+            userDefaults.synchronize()
         }
 
         if(self.new_texts.count==0){

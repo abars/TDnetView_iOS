@@ -226,16 +226,16 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
                     NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
                 ]
                 
-                var attributedString:NSAttributedString?
+                var attributedString:NSAttributedString?=nil
                 
                 do{
                     attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+
+                    cell.textLabel?.attributedText = attributedString!
+                    //now.attribute=attributedString //スレッドが衝突する
                 }catch{
                     print(error)
                 }
-                
-                cell.textLabel?.attributedText = attributedString!
-                now.attribute=attributedString
             }
         }else{
             cell.textLabel?.text = now.cell
