@@ -62,10 +62,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
                     let cache:[Article]=http_get_task.getArticleCache();
                     if(cache.count >= 1){
                         updateTable(cache)
-                    }else{
-                        refresh();
+                        first_load=false;
                     }
-                }else{
+                }
+                if(first_load){
+                    showMessage("読込中...")
                     refresh()
                 }
                 first_load=false;
@@ -75,6 +76,17 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             updateTable(self.texts)
         }
         self.registMenuNormal()
+    }
+    
+    func showMessage(message:String){
+        let art:Article = Article()
+        art.cell=message
+        art.url=""
+        
+        var new_texts : [Article] = []
+        new_texts.append(art)
+        
+        updateTable(new_texts)
     }
 
     func registMenuNormal(){
@@ -170,7 +182,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         if(isSearchScreen()){
             query=self.search_query
         }
-        self.refreshControl.beginRefreshing()
+        //self.refreshControl.beginRefreshing()
         http_get_task.getData(query,page:page,page_unit:PAGE_UNIT);
     }
 
@@ -179,23 +191,31 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             self.updateTable([])
         });
     }
-
-    func updateTable(new_texts:[Article]){
-        /*
+    
+    /*
+    func updateBudge(new_texts:[Article]){
         if(!(isSearchScreen() || isMarkScreen())){
-        var cnt:Int=0
-        for text in self.texts {
-            if(mark.is_mark(text.code)){
-                cnt += 1
+            var cnt:Int=0
+            for text in self.texts {
+                if(mark.is_mark(text.code)){
+                    cnt += 1
+                }
+            }
+            if(cnt>=1){
+                //self.tabBarItem.badgeValue = String(cnt)
+            }else{
+                self.tabBarItem.badgeValue=nil
             }
         }
-        if(cnt>=1){
-            //self.tabBarItem.badgeValue = String(cnt)
-        }else{
-            self.tabBarItem.badgeValue=nil
+    }
+    */
+
+    func updateTable(new_texts:[Article]){
+        if(isSearchScreen()){
+            for text in new_texts{
+                text.attribute=convertToAttributeString(text.cell)
+            }
         }
-        }
- */
         
         dispatch_async(dispatch_get_main_queue(), {
             self.texts=new_texts
@@ -204,6 +224,26 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         self.refreshControl.endRefreshing()
         
         refreshing=false
+    }
+    
+    private func convertToAttributeString(cell_text:String) -> NSAttributedString?{
+        let string:String = "<style>body{font-size:16px;}</style>"+cell_text
+    
+        let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
+        let attributedOptions : [String: AnyObject] = [
+        NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+        NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+        ]
+    
+        var attributedString:NSAttributedString?=nil
+    
+        do{
+            attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            return attributedString
+        }catch{
+            print(error)
+        }
+        return nil
     }
     
     //セルの内容を変更
@@ -226,24 +266,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             if(now.attribute != nil){
                 cell.textLabel?.attributedText=now.attribute!
             }else{
-                let cell_text:String = now.cell
-                let string:String = "<style>body{font-size:16px;}</style>"+cell_text
-                
-                let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
-                let attributedOptions : [String: AnyObject] = [
-                    NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                    NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-                ]
-                
-                var attributedString:NSAttributedString?=nil
-                
-                do{
-                    attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-
-                    cell.textLabel?.attributedText = attributedString!
-                    //now.attribute=attributedString //スレッドが衝突する
-                }catch{
-                    print(error)
+                let text:NSAttributedString?=convertToAttributeString(now.cell)
+                if(text != nil){
+                    cell.textLabel?.attributedText=text
+                }else{
+                    cell.textLabel?.text=now.cell
                 }
             }
         }else{

@@ -103,14 +103,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     }
     
     func searchCore(text:String,update_history:Bool){
-        let art:Article = Article()
-        art.cell="検索中..."
-        art.url=""
-        
-        var new_texts : [Article] = []
-        new_texts.append(art)
-
-        self.updateTable(new_texts)
+        self.showMessage("検索中...")
         
         mySearchBar.text=text
         
