@@ -217,16 +217,21 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             }
         }
         
+        self.refreshControl.endRefreshing()
+
         dispatch_async(dispatch_get_main_queue(), {
             self.texts=new_texts
             self.tableView.reloadData()
         });
-        self.refreshControl.endRefreshing()
         
         refreshing=false
     }
     
     private func convertToAttributeString(cell_text:String) -> NSAttributedString?{
+        if(cell_text==""){
+            return nil;
+        }
+        
         let string:String = "<style>body{font-size:16px;}</style>"+cell_text
     
         let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
