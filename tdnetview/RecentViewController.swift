@@ -58,7 +58,16 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidAppear(animated)
         if(!isSearchScreen()){
             if(first_load){
-                refresh()
+                if(!isMarkScreen()){
+                    let cache:[Article]=http_get_task.getArticleCache();
+                    if(cache.count >= 1){
+                        updateTable(cache)
+                    }else{
+                        refresh();
+                    }
+                }else{
+                    refresh()
+                }
                 first_load=false;
             }
         }

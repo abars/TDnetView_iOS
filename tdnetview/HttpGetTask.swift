@@ -18,7 +18,17 @@ class Article{
         new=false
         attribute=nil
     }
-    
+
+    init(cell:String,url:String,tweet:String,code:String,cache:String,new:Bool){
+        self.cell=cell
+        self.url=url
+        self.tweet=tweet
+        self.code=code
+        self.cache=cache
+        self.new=new
+        attribute=nil
+    }
+
     var cell:String
     var url:String
     var tweet:String
@@ -288,9 +298,7 @@ private func updateRegx(result:String){
         
         //recent cache
         if(self.new_texts.count>=1 && self.mode==HttpGetTask.MODE_RECENT){
-            self.recent_cache=self.new_texts[0].cache
-            userDefaults.setObject(self.recent_cache, forKey: "recent")
-            userDefaults.synchronize()
+            setArticleCache();
         }
 
         if(self.new_texts.count==0){
@@ -300,6 +308,75 @@ private func updateRegx(result:String){
         dispatch_async(dispatch_get_main_queue(), {
             self.callback(self.new_texts)
         })
+    }
+    
+    private func setArticleCache(){
+        self.recent_cache=self.new_texts[0].cache
+        userDefaults.setObject(self.recent_cache, forKey: "recent")
+        
+        let newDatas:[NSDictionary] = self.new_texts.map{
+            ["cell":$0.cell,
+                "url":$0.url,
+                "tweet":$0.tweet,
+                "code":$0.code,
+                "cache":$0.cache,
+                "new":$0.new,
+             ] as NSDictionary
+        }
+        userDefaults.setObject(newDatas,forKey:"recent_array")
+        
+        let now = NSDate()
+        userDefaults.setObject(now,forKey:"date")
+        
+        userDefaults.synchronize()
+    }
+    
+    private func isTodayCache() -> Bool{
+        let before_date : NSDate? = userDefaults.objectForKey("date") as? NSDate ?? nil
+        if(before_date == nil){
+            return false
+        }
+        let now = NSDate()
+        
+        let format = NSDateFormatter()
+        format.dateFormat = "yyyy-MM-dd"
+        
+        let before = format.stringFromDate(before_date!)
+        let today = format.stringFromDate(now)
+        
+        if(before != today){
+            return false
+        }
+        return true
+    }
+    
+    func getArticleCache() -> [Article]{
+        if(isTodayCache()==false){
+            return []
+        }
+        
+        print("recent cache hit")
+        
+        let datas = userDefaults.objectForKey("recent_array") as? [NSDictionary] ?? []
+        // 保存されたデータから復元出来無い場合もあり得るので、
+        // mapではなくreduceを使う
+        let array = datas.reduce([]){ (ary, d:NSDictionary) -> [Article] in
+            // dateやmessageがnilでないなら、MyLogDataを作って足し込む
+            if let cell = d["cell"]    as? String,
+                url = d["url"] as? String,
+                tweet = d["tweet"] as? String,
+                code = d["code"] as? String,
+                cache = d["cache"] as? String,
+                new = d["new"] as? Bool
+            {
+                return ary + [Article(cell: cell, url: url, tweet:tweet , code:code,cache:cache,new:new)]
+            }else{
+                return ary
+            }
+        }
+        return array
+        
+        //userDefaults.getObject(self.new_texts,forKey: "recent_array")
     }
     
     private func error(message:String){
@@ -339,7 +416,6 @@ private func updateRegx(result:String){
             }
         })
         task.resume()
-        
     }
     
 

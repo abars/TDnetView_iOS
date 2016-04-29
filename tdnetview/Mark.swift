@@ -46,6 +46,9 @@ class Mark{
             }
             query+="code:"+mark_list[i]
         }
+        if(query==""){
+            return "code:not_found"
+        }
         return ""+query+"";
     }
     
