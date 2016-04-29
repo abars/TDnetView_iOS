@@ -16,17 +16,19 @@ class Article{
         code=""
         cache=""
         new=false
+        date=""
         attribute=nil
     }
 
-    init(cell:String,url:String,tweet:String,code:String,cache:String,new:Bool){
+    init(cell:String,url:String,tweet:String,code:String,cache:String,new:Bool,date:String){
         self.cell=cell
         self.url=url
         self.tweet=tweet
         self.code=code
         self.cache=cache
         self.new=new
-        attribute=nil
+        self.date=date
+        self.attribute=nil
     }
 
     var cell:String
@@ -35,6 +37,7 @@ class Article{
     var code:String
     var cache:String
     var new:Bool
+    var date:String
     var attribute:NSAttributedString?
 }
 
@@ -106,7 +109,7 @@ private func updateRegx(result:String){
     }
 }
 
-    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String,new:Bool){
+    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String,new:Bool,date:String){
         let one:Article = Article()
         one.cell=result
         one.url=url
@@ -114,6 +117,7 @@ private func updateRegx(result:String){
         one.code=company_code_id
         one.cache=cache
         one.new=new
+        one.date=date
         
         self.new_texts.append(one)
     }
@@ -183,6 +187,7 @@ private func updateRegx(result:String){
     }
     
     private func parsePage(result:String){
+        let today = getToday()
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
         var cache_hit=false
         if(tr_list != nil){
@@ -264,7 +269,7 @@ private func updateRegx(result:String){
                             
                             let tweet_text:String = ""+company_id+" "+data+" "+url
                             
-                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:cache_str,new:self.new_flag)
+                            self.insertTable(cell_text,url:url,tweet:tweet_text,company_code_id:company_code_id,cache:cache_str,new:self.new_flag,date:today)
                         }
                     }
                 }
@@ -302,7 +307,7 @@ private func updateRegx(result:String){
         }
 
         if(self.new_texts.count==0){
-            self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"",new:false)
+            self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"",new:false,date:"")
         }
             
         dispatch_async(dispatch_get_main_queue(), {
@@ -321,45 +326,29 @@ private func updateRegx(result:String){
                 "code":$0.code,
                 "cache":$0.cache,
                 "new":$0.new,
+                "date":$0.date
              ] as NSDictionary
         }
         userDefaults.setObject(newDatas,forKey:"recent_array")
         
-        let now = NSDate()
-        userDefaults.setObject(now,forKey:"date")
-        
         userDefaults.synchronize()
     }
     
-    private func isTodayCache() -> Bool{
-        let before_date : NSDate? = userDefaults.objectForKey("date") as? NSDate ?? nil
-        if(before_date == nil){
-            return false
-        }
+    private func getToday() -> String{
         let now = NSDate()
         
         let format = NSDateFormatter()
         format.dateFormat = "yyyy-MM-dd"
         
-        let before = format.stringFromDate(before_date!)
         let today = format.stringFromDate(now)
-        
-        if(before != today){
-            return false
-        }
-        return true
+        return today
     }
     
     func getArticleCache() -> [Article]{
-        if(isTodayCache()==false){
-            return []
-        }
-        
-        print("recent cache hit")
-        
         let datas = userDefaults.objectForKey("recent_array") as? [NSDictionary] ?? []
         // 保存されたデータから復元出来無い場合もあり得るので、
         // mapではなくreduceを使う
+        let today = getToday()
         let array = datas.reduce([]){ (ary, d:NSDictionary) -> [Article] in
             // dateやmessageがnilでないなら、MyLogDataを作って足し込む
             if let cell = d["cell"]    as? String,
@@ -367,9 +356,14 @@ private func updateRegx(result:String){
                 tweet = d["tweet"] as? String,
                 code = d["code"] as? String,
                 cache = d["cache"] as? String,
-                new = d["new"] as? Bool
+                new = d["new"] as? Bool,
+                date = d["date"] as? String
             {
-                return ary + [Article(cell: cell, url: url, tweet:tweet , code:code,cache:cache,new:new)]
+                if(today == date){
+                    return ary + [Article(cell: cell, url: url, tweet:tweet , code:code,cache:cache,new:new,date:date)]
+                }else{
+                    return ary
+                }
             }else{
                 return ary
             }
@@ -382,7 +376,7 @@ private func updateRegx(result:String){
     private func error(message:String){
         print(message)
         self.new_texts=[]
-        self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"",new:false)
+        self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"",new:false,date:"")
         dispatch_async(dispatch_get_main_queue(), {
             self.callback(self.new_texts)
         })
