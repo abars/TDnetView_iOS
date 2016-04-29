@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Article{
     init(){
@@ -118,10 +119,38 @@ private func updateRegx(result:String){
         one.cache=cache
         one.new=new
         one.date=date
-        
+        if(self.mode==HttpGetTask.MODE_SEARCH){
+            one.attribute=convertToAttributeString(result)
+        }else{
+            one.attribute=nil
+        }
         self.new_texts.append(one)
     }
 
+    private func convertToAttributeString(cell_text:String) -> NSAttributedString?{
+        if(cell_text==""){
+            return nil;
+        }
+        
+        let string:String = "<style>body{font-size:16px;}</style>"+cell_text
+        
+        let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
+        let attributedOptions : [String: AnyObject] = [
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+        ]
+        
+        var attributedString:NSAttributedString?=nil
+        
+        do{
+            attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            return attributedString
+        }catch{
+            print(error)
+        }
+        return nil
+    }
+    
     func getData(search_str:String,page:Int,page_unit:Int) {
         if(regx.VERSION==0){
             let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"

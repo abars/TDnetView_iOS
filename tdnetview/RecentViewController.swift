@@ -211,12 +211,6 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     */
 
     func updateTable(new_texts:[Article]){
-        if(isSearchScreen()){
-            for text in new_texts{
-                text.attribute=convertToAttributeString(text.cell)
-            }
-        }
-        
         self.refreshControl.endRefreshing()
 
         dispatch_async(dispatch_get_main_queue(), {
@@ -225,30 +219,6 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         });
         
         refreshing=false
-    }
-    
-    private func convertToAttributeString(cell_text:String) -> NSAttributedString?{
-        if(cell_text==""){
-            return nil;
-        }
-        
-        let string:String = "<style>body{font-size:16px;}</style>"+cell_text
-    
-        let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
-        let attributedOptions : [String: AnyObject] = [
-        NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-        NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-        ]
-    
-        var attributedString:NSAttributedString?=nil
-    
-        do{
-            attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-            return attributedString
-        }catch{
-            print(error)
-        }
-        return nil
     }
     
     //セルの内容を変更
@@ -271,12 +241,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             if(now.attribute != nil){
                 cell.textLabel?.attributedText=now.attribute!
             }else{
-                let text:NSAttributedString?=convertToAttributeString(now.cell)
-                if(text != nil){
-                    cell.textLabel?.attributedText=text
-                }else{
-                    cell.textLabel?.text=now.cell
-                }
+                cell.textLabel?.text=now.cell
             }
         }else{
             cell.textLabel?.text = now.cell
