@@ -76,6 +76,26 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             updateTable(self.texts)
         }
         self.registMenuNormal()
+        
+        analyticsTrack();
+    }
+    
+    private func analyticsTrack(){
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: getTabName())
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    private func getTabName() -> String{
+        if(isSearchScreen()){
+            return "search"
+        }
+        if(isMarkScreen()){
+            return "favorite"
+        }
+        return "recent"
     }
     
     func showMessage(message:String){
