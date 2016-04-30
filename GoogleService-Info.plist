@@ -7,13 +7,13 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>TRACKING_ID</key>
-	<string>UA-8633292-10</string>
+	<string>UA-8633292-12</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>biz.abars.tdnetview</string>
 	<key>PROJECT_ID</key>
-	<string>tdnetview</string>
+	<string>tdnetview-ios</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<false/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:242617348916:ios:62236958d6ead795</string>
+	<string>1:1061414695158:ios:62236958d6ead795</string>
 </dict>
 </plist>
