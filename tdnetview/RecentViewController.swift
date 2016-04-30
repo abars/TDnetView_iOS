@@ -8,7 +8,6 @@
 
 import UIKit
 import Social
-import iAd
 import SafariServices
 
 class RecentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate , SFSafariViewControllerDelegate {
@@ -110,7 +109,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func registMenuNormal(){
-        self.canDisplayBannerAds = false
+        //self.canDisplayBannerAds = false
 
         let menuItem: UIMenuItem = UIMenuItem(title: "Favorite", action: #selector(RecentViewController.mark(_:)))
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
@@ -121,7 +120,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func registMenuMark(){
-        self.canDisplayBannerAds = false
+        //self.canDisplayBannerAds = false
         
         let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(RecentViewController.mark(_:)))
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
@@ -132,7 +131,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func registMenuList(){
-        self.canDisplayBannerAds = true
+        //self.canDisplayBannerAds = true
 
         let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(RecentViewController.remove(_:)))
         UIMenuController.sharedMenuController().menuItems = [menuItem]

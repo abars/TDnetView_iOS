@@ -11,4 +11,6 @@
 
 #import <Google/Analytics.h>
 
+@import GoogleMobileAds;
+
 #endif /* BridgeHeader_h */

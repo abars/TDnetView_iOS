@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import iAd
 
-class SearchViewController: RecentViewController,UISearchBarDelegate {
+class SearchViewController: RecentViewController,UISearchBarDelegate , GADBannerViewDelegate {
 
     @IBOutlet weak var mySearchBar: UISearchBar!
 
@@ -18,6 +17,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
     var current_view:Bool = false
     var request_query:String = ""
     var prevent_refresh:Bool = false
+    var is_ad_enable:Bool = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +47,35 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         }
     }
 
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if(is_ad_enable){
+            return 50.0
+        }else{
+            return 0.0
+        }
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if(!is_ad_enable){
+            return nil
+        }
+        var bannerView: GADBannerView = GADBannerView()
+        bannerView = GADBannerView(adSize:kGADAdSizeBanner)
+        bannerView.adUnitID = "ca-app-pub-8699119390634135/7750253209"
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        
+        let x:CGFloat = (tableView.frame.width - bannerView.frame.size.width)/2;
+        let y:CGFloat = 0;
+        bannerView.frame = CGRectMake(x, y, bannerView.frame.size.width, bannerView.frame.size.height);
+        
+        let request=GADRequest()
+        request.testDevices = [ "9bdf501780072be275b683e5449b231b",kDFPSimulatorID ]
+        bannerView.loadRequest(request)
+        
+        return bannerView
+    }
+    
     override func viewDidDisappear(animated:Bool) {
         super.viewDidDisappear(animated)
 
@@ -77,6 +106,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         }
         
         super.registMenuList()
+        is_ad_enable=true
         
         super.updateTable(texts)
     }
@@ -119,6 +149,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate {
         userDefaults.synchronize()
      
         super.registMenuNormal()
+        is_ad_enable=false
         
         self.search_query=text
         self.page=0
