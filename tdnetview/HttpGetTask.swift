@@ -105,7 +105,7 @@ private func updateRegx(result:String){
     self.regx.TDNET_CONTENT_PATTERN=json["content_pattern"].string!
     
     if(self.regx.VERSION != 1){
-        self.error("Regxのバージョンが不正です。")
+        self.error("Regxのバージョンが不正です。",detail:"")
         return
     }
 }
@@ -402,7 +402,7 @@ private func updateRegx(result:String){
         //userDefaults.getObject(self.new_texts,forKey: "recent_array")
     }
     
-    private func error(message:String){
+    private func error(message:String,detail:String){
         print(message)
         self.new_texts=[]
         self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"",new:false,date:"")
@@ -413,6 +413,10 @@ private func updateRegx(result:String){
 
     // HTTP-GET
     private func getAsync(urlString:String,callback:(String?) -> ()) {
+        getAsyncCore(urlString,retry:false,callback:callback);
+    }
+    
+    private func getAsyncCore(urlString:String,retry:Bool,callback:(String?) -> ()) {
         // create the url-request
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         //print(urlString)
@@ -425,8 +429,12 @@ private func updateRegx(result:String){
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
             if let httpResponse = response as? NSHTTPURLResponse {
                 if(httpResponse.statusCode != 200){
+                    if(retry==false){
+                        self.getAsyncCore(urlString,retry:true,callback:callback)
+                        return
+                    }
                     print(urlString)
-                    self.error("サーバとの通信に失敗しました。 "+String(httpResponse.statusCode))
+                    self.error("サーバとの通信に失敗しました。 ",detail:String(httpResponse.statusCode))
                     return
                 }
             }
@@ -434,7 +442,11 @@ private func updateRegx(result:String){
                 let result = String(data: data!, encoding: NSUTF8StringEncoding)
                 callback(result)
             } else {
-                self.error("サーバとの通信に失敗しました。 "+String(error))
+                if(retry==false){
+                    self.getAsyncCore(urlString,retry:true,callback:callback)
+                    return
+                }
+                self.error("サーバとの通信に失敗しました。 ",detail:String(error))
                 return
             }
         })

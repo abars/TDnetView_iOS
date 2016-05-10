@@ -211,26 +211,26 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         });
     }
     
-    /*
     func updateBudge(new_texts:[Article]){
         if(!(isSearchScreen() || isMarkScreen())){
             var cnt:Int=0
             for text in self.texts {
-                if(mark.is_mark(text.code)){
+                if(text.new && mark.is_mark(text.code)){
                     cnt += 1
                 }
             }
             if(cnt>=1){
-                //self.tabBarItem.badgeValue = String(cnt)
+                self.tabBarItem.badgeValue = String(cnt)
             }else{
                 self.tabBarItem.badgeValue=nil
             }
         }
     }
-    */
 
     func updateTable(new_texts:[Article]){
         self.refreshControl.endRefreshing()
+        
+        updateBudge(new_texts)
 
         dispatch_async(dispatch_get_main_queue(), {
             self.texts=new_texts
