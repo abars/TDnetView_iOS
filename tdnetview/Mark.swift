@@ -9,12 +9,11 @@
 import Foundation
 
 class Mark{
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-    
     var mark_list:[String] = []
     var is_updated_flag:Bool = false
     
     init() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         if(userDefaults.objectForKey("mark") != nil){
             mark_list = userDefaults.objectForKey("mark") as! [String]
         }
@@ -28,6 +27,7 @@ class Mark{
             mark_list.insert(company_id, atIndex: 0)
         }
 
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(mark_list, forKey: "mark")
         userDefaults.synchronize()
         

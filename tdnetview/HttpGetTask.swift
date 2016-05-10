@@ -43,8 +43,6 @@ class Article{
 }
 
 class HttpGetTask{
-    let userDefaults = NSUserDefaults.standardUserDefaults()
-
     static let MODE_RECENT:Int=0
     static let MODE_SEARCH:Int=1
     static let MODE_MARK:Int=2
@@ -62,6 +60,7 @@ class HttpGetTask{
         self.mode=mode
         self.callback=callback
 
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         if(userDefaults.objectForKey("recent") != nil){
             self.recent_cache = userDefaults.objectForKey("recent") as! String
         }
@@ -346,6 +345,7 @@ private func updateRegx(result:String){
     
     private func setArticleCache(){
         self.recent_cache=self.new_texts[0].cache
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(self.recent_cache, forKey: "recent")
         
         let newDatas:[NSDictionary] = self.new_texts.map{
@@ -358,8 +358,8 @@ private func updateRegx(result:String){
                 "date":$0.date
              ] as NSDictionary
         }
+
         userDefaults.setObject(newDatas,forKey:"recent_array")
-        
         userDefaults.synchronize()
     }
     
@@ -374,6 +374,7 @@ private func updateRegx(result:String){
     }
     
     func getArticleCache() -> [Article]{
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         let datas = userDefaults.objectForKey("recent_array") as? [NSDictionary] ?? []
         // 保存されたデータから復元出来無い場合もあり得るので、
         // mapではなくreduceを使う

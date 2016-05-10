@@ -166,7 +166,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     var cron_cache:[String]=[]
-    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     func cron(complete_handler: (Bool) -> Void){
         let mode : Int = HttpGetTask.MODE_CRON
@@ -183,6 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         )
         
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         if(userDefaults.objectForKey("cron") != nil){
             cron_cache = userDefaults.objectForKey("cron") as! [String]
             if(CRON_DEBUG){
@@ -208,6 +208,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func fetch_callback(new_item:[Article]){
         var new_cache:[String] = []
         
+        //Server Error
+        if(new_item.count==0){
+            return
+        }
+        if(new_item[0].cache==""){
+            return
+        }
+
+        //Call
         for item in new_item{
             new_cache.append(item.cache)  //最初の一つは必ず登録
              if(cron_cache.count>=1){
@@ -221,7 +230,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 sendNotification(item.cell,url:item.url)
             }
         }
- 
+
+        let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(new_cache, forKey: "cron")
         userDefaults.synchronize()
     }
