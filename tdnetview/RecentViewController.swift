@@ -214,7 +214,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     func updateBudge(new_texts:[Article]){
         if(!(isSearchScreen() || isMarkScreen())){
             var cnt:Int=0
-            for text in self.texts {
+            for text in new_texts {
                 if(text.new && mark.is_mark(text.code)){
                     cnt += 1
                 }
