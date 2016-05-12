@@ -315,25 +315,27 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         openPdf(url_str)
     }
     
+    var svc :SFSafariViewController? = nil
+    
     func openPdf(url_str:String){
         let url = NSURL(string: url_str)
         if(url==nil){
             return
         }
-
-        let svc = SFSafariViewController(URL: url!)
-        self.presentViewController(svc, animated: true, completion: nil)
         
-        /*
-        if UIApplication.sharedApplication().canOpenURL(url!){
-            UIApplication.sharedApplication().openURL(url!)
+        if(svc != nil){
+            svc!.dismissViewControllerAnimated(false, completion: nil)
+            svc = nil
         }
-        */
+
+        svc = SFSafariViewController(URL: url!)
+        self.presentViewController(svc!, animated: true, completion: nil)        
     }
 
     func safariViewControllerDidFinish(controller: SFSafariViewController)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
+        svc = nil
     }
     
     // ★ 以下UIMenuControllerをカスタマイズするのに必要
