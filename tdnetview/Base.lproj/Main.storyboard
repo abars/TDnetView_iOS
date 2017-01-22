@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Recent View Controller-->
@@ -14,30 +17,25 @@
                         <viewControllerLayoutGuide type="bottom" id="SSy-1E-gGf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zTO-iN-XkD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vnX-Q8-N0D">
-                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sSv-5F-89L">
+                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="vnX-Q8-N0D" firstAttribute="top" secondItem="wHE-9b-vFf" secondAttribute="bottom" id="5WJ-TO-qEd"/>
-                            <constraint firstItem="SSy-1E-gGf" firstAttribute="top" secondItem="vnX-Q8-N0D" secondAttribute="bottom" id="8yj-1s-HWy"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vnX-Q8-N0D" secondAttribute="trailing" constant="-20" id="cYn-Do-bRb"/>
-                            <constraint firstItem="vnX-Q8-N0D" firstAttribute="leading" secondItem="zTO-iN-XkD" secondAttribute="leadingMargin" constant="-20" id="hsh-KC-2YH"/>
-                        </constraints>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="recents" id="acW-dT-cKf"/>
                     <connections>
-                        <outlet property="tableView" destination="vnX-Q8-N0D" id="V9s-cM-7BK"/>
+                        <outlet property="tableView" destination="sSv-5F-89L" id="fN2-Kz-wiG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-303"/>
+            <point key="canvasLocation" x="750" y="-303.16901408450707"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="wg7-f3-ORb">
@@ -48,38 +46,31 @@
                         <viewControllerLayoutGuide type="bottom" id="VSz-CG-ZJp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hn4-5e-xc8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTa-G6-5KS">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FPr-G8-M3R">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EXF-AS-l4w">
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jlr-4L-pG2">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="VSz-CG-ZJp" firstAttribute="top" secondItem="FPr-G8-M3R" secondAttribute="bottom" id="D9z-5p-Emd"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="TTa-G6-5KS" secondAttribute="trailing" constant="-20" id="QUj-oV-m4z"/>
-                            <constraint firstItem="FPr-G8-M3R" firstAttribute="top" secondItem="TTa-G6-5KS" secondAttribute="bottom" id="ZLL-6z-el7"/>
-                            <constraint firstItem="VSz-CG-ZJp" firstAttribute="top" secondItem="FPr-G8-M3R" secondAttribute="bottom" id="bGE-Dr-Wpj"/>
-                            <constraint firstItem="FPr-G8-M3R" firstAttribute="leading" secondItem="Hn4-5e-xc8" secondAttribute="leadingMargin" constant="-20" id="hwb-JJ-yWL"/>
-                            <constraint firstItem="TTa-G6-5KS" firstAttribute="leading" secondItem="Hn4-5e-xc8" secondAttribute="leadingMargin" constant="-20" id="jI3-PR-9w9"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FPr-G8-M3R" secondAttribute="trailing" constant="-20" id="ye1-ky-HGu"/>
-                        </constraints>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="search" id="cPa-gy-q4n"/>
                     <connections>
-                        <outlet property="mySearchBar" destination="TTa-G6-5KS" id="ton-tr-0JM"/>
-                        <outlet property="tableView" destination="FPr-G8-M3R" id="Lok-af-0Sf"/>
+                        <outlet property="mySearchBar" destination="Jlr-4L-pG2" id="7Ku-iI-fDq"/>
+                        <outlet property="tableView" destination="EXF-AS-l4w" id="SqA-Pe-SX6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="360"/>
+            <point key="canvasLocation" x="750" y="359.15492957746477"/>
         </scene>
         <!--Main Tab View Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -89,7 +80,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
@@ -110,30 +101,25 @@
                         <viewControllerLayoutGuide type="bottom" id="8Wl-4J-TxN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="lG3-rv-sP4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7DT-X2-lHH">
-                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MdI-SK-F5C">
+                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="7DT-X2-lHH" firstAttribute="leading" secondItem="lG3-rv-sP4" secondAttribute="leadingMargin" constant="-20" id="VnD-Da-I4H"/>
-                            <constraint firstItem="7DT-X2-lHH" firstAttribute="top" secondItem="m0F-AT-k1n" secondAttribute="bottom" id="kLN-nz-wVg"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="7DT-X2-lHH" secondAttribute="trailing" constant="-20" id="rYa-Km-UWZ"/>
-                            <constraint firstItem="8Wl-4J-TxN" firstAttribute="top" secondItem="7DT-X2-lHH" secondAttribute="bottom" id="vPb-ae-ZrP"/>
-                        </constraints>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="QGC-bh-Hqt" userLabel="Mark"/>
                     <connections>
-                        <outlet property="tableView" destination="7DT-X2-lHH" id="FOg-yC-Bpm"/>
+                        <outlet property="tableView" destination="MdI-SK-F5C" id="rHm-4x-jGg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fm-s3-EfN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="47" y="908"/>
+            <point key="canvasLocation" x="46.875" y="907.3943661971831"/>
         </scene>
     </scenes>
 </document>
