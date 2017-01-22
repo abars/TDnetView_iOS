@@ -211,12 +211,18 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         });
     }
     
-    func updateBudge(new_texts:[Article]){
+    func updateBudge(new_texts:[Article]) -> [Article]{
         if(!(isSearchScreen() || isMarkScreen())){
+            var mark_text:[Article]=[];
+            var no_mark_text:[Article]=[];
+
             var cnt:Int=0
             for text in new_texts {
                 if(text.new && mark.is_mark(text.code)){
                     cnt += 1
+                    mark_text.append(text);
+                }else{
+                    no_mark_text.append(text);
                 }
             }
             if(cnt>=1){
@@ -224,16 +230,20 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             }else{
                 self.tabBarItem.badgeValue=nil
             }
+            
+            mark_text.appendContentsOf(no_mark_text);
+            return mark_text;
         }
+        return new_texts
     }
 
     func updateTable(new_texts:[Article]){
         self.refreshControl.endRefreshing()
         
-        updateBudge(new_texts)
+        var sort_texts:[Article]=updateBudge(new_texts);
 
         dispatch_async(dispatch_get_main_queue(), {
-            self.texts=new_texts
+            self.texts=sort_texts
             self.tableView.reloadData()
         });
         
