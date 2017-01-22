@@ -10,7 +10,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>DarkMode</string>
+			<string>Dark Mode</string>
 			<key>Key</key>
 			<string>dark_mode</string>
 			<key>DefaultValue</key>
