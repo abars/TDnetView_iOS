@@ -60,7 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         
-        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: 20.0))
+        var w : CGFloat = UIScreen.mainScreen().bounds.size.width
+        if(w<UIScreen.mainScreen().bounds.size.height){
+            w=UIScreen.mainScreen().bounds.size.height
+        }
+        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: 20.0))
         view.backgroundColor=bg_color
         self.window!.rootViewController!.view.addSubview(view)
         
