@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func DarkMode(){
-        let r:CGFloat = 64
+        let r:CGFloat = 32
         let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
 
         let font_color:UIColor=DarkModeFontColor();
@@ -80,13 +80,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func DarkModeFontColor() -> UIColor{
-        let r2:CGFloat = 192
+        let r2:CGFloat = 224
         let font_color:UIColor=UIColor(red: r2/255, green: r2/255, blue: r2/255, alpha: 1.0)
         return font_color
     }
     
     func DarkModeFontColorCss() -> String{
-        return "color:#c0c0c0";
+        return "color:#e0e0e0";
     }
 
     private func analyticsBegin(){
