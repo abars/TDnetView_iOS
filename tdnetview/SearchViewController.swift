@@ -46,6 +46,10 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
             request_query=""
         }
     }
+    
+    func backToTop(){
+        refreshList();
+    }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if(is_ad_enable){

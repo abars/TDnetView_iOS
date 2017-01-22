@@ -16,6 +16,7 @@
 		89ACACE01AD8D7E900AAF967 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACDF1AD8D7E900AAF967 /* Images.xcassets */; };
 		89ACACE31AD8D7E900AAF967 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */; };
 		89ACACEF1AD8D7E900AAF967 /* tdnetviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */; };
+		89B8A5721E34785A00708FB4 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8A5711E34785A00708FB4 /* MyTabBarController.swift */; };
 		89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 		89BF9EC31CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 		89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0731CA4A8AB00FD692B /* Regexp.swift */; };
@@ -55,6 +56,7 @@
 		89ACACED1AD8D7E900AAF967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tdnetviewTests.swift; sourceTree = "<group>"; };
 		89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tdnetview.entitlements; sourceTree = "<group>"; };
+		89B8A5711E34785A00708FB4 /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		89C9D0731CA4A8AB00FD692B /* Regexp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regexp.swift; sourceTree = "<group>"; };
 		89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDnetRegx.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				89C9D0771CA4A9A200FD692B /* CustomTableViewCell.swift */,
 				89C9D07B1CA567B900FD692B /* HttpGetTask.swift */,
 				89C9D07D1CA61DBA00FD692B /* Mark.swift */,
+				89B8A5711E34785A00708FB4 /* MyTabBarController.swift */,
 			);
 			path = tdnetview;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 			files = (
 				89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */,
 				89C9D0761CA4A8CF00FD692B /* TDnetRegx.swift in Sources */,
+				89B8A5721E34785A00708FB4 /* MyTabBarController.swift in Sources */,
 				898139321CAF942B0098C728 /* RecentViewController.swift in Sources */,
 				89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */,
 				89C9D0781CA4A9A200FD692B /* CustomTableViewCell.swift in Sources */,

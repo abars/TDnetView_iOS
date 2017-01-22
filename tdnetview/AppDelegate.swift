@@ -164,6 +164,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func searchScreenSelected(){
+        if let tabvc = window!.rootViewController as? UITabBarController  {
+            let SEARCH_VIEW_INDEX:Int = 2
+            tabvc.selectedIndex = SEARCH_VIEW_INDEX
+            let view:SearchViewController = (tabvc.viewControllers![SEARCH_VIEW_INDEX] as? SearchViewController)!
+            view.backToTop();
+        }
+    }
 
     var cron_cache:[String]=[]
     
