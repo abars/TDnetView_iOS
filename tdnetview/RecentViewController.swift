@@ -247,7 +247,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     func updateTable(new_texts:[Article]){
         self.refreshControl.endRefreshing()
         
-        var sort_texts:[Article]=updateBudge(new_texts);
+        let sort_texts:[Article]=updateBudge(new_texts);
 
         dispatch_async(dispatch_get_main_queue(), {
             self.texts=sort_texts
@@ -275,6 +275,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         
         if(dark_mode){
             cell.textLabel?.textColor=dark_mode_font_color;
+            
+            let cellSelectedBgView = UIView()
+            cellSelectedBgView.backgroundColor = UIColor.blackColor()
+            cell.selectedBackgroundView=cellSelectedBgView
         }
         
         if(isSearchScreen()){
@@ -442,6 +446,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
                 view.searchRequest("code:"+company)
             }
         })
+    }
+    
+    func listToTop(){
+        let lastPath:NSIndexPath = NSIndexPath(forRow:0, inSection:0)
+        tableView.scrollToRowAtIndexPath( lastPath , atScrollPosition: .Top, animated: true)
     }
 }
 

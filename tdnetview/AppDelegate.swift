@@ -202,7 +202,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let userInfo = notification.userInfo {
             let url_str:String? = userInfo["url"] as? String
             if let tabvc = window!.rootViewController as? UITabBarController  {
-                let RECENT_VIEW_INDEX:Int = 0
                 tabvc.selectedIndex = RECENT_VIEW_INDEX
                 let view:RecentViewController = (tabvc.viewControllers![RECENT_VIEW_INDEX] as? RecentViewController)!
                 view.openPdf(url_str!)
@@ -215,12 +214,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    let RECENT_VIEW_INDEX:Int = 0
+    let MARK_VIEW_INDEX:Int = 1
+    let SEARCH_VIEW_INDEX:Int = 2
+
     func searchScreenSelected(){
         if let tabvc = window!.rootViewController as? UITabBarController  {
-            let SEARCH_VIEW_INDEX:Int = 2
             tabvc.selectedIndex = SEARCH_VIEW_INDEX
             let view:SearchViewController = (tabvc.viewControllers![SEARCH_VIEW_INDEX] as? SearchViewController)!
             view.backToTop();
+        }
+    }
+    
+    func recentScreenSelected(){
+        if let tabvc = window!.rootViewController as? UITabBarController  {
+            tabvc.selectedIndex = RECENT_VIEW_INDEX
+            let view:RecentViewController = (tabvc.viewControllers![RECENT_VIEW_INDEX] as? RecentViewController)!
+            view.listToTop();
+        }
+    }
+
+    func markScreenSelected(){
+        if let tabvc = window!.rootViewController as? UITabBarController  {
+            tabvc.selectedIndex = MARK_VIEW_INDEX
+            let view:MarkViewController = (tabvc.viewControllers![MARK_VIEW_INDEX] as? MarkViewController)!
+            view.listToTop();
         }
     }
 
