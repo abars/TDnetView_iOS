@@ -18,6 +18,9 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     var mark : Mark!
     var search_query: String = ""
     var first_load : Bool = true
+    var dark_mode : Bool = false;
+    var dark_mode_font_color : UIColor = UIColor.whiteColor()
+    var dark_mode_font_color_css : String = ""
     
     var page : Int = 0
     let PAGE_UNIT : Int = 50
@@ -34,9 +37,13 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         if(self.isMarkScreen()){
             mode=HttpGetTask.MODE_MARK
         }
-        http_get_task = HttpGetTask(mode:mode,callback:self.fetchCallback)
-        
+
         let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+        dark_mode=myAp.isDarkMode();
+        dark_mode_font_color=myAp.DarkModeFontColor()
+        dark_mode_font_color_css=myAp.DarkModeFontColorCss()
+        http_get_task = HttpGetTask(mode:mode,dark_mode:dark_mode,dark_mode_font_color_css:dark_mode_font_color_css,callback:self.fetchCallback)
+        
         self.mark = myAp.mark
         
         tableView.delegate = self
@@ -265,6 +272,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             cell.util=true
         }
         cell.view=self
+        
+        if(dark_mode){
+            cell.textLabel?.textColor=dark_mode_font_color;
+        }
         
         if(isSearchScreen()){
             if(now.attribute != nil){

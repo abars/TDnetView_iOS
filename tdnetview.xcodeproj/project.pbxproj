@@ -17,6 +17,7 @@
 		89ACACE31AD8D7E900AAF967 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89ACACE11AD8D7E900AAF967 /* LaunchScreen.xib */; };
 		89ACACEF1AD8D7E900AAF967 /* tdnetviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */; };
 		89B8A5721E34785A00708FB4 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B8A5711E34785A00708FB4 /* MyTabBarController.swift */; };
+		89B8A5741E34813C00708FB4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 89B8A5731E34813C00708FB4 /* Settings.bundle */; };
 		89BF9EC21CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 		89BF9EC31CA282AB00126B8F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */; };
 		89C9D0741CA4A8AB00FD692B /* Regexp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D0731CA4A8AB00FD692B /* Regexp.swift */; };
@@ -57,6 +58,7 @@
 		89ACACEE1AD8D7E900AAF967 /* tdnetviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tdnetviewTests.swift; sourceTree = "<group>"; };
 		89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = tdnetview.entitlements; sourceTree = "<group>"; };
 		89B8A5711E34785A00708FB4 /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
+		89B8A5731E34813C00708FB4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		89C9D0731CA4A8AB00FD692B /* Regexp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regexp.swift; sourceTree = "<group>"; };
 		89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDnetRegx.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				89BF9EC11CA282AB00126B8F /* SwiftyJSON.swift */,
 				89ACACF81AD8DD0B00AAF967 /* tdnetview.entitlements */,
 				89ACACD61AD8D7E900AAF967 /* AppDelegate.swift */,
+				89B8A5731E34813C00708FB4 /* Settings.bundle */,
 				89C9D0751CA4A8CF00FD692B /* TDnetRegx.swift */,
 				89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */,
 				89ACACDC1AD8D7E900AAF967 /* Main.storyboard */,
@@ -276,6 +279,7 @@
 				89ACACDE1AD8D7E900AAF967 /* Main.storyboard in Resources */,
 				89FB4E651CD4454F009B2B79 /* GoogleService-Info.plist in Resources */,
 				89ACACE31AD8D7E900AAF967 /* LaunchScreen.xib in Resources */,
+				89B8A5741E34813C00708FB4 /* Settings.bundle in Resources */,
 				89ACACE01AD8D7E900AAF967 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8HT39MV6J6;
 				INFOPLIST_FILE = tdnetview/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -505,6 +510,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8HT39MV6J6;
 				INFOPLIST_FILE = tdnetview/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

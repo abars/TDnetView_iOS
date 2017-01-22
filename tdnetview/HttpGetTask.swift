@@ -55,9 +55,13 @@ class HttpGetTask{
     private var callback:([Article]->())
     private var recent_cache:String = ""
     private var new_flag:Bool = false
+    private var dark_mode:Bool = false
+    private var dark_mode_font_color_css:String = ""
 
-    init(mode:Int,callback:([Article]) -> ()) {
+    init(mode:Int,dark_mode:Bool,dark_mode_font_color_css:String,callback:([Article]) -> ()) {
         self.mode=mode
+        self.dark_mode=dark_mode
+        self.dark_mode_font_color_css=dark_mode_font_color_css
         self.callback=callback
 
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -131,7 +135,11 @@ private func updateRegx(result:String){
             return nil;
         }
         
-        let string:String = "<style>body{font-size:16px;}</style>"+cell_text
+        var color:String = ""
+        if(dark_mode){
+            color=dark_mode_font_color_css;
+        }
+        let string:String = "<style>body{font-size:16px;"+color+"}</style>"+cell_text
         
         let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
         let attributedOptions : [String: AnyObject] = [

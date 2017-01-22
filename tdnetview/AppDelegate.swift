@@ -36,9 +36,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         analyticsBegin();
 
+        if(isDarkMode()){
+            DarkMode();
+        }
+        
         return true
     }
     
+    func isDarkMode() -> Bool{
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if(userDefaults.objectForKey("dark_mode") != nil){
+            let dark_mode:Bool = userDefaults.objectForKey("dark_mode")!.boolValue
+            return dark_mode;
+        }
+        return false;
+    }
+
+    private func DarkMode(){
+        let r:CGFloat = 64
+        let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
+
+        let font_color:UIColor=DarkModeFontColor();
+        
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        
+        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: 20.0))
+        view.backgroundColor=bg_color
+        self.window!.rootViewController!.view.addSubview(view)
+        
+        UITabBar.appearance().backgroundColor = bg_color
+        UITabBar.appearance().barTintColor = bg_color
+        UITabBar.appearance().tintColor = UIColor(red: 24*4/255, green: 31*4/255, blue: 71*4/255, alpha: 1.0)
+        
+        UITableView.appearance().backgroundColor = bg_color
+        UITableView.appearance().tintColor = font_color
+
+        UISearchBar.appearance().backgroundColor = bg_color
+        UISearchBar.appearance().barTintColor = bg_color
+        UISearchBar.appearance().tintColor = font_color
+
+        UITextField.appearance().backgroundColor = font_color
+        UITextField.appearance().tintColor = font_color
+    }
+    
+    func DarkModeFontColor() -> UIColor{
+        let r2:CGFloat = 192
+        let font_color:UIColor=UIColor(red: r2/255, green: r2/255, blue: r2/255, alpha: 1.0)
+        return font_color
+    }
+    
+    func DarkModeFontColorCss() -> String{
+        return "color:#c0c0c0";
+    }
+
     private func analyticsBegin(){
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
@@ -181,6 +231,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let http_get_task:HttpGetTask = HttpGetTask(
             mode:mode,
+            dark_mode:false,
+            dark_mode_font_color_css:"",
             callback:{article in
                 self.fetch_callback(article)
                 var new:Bool = false
