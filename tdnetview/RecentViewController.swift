@@ -292,15 +292,17 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         var dark:CGFloat=1.0;
+        var dark_new:CGFloat=1.0;
         if(dark_mode){
             dark=0.4;
+            dark_new=0.2;
         }
         
         if(mark.is_mark(now.code) && !isMarkScreen()){
             cell.backgroundColor=UIColor(red:95/255.0*dark , green:199/255.0*dark , blue:248/255.0*dark , alpha:1.0)
         }else{
             if(now.new && !isSearchScreen() && !isMarkScreen()){
-                cell.backgroundColor=UIColor(red:240/255.0*dark , green:240/255.0*dark , blue:240/255.0*dark , alpha:1.0)
+                cell.backgroundColor=UIColor(red:240/255.0*dark_new , green:240/255.0*dark_new , blue:240/255.0*dark_new , alpha:1.0)
             }else{
                 cell.backgroundColor=UIColor.clearColor()
             }
