@@ -48,32 +48,32 @@ class HttpGetTask{
     static let MODE_MARK:Int=2
     static let MODE_CRON:Int=3
 
-    private var regx:TDnetRegx=TDnetRegx()
-    private var cache_texts:[Article] = []
-    private var new_texts:[Article] = []
-    private var mode:Int = 0
-    private var callback:([Article]->())
-    private var recent_cache:String = ""
-    private var new_flag:Bool = false
-    private var dark_mode:Bool = false
-    private var dark_mode_font_color_css:String = ""
+    fileprivate var regx:TDnetRegx=TDnetRegx()
+    fileprivate var cache_texts:[Article] = []
+    fileprivate var new_texts:[Article] = []
+    fileprivate var mode:Int = 0
+    fileprivate var callback:(([Article])->())
+    fileprivate var recent_cache:String = ""
+    fileprivate var new_flag:Bool = false
+    fileprivate var dark_mode:Bool = false
+    fileprivate var dark_mode_font_color_css:String = ""
 
-    init(mode:Int,dark_mode:Bool,dark_mode_font_color_css:String,callback:([Article]) -> ()) {
+    init(mode:Int,dark_mode:Bool,dark_mode_font_color_css:String,callback:@escaping ([Article]) -> ()) {
         self.mode=mode
         self.dark_mode=dark_mode
         self.dark_mode_font_color_css=dark_mode_font_color_css
         self.callback=callback
 
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("recent") != nil){
-            self.recent_cache = userDefaults.objectForKey("recent") as! String
+        let userDefaults = UserDefaults.standard
+        if(userDefaults.object(forKey: "recent") != nil){
+            self.recent_cache = userDefaults.object(forKey: "recent") as! String
         }
     }
 
-private func convertStringToDictionary(text: String) -> [String:AnyObject]? {
-    if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+fileprivate func convertStringToDictionary(_ text: String) -> [String:AnyObject]? {
+    if let data = text.data(using: String.Encoding.utf8) {
         do {
-            return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:AnyObject]
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
         } catch let error as NSError {
             print(error)
         }
@@ -81,13 +81,13 @@ private func convertStringToDictionary(text: String) -> [String:AnyObject]? {
     return nil
 }
 
-private func updateRegx(result:String){
+fileprivate func updateRegx(_ result:String){
     //swiftのjsonは""でくくる必要があるが、tdnetsearchのregxは''でくくっているので変換する
     //ただし、正規表現中の\'は退避する必要がある
     
-    var result2=result.stringByReplacingOccurrencesOfString("\\'", withString: "[single_quortation]")
-    result2=result2.stringByReplacingOccurrencesOfString("'", withString: "\"")
-    result2=result2.stringByReplacingOccurrencesOfString("[single_quortation]", withString: "'")
+    var result2=result.replacingOccurrences(of: "\\'", with: "[single_quortation]")
+    result2=result2.replacingOccurrences(of: "'", with: "\"")
+    result2=result2.replacingOccurrences(of: "[single_quortation]", with: "'")
     
     let dict=self.convertStringToDictionary(result2)
     
@@ -113,7 +113,7 @@ private func updateRegx(result:String){
     }
 }
 
-    private func insertTable(result:String,url:String,tweet:String,company_code_id:String,cache:String,new:Bool,date:String){
+    fileprivate func insertTable(_ result:String,url:String,tweet:String,company_code_id:String,cache:String,new:Bool,date:String){
         let one:Article = Article()
         one.cell=result
         one.url=url
@@ -130,7 +130,7 @@ private func updateRegx(result:String){
         self.new_texts.append(one)
     }
 
-    private func convertToAttributeString(cell_text:String) -> NSAttributedString?{
+    fileprivate func convertToAttributeString(_ cell_text:String) -> NSAttributedString?{
         if(cell_text==""){
             return nil;
         }
@@ -141,10 +141,10 @@ private func updateRegx(result:String){
         }
         let string:String = "<style>body{font-size:16px;"+color+"}</style>"+cell_text
         
-        let encodedData = string.dataUsingEncoding(NSUTF8StringEncoding)!
+        let encodedData = string.data(using: String.Encoding.utf8)!
         let attributedOptions : [String: AnyObject] = [
-            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType as AnyObject,
+            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8 as AnyObject
         ]
         
         var attributedString:NSAttributedString?=nil
@@ -158,7 +158,7 @@ private func updateRegx(result:String){
         return nil
     }
     
-    func getData(search_str:String,page:Int,page_unit:Int) {
+    func getData(_ search_str:String,page:Int,page_unit:Int) {
         if(regx.VERSION==0){
             let urlString = self.regx.APPENGINE_BASE_URL+"?mode=regx"
             getAsync(urlString,callback:{ result in
@@ -170,11 +170,11 @@ private func updateRegx(result:String){
         }
     }
     
-    func setCacheCron(cache:[Article]){
+    func setCacheCron(_ cache:[Article]){
         self.cache_texts=cache
     }
 
-    private func setCacheWithoutCron(){
+    fileprivate func setCacheWithoutCron(){
         if(self.mode==HttpGetTask.MODE_MARK || self.mode==HttpGetTask.MODE_SEARCH){
             self.cache_texts=[]
         }else{
@@ -182,7 +182,7 @@ private func updateRegx(result:String){
         }
     }
     
-    private func getText(search_str:String,page:Int,page_unit:Int) {
+    fileprivate func getText(_ search_str:String,page:Int,page_unit:Int) {
         if(self.mode != HttpGetTask.MODE_CRON){
             self.setCacheWithoutCron()
         }
@@ -192,7 +192,7 @@ private func updateRegx(result:String){
         
         var tdnet_url = self.regx.TDNET_TOP_URL
         if(search_str != ""){
-            let encoded:String = search_str.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            let encoded:String = search_str.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             let page_unit:String = "page_unit="+String(page_unit)+"&page="+String(page+1)+"&"
             tdnet_url = self.regx.APPENGINE_BASE_URL+"?"+page_unit+"mode=full&query="+encoded;
             
@@ -215,14 +215,14 @@ private func updateRegx(result:String){
         });
     }
     
-    private func truncate(td_str:String) -> String{
-        var td_str2=td_str.stringByReplacingOccurrencesOfString(" ", withString: "")
-        td_str2=td_str2.stringByReplacingOccurrencesOfString("　", withString: "")
-        td_str2=td_str2.stringByReplacingOccurrencesOfString("\n", withString: "")
+    fileprivate func truncate(_ td_str:String) -> String{
+        var td_str2=td_str.replacingOccurrences(of: " ", with: "")
+        td_str2=td_str2.replacingOccurrences(of: "　", with: "")
+        td_str2=td_str2.replacingOccurrences(of: "\n", with: "")
         return td_str2
     }
     
-    private func parsePage(result:String){
+    fileprivate func parsePage(_ result:String){
         let today = getToday()
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
         var cache_hit=false
@@ -300,7 +300,7 @@ private func updateRegx(result:String){
                             var cell_text:String = ""+date_id+space+company_code_id+space+company_id+sep+data+full
 
                             if(self.mode==HttpGetTask.MODE_SEARCH){
-                                cell_text = cell_text.stringByReplacingOccurrencesOfString("\n", withString: "<br/>")
+                                cell_text = cell_text.replacingOccurrences(of: "\n", with: "<br/>")
                             }
                             
                             let tweet_text:String = ""+company_id+" "+data+" "+url
@@ -334,7 +334,7 @@ private func updateRegx(result:String){
             for cache in self.cache_texts{
                 cache.new=false
             }
-            self.new_texts.appendContentsOf(self.cache_texts)
+            self.new_texts.append(contentsOf: self.cache_texts)
         }
         
         //recent cache
@@ -346,15 +346,15 @@ private func updateRegx(result:String){
             self.insertTable("開示情報は見つかりませんでした",url:"",tweet:"",company_code_id: "",cache:"",new:false,date:"")
         }
             
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.callback(self.new_texts)
         })
     }
     
-    private func setArticleCache(){
+    fileprivate func setArticleCache(){
         self.recent_cache=self.new_texts[0].cache
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(self.recent_cache, forKey: "recent")
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(self.recent_cache, forKey: "recent")
         
         let newDatas:[NSDictionary] = self.new_texts.map{
             ["cell":$0.cell,
@@ -367,35 +367,35 @@ private func updateRegx(result:String){
              ] as NSDictionary
         }
 
-        userDefaults.setObject(newDatas,forKey:"recent_array")
+        userDefaults.set(newDatas,forKey:"recent_array")
         userDefaults.synchronize()
     }
     
-    private func getToday() -> String{
-        let now = NSDate()
+    fileprivate func getToday() -> String{
+        let now = Date()
         
-        let format = NSDateFormatter()
+        let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd"
         
-        let today = format.stringFromDate(now)
+        let today = format.string(from: now)
         return today
     }
     
     func getArticleCache() -> [Article]{
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let datas = userDefaults.objectForKey("recent_array") as? [NSDictionary] ?? []
+        let userDefaults = UserDefaults.standard
+        let datas = userDefaults.object(forKey: "recent_array") as? [NSDictionary] ?? []
         // 保存されたデータから復元出来無い場合もあり得るので、
         // mapではなくreduceを使う
         let today = getToday()
         let array = datas.reduce([]){ (ary, d:NSDictionary) -> [Article] in
             // dateやmessageがnilでないなら、MyLogDataを作って足し込む
             if let cell = d["cell"]    as? String,
-                url = d["url"] as? String,
-                tweet = d["tweet"] as? String,
-                code = d["code"] as? String,
-                cache = d["cache"] as? String,
-                new = d["new"] as? Bool,
-                date = d["date"] as? String
+                let url = d["url"] as? String,
+                let tweet = d["tweet"] as? String,
+                let code = d["code"] as? String,
+                let cache = d["cache"] as? String,
+                let new = d["new"] as? Bool,
+                let date = d["date"] as? String
             {
                 if(today == date){
                     return ary + [Article(cell: cell, url: url, tweet:tweet , code:code,cache:cache,new:new,date:date)]
@@ -411,32 +411,32 @@ private func updateRegx(result:String){
         //userDefaults.getObject(self.new_texts,forKey: "recent_array")
     }
     
-    private func error(message:String,detail:String){
+    fileprivate func error(_ message:String,detail:String){
         print(message)
         self.new_texts=[]
         self.insertTable(message,url:"",tweet:"",company_code_id: "",cache:"",new:false,date:"")
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.callback(self.new_texts)
         })
     }
 
     // HTTP-GET
-    private func getAsync(urlString:String,callback:(String?) -> ()) {
+    fileprivate func getAsync(_ urlString:String,callback:@escaping (String?) -> ()) {
         getAsyncCore(urlString,retry:false,callback:callback);
     }
     
-    private func getAsyncCore(urlString:String,retry:Bool,callback:(String?) -> ()) {
+    fileprivate func getAsyncCore(_ urlString:String,retry:Bool,callback:@escaping (String?) -> ()) {
         // create the url-request
-        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        let request = NSMutableURLRequest(url: URL(string: urlString)!)
         //print(urlString)
         
         // set the method(HTTP-GET)
-        request.HTTPMethod = "GET"
-        request.cachePolicy=NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData;
+        request.httpMethod = "GET"
+        request.cachePolicy=NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData;
         
         // use NSURLSession
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { data, response, error in
-            if let httpResponse = response as? NSHTTPURLResponse {
+        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode != 200){
                     if(retry==false){
                         self.getAsyncCore(urlString,retry:true,callback:callback)
@@ -448,14 +448,14 @@ private func updateRegx(result:String){
                 }
             }
             if (error == nil) {
-                let result = String(data: data!, encoding: NSUTF8StringEncoding)
+                let result = String(data: data!, encoding: String.Encoding.utf8)
                 callback(result)
             } else {
                 if(retry==false){
                     self.getAsyncCore(urlString,retry:true,callback:callback)
                     return
                 }
-                self.error("サーバとの通信に失敗しました。 ",detail:String(error))
+                self.error("サーバとの通信に失敗しました。 ",detail:String(describing:error))
                 return
             }
         })

@@ -19,7 +19,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     var search_query: String = ""
     var first_load : Bool = true
     var dark_mode : Bool = false;
-    var dark_mode_font_color : UIColor = UIColor.whiteColor()
+    var dark_mode_font_color : UIColor = UIColor.white
     var dark_mode_font_color_css : String = ""
     
     var page : Int = 0
@@ -38,7 +38,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             mode=HttpGetTask.MODE_MARK
         }
 
-        let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+        let myAp = UIApplication.shared.delegate as! AppDelegate
         dark_mode=myAp.isDarkMode();
         dark_mode_font_color=myAp.DarkModeFontColor()
         dark_mode_font_color_css=myAp.DarkModeFontColorCss()
@@ -52,15 +52,15 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
 
         if(!isSearchScreen()){
-            refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
+            refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), for: UIControlEvents.valueChanged)
             self.tableView.addSubview(refreshControl)
         }
         
         registMenuNormal()
-        self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
-    override func viewDidAppear(animated:Bool) {
+    override func viewDidAppear(_ animated:Bool) {
         super.viewDidAppear(animated)
         if(!isSearchScreen()){
             if(first_load){
@@ -86,15 +86,15 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         analyticsTrack();
     }
     
-    private func analyticsTrack(){
+    fileprivate func analyticsTrack(){
         let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: getTabName())
+        tracker?.set(kGAIScreenName, value: getTabName())
         
         let builder = GAIDictionaryBuilder.createScreenView()
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        tracker?.send(builder?.build() as! [AnyHashable: Any])
     }
     
-    private func getTabName() -> String{
+    fileprivate func getTabName() -> String{
         if(isSearchScreen()){
             return "search"
         }
@@ -104,7 +104,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         return "recent"
     }
     
-    func showMessage(message:String){
+    func showMessage(_ message:String){
         let art:Article = Article()
         art.cell=message
         art.url=""
@@ -122,8 +122,8 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
         let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
         let menuItem4: UIMenuItem = UIMenuItem(title: "Search", action: #selector(RecentViewController.search(_:)))
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
-        UIMenuController.sharedMenuController().update()
+        UIMenuController.shared.menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
+        UIMenuController.shared.update()
     }
     
     func registMenuMark(){
@@ -133,19 +133,19 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         let menuItem2: UIMenuItem = UIMenuItem(title: "Tweet", action: #selector(RecentViewController.tweet(_:)))
         let menuItem3: UIMenuItem = UIMenuItem(title: "Yahoo", action: #selector(RecentViewController.yahoo(_:)))
         let menuItem4: UIMenuItem = UIMenuItem(title: "Search", action: #selector(RecentViewController.search(_:)))
-        UIMenuController.sharedMenuController().menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
-        UIMenuController.sharedMenuController().update()
+        UIMenuController.shared.menuItems = [menuItem, menuItem2, menuItem3, menuItem4]
+        UIMenuController.shared.update()
     }
 
     func registMenuList(){
         //self.canDisplayBannerAds = true
 
         let menuItem: UIMenuItem = UIMenuItem(title: "Remove", action: #selector(RecentViewController.remove(_:)))
-        UIMenuController.sharedMenuController().menuItems = [menuItem]
-        UIMenuController.sharedMenuController().update()
+        UIMenuController.shared.menuItems = [menuItem]
+        UIMenuController.shared.update()
     }
 
-    func fetchCallback(new_item:[Article]){
+    func fetchCallback(_ new_item:[Article]){
         var new_texts:[Article]=[]
         
         let add_pager:Bool = new_item.count>=PAGE_UNIT/2 && (isMarkScreen() || isSearchScreen())
@@ -155,10 +155,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             let prev:Article = Article()
             prev.cell="Prev"
             prev.url="prev"
-            new_texts.insert(prev,atIndex:0)
+            new_texts.insert(prev,at:0)
         }
         
-        new_texts.appendContentsOf(new_item)
+        new_texts.append(contentsOf: new_item)
         
         if(add_pager){
             let next:Article = Article()
@@ -213,12 +213,12 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func clearTable(){
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.updateTable([])
         });
     }
     
-    func updateBudge(new_texts:[Article]) -> [Article]{
+    func updateBudge(_ new_texts:[Article]) -> [Article]{
         if(!(isSearchScreen() || isMarkScreen())){
             var mark_text:[Article]=[];
             var no_mark_text:[Article]=[];
@@ -238,18 +238,18 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
                 self.tabBarItem.badgeValue=nil
             }
             
-            mark_text.appendContentsOf(no_mark_text);
+            mark_text.append(contentsOf: no_mark_text);
             return mark_text;
         }
         return new_texts
     }
 
-    func updateTable(new_texts:[Article]){
+    func updateTable(_ new_texts:[Article]){
         self.refreshControl.endRefreshing()
         
         let sort_texts:[Article]=updateBudge(new_texts);
 
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.texts=sort_texts
             self.tableView.reloadData()
         });
@@ -258,8 +258,8 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     //セルの内容を変更
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
         
         var now:Article = Article()
         if(indexPath.row<self.texts.count){
@@ -277,7 +277,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             cell.textLabel?.textColor=dark_mode_font_color;
             
             let cellSelectedBgView = UIView()
-            cellSelectedBgView.backgroundColor = UIColor.blackColor()
+            cellSelectedBgView.backgroundColor = UIColor.black
             cell.selectedBackgroundView=cellSelectedBgView
         }
         
@@ -304,7 +304,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
             if(now.new && !isSearchScreen() && !isMarkScreen()){
                 cell.backgroundColor=UIColor(red:240/255.0*dark_new , green:240/255.0*dark_new , blue:240/255.0*dark_new , alpha:1.0)
             }else{
-                cell.backgroundColor=UIColor.clearColor()
+                cell.backgroundColor=UIColor.clear
             }
         }
         
@@ -315,19 +315,19 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
 
-    func tableView(tableView: UITableView,heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension;
     }
 
-    func tableView(tableView: UITableView,estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension;
     }
    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return texts.count
     }
 
-    func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
+    func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         let url_str:String = self.texts[indexPath.row].url
         if(url_str==""){
             return
@@ -349,40 +349,40 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     
     var svc :SFSafariViewController? = nil
     
-    func openPdf(url_str:String){
-        let url = NSURL(string: url_str)
+    func openPdf(_ url_str:String){
+        let url = URL(string: url_str)
         if(url==nil){
             return
         }
         
         if(svc != nil){
-            svc!.dismissViewControllerAnimated(false, completion: nil)
+            svc!.dismiss(animated: false, completion: nil)
             svc = nil
         }
 
-        svc = SFSafariViewController(URL: url!)
-        self.presentViewController(svc!, animated: true, completion: nil)        
+        svc = SFSafariViewController(url: url!)
+        self.present(svc!, animated: true, completion: nil)        
     }
 
-    func safariViewControllerDidFinish(controller: SFSafariViewController)
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController)
     {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
         svc = nil
     }
     
     // ★ 以下UIMenuControllerをカスタマイズするのに必要
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
     }
     
-    func tweet(idx:Int){
+    func tweet(_ idx:Int){
         let text = self.texts[idx].tweet
         if(text==""){
             return
@@ -391,10 +391,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         let composeViewController: SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
         composeViewController.setInitialText(text)
     
-        self.presentViewController(composeViewController, animated: true, completion: nil)
+        self.present(composeViewController, animated: true, completion: nil)
     }
     
-    func mark(idx:Int){
+    func mark(_ idx:Int){
         let text = self.texts[idx].code
         if(text==""){
             return
@@ -408,39 +408,39 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func yahoo(idx:Int){
+    func yahoo(_ idx:Int){
         var company : String = self.texts[idx].code
         if(company==""){
             return
         }
-        company = (company as NSString).substringToIndex(4)
+        company = (company as NSString).substring(to: 4)
 
         let text : String
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad{
+        if UIDevice.current.userInterfaceIdiom == .pad{
             text="http://stocks.finance.yahoo.co.jp/stocks/detail/?code="+company+"&d=1y";
         }else{
             text="http://m.finance.yahoo.co.jp/stock?code="+company;
         }
 
         let url_str:String = text
-        let url = NSURL(string: url_str)
-        if UIApplication.sharedApplication().canOpenURL(url!){
-            UIApplication.sharedApplication().openURL(url!)
+        let url = URL(string: url_str)
+        if UIApplication.shared.canOpenURL(url!){
+            UIApplication.shared.openURL(url!)
         }
     }
     
-    func remove(idx:Int){
+    func remove(_ idx:Int){
     }
 
-    func search(idx:Int){
+    func search(_ idx:Int){
         let company : String = self.texts[idx].code
         print(company)
         if(company==""){
             return
         }
         
-        dispatch_async(dispatch_get_main_queue(), {
-            let myAp = UIApplication.sharedApplication().delegate as! AppDelegate
+        DispatchQueue.main.async(execute: {
+            let myAp = UIApplication.shared.delegate as! AppDelegate
             if let tabvc = myAp.window!.rootViewController as? UITabBarController  {
                 let SEARCH_VIEW_INDEX:Int = 2
                 tabvc.selectedIndex = SEARCH_VIEW_INDEX
@@ -451,8 +451,8 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func listToTop(){
-        let lastPath:NSIndexPath = NSIndexPath(forRow:0, inSection:0)
-        tableView.scrollToRowAtIndexPath( lastPath , atScrollPosition: .Top, animated: true)
+        let lastPath:IndexPath = IndexPath(row:0, section:0)
+        tableView.scrollToRow( at: lastPath , at: .top, animated: true)
     }
 }
 

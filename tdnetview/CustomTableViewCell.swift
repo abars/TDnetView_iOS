@@ -23,11 +23,11 @@ class CustomTableViewCell: UITableViewCell
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return true
     }
     
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if(util){
             return false
         }
@@ -38,32 +38,32 @@ class CustomTableViewCell: UITableViewCell
         }
     }
     
-    func tweet(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func tweet(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
             self.view?.tweet(self.idx)
         })
     }
     
-    func mark(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func mark(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
             self.view?.mark(self.idx)
         })
     }
 
-    func yahoo(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func yahoo(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
             self.view?.yahoo(self.idx)
         })
     }
     
-    func remove(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func remove(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
             self.view?.remove(self.idx)
         })
     }
 
-    func search(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func search(_ sender: AnyObject) {
+        DispatchQueue.main.async(execute: {
             self.view?.search(self.idx)
         })
     }

@@ -10,9 +10,9 @@ import Foundation
 
 class MyTabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate;
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate;
         
         let currentVC = self.selectedViewController
         if currentVC==viewController{

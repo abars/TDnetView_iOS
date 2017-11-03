@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mark : Mark = Mark()
     var CRON_DEBUG : Bool = false
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         registNotification(application)
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
 
-        let localNotification = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
+        let localNotification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification
         if(localNotification != nil){
             notifyReceivedLocalNotification(localNotification!)
         }
@@ -44,25 +44,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func isDarkMode() -> Bool{
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("dark_mode") != nil){
-            let dark_mode:Bool = userDefaults.objectForKey("dark_mode")!.boolValue
+        let userDefaults = UserDefaults.standard
+        if(userDefaults.object(forKey: "dark_mode") != nil){
+            let dark_mode:Bool = (userDefaults.object(forKey: "dark_mode")! as AnyObject).boolValue
             return dark_mode;
         }
         return false;
     }
 
-    private func DarkMode(){
+    fileprivate func DarkMode(){
         let r:CGFloat = 32
         let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
 
         let font_color:UIColor=DarkModeFontColor();
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
-        var w : CGFloat = UIScreen.mainScreen().bounds.size.width
-        if(w<UIScreen.mainScreen().bounds.size.height){
-            w=UIScreen.mainScreen().bounds.size.height
+        var w : CGFloat = UIScreen.main.bounds.size.width
+        if(w<UIScreen.main.bounds.size.height){
+            w=UIScreen.main.bounds.size.height
         }
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: 20.0))
         view.backgroundColor=bg_color
@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return "color:#e0e0e0";
     }
 
-    private func analyticsBegin(){
+    fileprivate func analyticsBegin(){
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
@@ -101,13 +101,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Optional: configure GAI options.
         let gai = GAI.sharedInstance()
-        gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
     }
 
-    func registNotification(application: UIApplication) {
-        let types:UIUserNotificationType = ([.Alert, .Sound, .Badge])
-        let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
+    func registNotification(_ application: UIApplication) {
+        let types:UIUserNotificationType = ([.alert, .sound, .badge])
+        let settings:UIUserNotificationSettings = UIUserNotificationSettings(types: types, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
 
@@ -129,55 +129,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  */
     }
     
-    func sendNotification(message:String,url:String) {
+    func sendNotification(_ message:String,url:String) {
         let notification = UILocalNotification()
-        notification.fireDate = NSDate(timeIntervalSinceNow: 0);//0秒後
-        notification.timeZone = NSTimeZone.defaultTimeZone()
+        notification.fireDate = Date(timeIntervalSinceNow: 0);//0秒後
+        notification.timeZone = TimeZone.current
         notification.alertBody = message
         notification.userInfo = ["url":url]
         notification.alertAction = "OK"
         notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(notification);
+        UIApplication.shared.scheduleLocalNotification(notification);
     }
     
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         // ダウンロードなどの処理
-        if(application.isRegisteredForRemoteNotifications()){
+        if(application.isRegisteredForRemoteNotifications){
             cron({new in
                     if(new){
-                        completionHandler(UIBackgroundFetchResult.NewData)
+                        completionHandler(UIBackgroundFetchResult.newData)
                     }else{
-                        completionHandler(UIBackgroundFetchResult.NoData)
+                        completionHandler(UIBackgroundFetchResult.noData)
                     }
                 }
             )
         }
     }
     
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         /*
         var alert = UIAlertView()
         alert.title = "受け取りました"
@@ -187,20 +187,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
 
         // アプリ起動中(フォアグラウンド)に通知が届いた場合
-        if(application.applicationState == UIApplicationState.Active) {
+        if(application.applicationState == UIApplicationState.active) {
             // ここに処理を書く
             return
         }
         
         // アプリがバックグラウンドにある状態で通知が届いた場合
-        if(application.applicationState == UIApplicationState.Inactive) {
+        if(application.applicationState == UIApplicationState.inactive) {
             // ここに処理を書く
         }
         
         notifyReceivedLocalNotification(notification)
     }
 
-    func notifyReceivedLocalNotification(notification: UILocalNotification){
+    func notifyReceivedLocalNotification(_ notification: UILocalNotification){
         print("got notification")
 
         if let userInfo = notification.userInfo {
@@ -210,8 +210,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let view:RecentViewController = (tabvc.viewControllers![RECENT_VIEW_INDEX] as? RecentViewController)!
                 view.openPdf(url_str!)
             }else{
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
                     self.notifyReceivedLocalNotification(notification)
                 }
             }
@@ -248,7 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var cron_cache:[String]=[]
     
-    func cron(complete_handler: (Bool) -> Void){
+    func cron(_ complete_handler: @escaping (Bool) -> Void){
         let mode : Int = HttpGetTask.MODE_CRON
         
         let http_get_task:HttpGetTask = HttpGetTask(
@@ -257,17 +257,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dark_mode_font_color_css:"",
             callback:{article in
                 self.fetch_callback(article)
-                var new:Bool = false
+                var new_flag:Bool = false
                 if(article.count>=1){
-                    new=article[0].new
+                    new_flag=article[0].new
                 }
-                complete_handler(new)
+                complete_handler(new_flag)
             }
         )
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("cron") != nil){
-            cron_cache = userDefaults.objectForKey("cron") as! [String]
+        let userDefaults = UserDefaults.standard
+        if(userDefaults.object(forKey: "cron") != nil){
+            cron_cache = userDefaults.object(forKey: "cron") as! [String]
             if(CRON_DEBUG){
                 cron_cache=[]
             }
@@ -288,7 +288,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func fetch_callback(new_item:[Article]){
+    func fetch_callback(_ new_item:[Article]){
         var new_cache:[String] = []
         
         //Server Error
@@ -314,8 +314,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(new_cache, forKey: "cron")
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(new_cache, forKey: "cron")
         userDefaults.synchronize()
     }
 }

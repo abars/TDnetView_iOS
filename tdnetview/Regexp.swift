@@ -14,28 +14,28 @@ class Regexp {
     
     init(_ pattern: String) {
         self.pattern = pattern
-        self.internalRegexp = try! NSRegularExpression( pattern: pattern, options: [NSRegularExpressionOptions.CaseInsensitive ,NSRegularExpressionOptions.DotMatchesLineSeparators])
+        self.internalRegexp = try! NSRegularExpression( pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive ,NSRegularExpression.Options.dotMatchesLineSeparators])
     }
     
-    func isMatch(input: String) -> Bool {
-        let matches = self.internalRegexp.matchesInString( input, options: [], range:NSMakeRange(0, input.characters.count) )
+    func isMatch(_ input: String) -> Bool {
+        let matches = self.internalRegexp.matches( in: input, options: [], range:NSMakeRange(0, input.characters.count) )
         return matches.count > 0
     }
     
-    func matches(input: String) -> [String]? {
+    func matches(_ input: String) -> [String]? {
         if self.isMatch(input) {
-            let matches = self.internalRegexp.matchesInString( input, options: [], range:NSMakeRange(0, input.characters.count) )
+            let matches = self.internalRegexp.matches( in: input, options: [], range:NSMakeRange(0, input.characters.count) )
             var results: [String] = []
             for i in 0 ..< matches.count {
-                results.append( (input as NSString).substringWithRange(matches[i].range) )
+                results.append( (input as NSString).substring(with: matches[i].range) )
             }
             return results
         }
         return nil
     }
     
-    func groups(input: String) -> [[String]]? {
-        let matches = self.internalRegexp.matchesInString(input, options: [], range:NSMakeRange(0, input.characters.count) )
+    func groups(_ input: String) -> [[String]]? {
+        let matches = self.internalRegexp.matches(in: input, options: [], range:NSMakeRange(0, input.characters.count) )
         if matches.count > 0 {
             var result: [[String]] = []
             for i in 0 ..< matches.count {
@@ -50,7 +50,7 @@ class Regexp {
                 for j in 0..<matches[i].numberOfRanges
                 {
                     let nsstring: NSString = input as NSString
-                    temp.append(nsstring.substringWithRange(matches[i].rangeAtIndex(j)))
+                    temp.append(nsstring.substring(with: matches[i].rangeAt(j)))
                 }
                 result.append(temp)
                 

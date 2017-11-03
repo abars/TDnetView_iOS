@@ -13,7 +13,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
     @IBOutlet weak var mySearchBar: UISearchBar!
 
     var search_cache:[String]=[]
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard
     var current_view:Bool = false
     var request_query:String = ""
     var prevent_refresh:Bool = false
@@ -27,12 +27,12 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func openPdf(url_str:String){
+    override func openPdf(_ url_str:String){
         prevent_refresh=true
         super.openPdf(url_str)
     }
     
-    override func viewDidAppear(animated:Bool) {
+    override func viewDidAppear(_ animated:Bool) {
         super.viewDidAppear(animated)
 
         if(!prevent_refresh){
@@ -51,7 +51,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         refreshList();
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if(is_ad_enable){
             return 50.0
         }else{
@@ -59,7 +59,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         }
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if(!is_ad_enable){
             return nil
         }
@@ -71,16 +71,16 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         
         let x:CGFloat = (tableView.frame.width - bannerView.frame.size.width)/2;
         let y:CGFloat = 0;
-        bannerView.frame = CGRectMake(x, y, bannerView.frame.size.width, bannerView.frame.size.height);
+        bannerView.frame = CGRect(x: x, y: y, width: bannerView.frame.size.width, height: bannerView.frame.size.height);
         
         let request=GADRequest()
         request.testDevices = [ "9bdf501780072be275b683e5449b231b",kDFPSimulatorID ]
-        bannerView.loadRequest(request)
+        bannerView.load(request)
         
         return bannerView
     }
     
-    override func viewDidDisappear(animated:Bool) {
+    override func viewDidDisappear(_ animated:Bool) {
         super.viewDidDisappear(animated)
 
         if(!prevent_refresh){
@@ -95,8 +95,8 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         
         var texts : [Article]=[]
         
-        if(userDefaults.objectForKey("search") != nil){
-            search_cache = userDefaults.objectForKey("search") as! [String]
+        if(userDefaults.object(forKey: "search") != nil){
+            search_cache = userDefaults.object(forKey: "search") as! [String]
         }
         if(search_cache.count == 0){
             search_cache.append("title:株主優待")
@@ -120,7 +120,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         // Dispose of any resources that can be recreated.
     }
 
-    func searchBarSearchButtonClicked(mySearchBar: UISearchBar){
+    func searchBarSearchButtonClicked(_ mySearchBar: UISearchBar){
         print( mySearchBar.text )
         if(mySearchBar.text != ""){
             searchCore(mySearchBar.text!,update_history: true)
@@ -128,7 +128,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         mySearchBar.resignFirstResponder()
     }
     
-    func searchRequest(query:String){
+    func searchRequest(_ query:String){
         if(current_view){
             searchCore(query,update_history: false)
         }else{
@@ -136,20 +136,20 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         }
     }
     
-    func searchCore(text:String,update_history:Bool){
+    func searchCore(_ text:String,update_history:Bool){
         self.showMessage("検索中...")
         
         mySearchBar.text=text
         
         if(update_history){
             if(search_cache.contains(text)){
-                let idx:Int = search_cache.indexOf(text)!
-                search_cache.removeAtIndex(idx)
+                let idx:Int = search_cache.index(of: text)!
+                search_cache.remove(at: idx)
             }
-            search_cache.insert(text, atIndex: 0)
+            search_cache.insert(text, at: 0)
         }
         
-        userDefaults.setObject(search_cache, forKey: "search")
+        userDefaults.set(search_cache, forKey: "search")
         userDefaults.synchronize()
      
         super.registMenuNormal()
@@ -161,7 +161,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         refresh()
     }
 
-    override func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
+    override func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         let url_str:String = self.texts[indexPath.row].url
         if(url_str=="search"){
             let query:String = self.texts[indexPath.row].cell
@@ -169,20 +169,20 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
             searchCore(query,update_history:true)
             return
         }
-        super.tableView(table, didSelectRowAtIndexPath: indexPath)
+        super.tableView(table, didSelectRowAt: indexPath)
     }
 
     override func isSearchScreen() -> Bool{
         return true;
     }
 
-    override func remove(idx:Int){
+    override func remove(_ idx:Int){
         let text:String = self.texts[idx].cell
         if(search_cache.contains(text)){
-            let idx:Int = search_cache.indexOf(text)!
-            search_cache.removeAtIndex(idx)
+            let idx:Int = search_cache.index(of: text)!
+            search_cache.remove(at: idx)
         }
-        userDefaults.setObject(search_cache, forKey: "search")
+        userDefaults.set(search_cache, forKey: "search")
         userDefaults.synchronize()
 
         self.refreshList()

@@ -13,28 +13,28 @@ class Mark{
     var is_updated_flag:Bool = false
     
     init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if(userDefaults.objectForKey("mark") != nil){
-            mark_list = userDefaults.objectForKey("mark") as! [String]
+        let userDefaults = UserDefaults.standard
+        if(userDefaults.object(forKey: "mark") != nil){
+            mark_list = userDefaults.object(forKey: "mark") as! [String]
         }
     }
     
-    func add_remove(company_id:String){
+    func add_remove(_ company_id:String){
         if(mark_list.contains(company_id)){
-            let idx:Int = mark_list.indexOf(company_id)!
-            mark_list.removeAtIndex(idx)
+            let idx:Int = mark_list.index(of: company_id)!
+            mark_list.remove(at: idx)
         }else{
-            mark_list.insert(company_id, atIndex: 0)
+            mark_list.insert(company_id, at: 0)
         }
 
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(mark_list, forKey: "mark")
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(mark_list, forKey: "mark")
         userDefaults.synchronize()
         
         is_updated_flag=true
     }
     
-    func is_mark(company_id:String) -> Bool{
+    func is_mark(_ company_id:String) -> Bool{
         return mark_list.contains(company_id)
     }
     

@@ -16,7 +16,7 @@ class MarkViewController: RecentViewController,UISearchBarDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func viewDidAppear(animated:Bool) {
+    override func viewDidAppear(_ animated:Bool) {
         super.viewDidAppear(animated)
 
         if(mark.is_updated()){
@@ -27,7 +27,7 @@ class MarkViewController: RecentViewController,UISearchBarDelegate {
         self.registMenuMark()
     }
 
-    override func viewDidDisappear(animated:Bool) {
+    override func viewDidDisappear(_ animated:Bool) {
         super.viewDidDisappear(animated)
     }
     
