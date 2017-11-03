@@ -144,7 +144,7 @@ fileprivate func updateRegx(_ result:String){
         let encodedData = string.data(using: String.Encoding.utf8)!
         let attributedOptions : [String: AnyObject] = [
             NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType as AnyObject,
-            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8 as AnyObject
+            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue as AnyObject
         ]
         
         var attributedString:NSAttributedString?=nil
@@ -226,6 +226,7 @@ fileprivate func updateRegx(_ result:String){
         let today = getToday()
         let tr_list:[[String]]?=Regexp(self.regx.TDNET_TR_PATTERN).groups(result)
         var cache_hit=false
+        
         if(tr_list != nil){
             for tr in tr_list! {
                 let tr_str=tr[1]
@@ -311,6 +312,7 @@ fileprivate func updateRegx(_ result:String){
                 }
             }
         }
+ 
         
         //next page
         
