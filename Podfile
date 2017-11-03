@@ -6,7 +6,7 @@
 target 'tdnetview' do
 
 pod 'Google/Analytics'
-pod 'Google/AdMob'
+pod 'Google-Mobile-Ads-SDK'
 
 end
 
