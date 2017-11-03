@@ -45,11 +45,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EXF-AS-l4w">
-                                <rect key="frame" x="0.0" y="96" width="375" height="633"/>
+                                <rect key="frame" x="0.0" y="100" width="375" height="629"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Jlr-4L-pG2">
-                                <rect key="frame" x="0.0" y="40" width="375" height="56"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                         </subviews>
@@ -60,7 +60,7 @@
                             <constraint firstItem="EXF-AS-l4w" firstAttribute="leading" secondItem="8D0-H8-jFE" secondAttribute="leading" id="Jsh-HN-fke"/>
                             <constraint firstItem="EXF-AS-l4w" firstAttribute="bottom" secondItem="8D0-H8-jFE" secondAttribute="bottom" id="WLY-1a-bIG"/>
                             <constraint firstItem="Jlr-4L-pG2" firstAttribute="trailing" secondItem="8D0-H8-jFE" secondAttribute="trailing" id="Xsm-RJ-EaX"/>
-                            <constraint firstItem="Jlr-4L-pG2" firstAttribute="top" secondItem="8D0-H8-jFE" secondAttribute="top" constant="-4" id="cfm-Ef-tJO"/>
+                            <constraint firstItem="Jlr-4L-pG2" firstAttribute="top" secondItem="8D0-H8-jFE" secondAttribute="top" id="cfm-Ef-tJO"/>
                             <constraint firstItem="EXF-AS-l4w" firstAttribute="trailing" secondItem="8D0-H8-jFE" secondAttribute="trailing" id="fKn-se-I30"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8D0-H8-jFE"/>
