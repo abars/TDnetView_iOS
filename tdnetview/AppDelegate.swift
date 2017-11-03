@@ -51,6 +51,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return false;
     }
+    
+    var dark_view:UIView?=nil
+    
+    func onOrientationChange(notification: NSNotification){
+        switchNavigationBarBackground();
+    }
+    
+    func switchNavigationBarBackground(){
+        if(!(dark_view==nil)){
+            let deviceOrientation: UIDeviceOrientation!  = UIDevice.current.orientation
+            if UIDeviceOrientationIsLandscape(deviceOrientation) {
+            self.window!.rootViewController!.view.sendSubview(toBack: dark_view!) //iOS11のlandscapeでstatus barがなくなったので再背面に移動
+            }else{
+            self.window!.rootViewController!.view.bringSubview(toFront: dark_view!) //iOS11のlandscapeでstatus barがなくなったので再背面に移動したのを戻す
+            }
+        }
+    }
 
     fileprivate func DarkMode(){
         let r:CGFloat = 32
@@ -64,10 +81,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(w<UIScreen.main.bounds.size.height){
             w=UIScreen.main.bounds.size.height
         }
-        let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: 20.0))
-        view.backgroundColor=bg_color
-        self.window!.rootViewController!.view.addSubview(view)
-        
+        dark_view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: 20.0))
+        dark_view!.backgroundColor=bg_color
+        self.window!.rootViewController!.view.addSubview(dark_view!)
+
+        switchNavigationBarBackground()   //初回起動ケア
+        NotificationCenter.default.addObserver(self, selector: #selector(onOrientationChange(notification:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+
         UITabBar.appearance().backgroundColor = bg_color
         UITabBar.appearance().barTintColor = bg_color
         UITabBar.appearance().tintColor = UIColor(red: 24*4/255, green: 31*4/255, blue: 71*4/255, alpha: 1.0)
