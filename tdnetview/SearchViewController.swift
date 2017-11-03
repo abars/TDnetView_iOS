@@ -69,7 +69,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         bannerView.delegate = self
         bannerView.rootViewController = self
         
-        let x:CGFloat = (tableView.frame.width - bannerView.frame.size.width)/2;
+        let x:CGFloat = 0;//(tableView.frame.width - bannerView.frame.size.width)/2;
         let y:CGFloat = 0;
         bannerView.frame = CGRect(x: x, y: y, width: bannerView.frame.size.width, height: bannerView.frame.size.height);
         

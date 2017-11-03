@@ -18,13 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sSv-5F-89L">
-                                <rect key="frame" x="0.0" y="20" width="375" height="743"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sSv-5F-89L">
+                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="sSv-5F-89L" firstAttribute="top" secondItem="HgN-j9-OVL" secondAttribute="top" id="Ab8-7u-WGA"/>
+                            <constraint firstItem="sSv-5F-89L" firstAttribute="leading" secondItem="HgN-j9-OVL" secondAttribute="leading" id="N9C-bH-KNQ"/>
+                            <constraint firstItem="sSv-5F-89L" firstAttribute="trailing" secondItem="HgN-j9-OVL" secondAttribute="trailing" id="bnA-DZ-TB7"/>
+                            <constraint firstItem="sSv-5F-89L" firstAttribute="bottom" secondItem="HgN-j9-OVL" secondAttribute="bottom" id="lR3-Sa-ZNX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="HgN-j9-OVL"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="recents" id="acW-dT-cKf"/>
@@ -103,13 +108,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MdI-SK-F5C">
-                                <rect key="frame" x="0.0" y="20" width="375" height="743"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MdI-SK-F5C">
+                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="MdI-SK-F5C" firstAttribute="trailing" secondItem="vJD-5E-XfN" secondAttribute="trailing" id="1Sb-S8-4ov"/>
+                            <constraint firstItem="MdI-SK-F5C" firstAttribute="bottom" secondItem="vJD-5E-XfN" secondAttribute="bottom" id="a5U-nr-hi9"/>
+                            <constraint firstItem="MdI-SK-F5C" firstAttribute="top" secondItem="vJD-5E-XfN" secondAttribute="top" id="pgV-rD-eLM"/>
+                            <constraint firstItem="MdI-SK-F5C" firstAttribute="leading" secondItem="vJD-5E-XfN" secondAttribute="leading" id="r3y-hB-Bzy"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="vJD-5E-XfN"/>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="QGC-bh-Hqt" userLabel="Mark"/>
