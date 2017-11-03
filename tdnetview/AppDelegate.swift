@@ -81,7 +81,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(w<UIScreen.main.bounds.size.height){
             w=UIScreen.main.bounds.size.height
         }
-        dark_view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: 20.0))
+        var h : CGFloat=20.0
+        if #available(iOS 11.0, *) {
+            if(UIApplication.shared.windows[0].safeAreaInsets != UIEdgeInsets.zero){
+                h=44.0
+            }
+        }
+        dark_view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: h))
         dark_view!.backgroundColor=bg_color
         self.window!.rootViewController!.view.addSubview(dark_view!)
 
