@@ -44,6 +44,12 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         dark_mode_font_color_css=myAp.DarkModeFontColorCss()
         http_get_task = HttpGetTask(mode:mode,dark_mode:dark_mode,dark_mode_font_color_css:dark_mode_font_color_css,callback:self.fetchCallback)
         
+        if(dark_mode){
+            let r:CGFloat = 32
+            let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
+            view.backgroundColor = bg_color
+        }
+
         self.mark = myAp.mark
         
         tableView.delegate = self

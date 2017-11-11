@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension UIApplication {
+    class var statusBarBackgroundColor: UIColor? {
+        get {
+            return (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor
+        } set {
+            (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = newValue
+        }
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -51,49 +61,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return false;
     }
-    
-    var dark_view:UIView?=nil
-    
-    func onOrientationChange(notification: NSNotification){
-        switchNavigationBarBackground();
-    }
-    
-    func switchNavigationBarBackground(){
-        if(!(dark_view==nil)){
-            let deviceOrientation: UIDeviceOrientation!  = UIDevice.current.orientation
-            if UIDeviceOrientationIsLandscape(deviceOrientation) {
-            self.window!.rootViewController!.view.sendSubview(toBack: dark_view!) //iOS11のlandscapeでstatus barがなくなったので再背面に移動
-            }else{
-            self.window!.rootViewController!.view.bringSubview(toFront: dark_view!) //iOS11のlandscapeでstatus barがなくなったので再背面に移動したのを戻す
-            }
-        }
-    }
 
     fileprivate func DarkMode(){
         let r:CGFloat = 32
         let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
-
+        
         let font_color:UIColor=DarkModeFontColor();
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        UIApplication.statusBarBackgroundColor = bg_color;
         
-        var w : CGFloat = UIScreen.main.bounds.size.width
-        if(w<UIScreen.main.bounds.size.height){
-            w=UIScreen.main.bounds.size.height
-        }
-        var h : CGFloat=20.0
-        if #available(iOS 11.0, *) {
-            if(UIApplication.shared.windows[0].safeAreaInsets != UIEdgeInsets.zero){
-                h=44.0
-            }
-        }
-        dark_view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: w, height: h))
-        dark_view!.backgroundColor=bg_color
-        self.window!.rootViewController!.view.addSubview(dark_view!)
-
-        switchNavigationBarBackground()   //初回起動ケア
-        NotificationCenter.default.addObserver(self, selector: #selector(onOrientationChange(notification:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-
         UITabBar.appearance().backgroundColor = bg_color
         UITabBar.appearance().barTintColor = bg_color
         UITabBar.appearance().tintColor = UIColor(red: 24*4/255, green: 31*4/255, blue: 71*4/255, alpha: 1.0)
