@@ -203,6 +203,11 @@ fileprivate func updateRegx(_ result:String){
         }
         
         self.getAsync(tdnet_url,callback:{ result in
+            if(result == nil){
+                self.error("サーバとの通信に失敗しました。 ",detail:tdnet_url)
+                return
+            }
+            
             let pattern = self.regx.TDNET_DAY_PAGE_PATTERN
             let ret:[[String]] = Regexp(pattern).groups(result!)!
             
