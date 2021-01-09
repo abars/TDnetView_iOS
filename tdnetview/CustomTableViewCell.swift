@@ -19,7 +19,7 @@ class CustomTableViewCell: UITableViewCell
         super.init(coder: aDecoder)!
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
@@ -38,31 +38,31 @@ class CustomTableViewCell: UITableViewCell
         }
     }
     
-    func tweet(_ sender: AnyObject) {
+    @objc func tweet(_ sender: AnyObject) {
         DispatchQueue.main.async(execute: {
             self.view?.tweet(self.idx)
         })
     }
     
-    func mark(_ sender: AnyObject) {
+    @objc func mark(_ sender: AnyObject) {
         DispatchQueue.main.async(execute: {
             self.view?.mark(self.idx)
         })
     }
 
-    func yahoo(_ sender: AnyObject) {
+    @objc func yahoo(_ sender: AnyObject) {
         DispatchQueue.main.async(execute: {
             self.view?.yahoo(self.idx)
         })
     }
     
-    func remove(_ sender: AnyObject) {
+    @objc func remove(_ sender: AnyObject) {
         DispatchQueue.main.async(execute: {
             self.view?.remove(self.idx)
         })
     }
 
-    func search(_ sender: AnyObject) {
+    @objc func search(_ sender: AnyObject) {
         DispatchQueue.main.async(execute: {
             self.view?.search(self.idx)
         })

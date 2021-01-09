@@ -26,11 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mark : Mark = Mark()
     var CRON_DEBUG : Bool = false
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         registNotification(application)
-        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         
         //sendNotification("test",url:"url")
         if(CRON_DEBUG){
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
 
-        let localNotification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification
+        let localNotification = launchOptions?[UIApplication.LaunchOptionsKey.localNotification] as? UILocalNotification
         if(localNotification != nil){
             notifyReceivedLocalNotification(localNotification!)
         }
@@ -190,13 +190,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
 
         // アプリ起動中(フォアグラウンド)に通知が届いた場合
-        if(application.applicationState == UIApplicationState.active) {
+        if(application.applicationState == UIApplication.State.active) {
             // ここに処理を書く
             return
         }
         
         // アプリがバックグラウンドにある状態で通知が届いた場合
-        if(application.applicationState == UIApplicationState.inactive) {
+        if(application.applicationState == UIApplication.State.inactive) {
             // ここに処理を書く
         }
         

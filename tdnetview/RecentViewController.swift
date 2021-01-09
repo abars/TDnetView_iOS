@@ -55,10 +55,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
 
         if(!isSearchScreen()){
-            refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), for: UIControlEvents.valueChanged)
+            refreshControl.addTarget(self, action: #selector(RecentViewController.refresh), for: UIControl.Event.valueChanged)
             self.tableView.addSubview(refreshControl)
         }
         
@@ -199,7 +199,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         self.updateTable([])
     }
 
-    func refresh() {
+    @objc func refresh() {
         if(refreshing){
             return
         }
@@ -265,7 +265,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     
     //セルの内容を変更
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
+        let cell: CustomTableViewCell = CustomTableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "Cell")
         
         var now:Article = Article()
         if(indexPath.row<self.texts.count){
@@ -322,11 +322,11 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(_ tableView: UITableView,heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension;
+        return UITableView.automaticDimension;
     }
 
     func tableView(_ tableView: UITableView,estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension;
+        return UITableView.automaticDimension;
     }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -388,7 +388,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
     }
     
-    func tweet(_ idx:Int){
+    @objc func tweet(_ idx:Int){
         let text = self.texts[idx].tweet
         if(text==""){
             return
@@ -400,7 +400,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         self.present(composeViewController, animated: true, completion: nil)
     }
     
-    func mark(_ idx:Int){
+    @objc func mark(_ idx:Int){
         let text = self.texts[idx].code
         if(text==""){
             return
@@ -414,7 +414,7 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func yahoo(_ idx:Int){
+    @objc func yahoo(_ idx:Int){
         var company : String = self.texts[idx].code
         if(company==""){
             return
@@ -435,10 +435,10 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    func remove(_ idx:Int){
+    @objc func remove(_ idx:Int){
     }
 
-    func search(_ idx:Int){
+    @objc func search(_ idx:Int){
         let company : String = self.texts[idx].code
         print(company)
         if(company==""){
