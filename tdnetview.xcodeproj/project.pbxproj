@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A52B7E53ED74CE78C19326C /* libPods-tdnetviewTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE8D7A6967E24E0E27B9022 /* libPods-tdnetviewTests.a */; };
 		8981392F1CAF935F0098C728 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8981392E1CAF935F0098C728 /* iAd.framework */; };
 		898139321CAF942B0098C728 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898139301CAF942B0098C728 /* RecentViewController.swift */; };
 		898139331CAF942B0098C728 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898139311CAF942B0098C728 /* SearchViewController.swift */; };
@@ -27,8 +28,7 @@
 		89C9D07E1CA61DBA00FD692B /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07D1CA61DBA00FD692B /* Mark.swift */; };
 		89C9D0801CA6C49B00FD692B /* MarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */; };
 		89FB4E651CD4454F009B2B79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89FB4E641CD4454F009B2B79 /* GoogleService-Info.plist */; };
-		9F7D4787A907501F0A428401 /* libPods-tdnetview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5E1E0AB5FB603187406FB8 /* libPods-tdnetview.a */; };
-		F20175D4297476EB16A67512 /* libPods-tdnetviewTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D8740A3B0818194F9351774 /* libPods-tdnetviewTests.a */; };
+		E968DE9B03A41B90BF35712D /* libPods-tdnetview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49347B096F64E220D53A95DD /* libPods-tdnetview.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,10 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05779E3FE49326E419E3F99D /* Pods-tdnetview.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetview.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tdnetview/Pods-tdnetview.debug.xcconfig"; sourceTree = "<group>"; };
-		3262ACBEF5EF40A5FC119CF5 /* Pods-tdnetviewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetviewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests.release.xcconfig"; sourceTree = "<group>"; };
-		7D8740A3B0818194F9351774 /* libPods-tdnetviewTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tdnetviewTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		84FBCA881E54669794052DBA /* Pods-tdnetview.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetview.release.xcconfig"; path = "Pods/Target Support Files/Pods-tdnetview/Pods-tdnetview.release.xcconfig"; sourceTree = "<group>"; };
+		3EE8D7A6967E24E0E27B9022 /* libPods-tdnetviewTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tdnetviewTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49347B096F64E220D53A95DD /* libPods-tdnetview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tdnetview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		543BAAEE553DCAEC52FF3C4C /* Pods-tdnetview.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetview.debug.xcconfig"; path = "Target Support Files/Pods-tdnetview/Pods-tdnetview.debug.xcconfig"; sourceTree = "<group>"; };
+		753E7592997603FB321F78A6 /* Pods-tdnetviewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetviewTests.debug.xcconfig"; path = "Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8981392E1CAF935F0098C728 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		898139301CAF942B0098C728 /* RecentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
 		898139311CAF942B0098C728 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -71,8 +71,8 @@
 		89C9D07F1CA6C49B00FD692B /* MarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkViewController.swift; sourceTree = "<group>"; };
 		89FB4E641CD4454F009B2B79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		89FB4E661CD44627009B2B79 /* BridgeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeHeader.h; sourceTree = "<group>"; };
-		AE5E1E0AB5FB603187406FB8 /* libPods-tdnetview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-tdnetview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5BA8713BE2036331D4E71F9 /* Pods-tdnetviewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetviewTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8F7CF3347D56D76AE85CC27A /* Pods-tdnetview.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetview.release.xcconfig"; path = "Target Support Files/Pods-tdnetview/Pods-tdnetview.release.xcconfig"; sourceTree = "<group>"; };
+		FC51940F40D1CC1CA3FD95F9 /* Pods-tdnetviewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tdnetviewTests.release.xcconfig"; path = "Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8981392F1CAF935F0098C728 /* iAd.framework in Frameworks */,
-				9F7D4787A907501F0A428401 /* libPods-tdnetview.a in Frameworks */,
+				E968DE9B03A41B90BF35712D /* libPods-tdnetview.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,18 +89,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F20175D4297476EB16A67512 /* libPods-tdnetviewTests.a in Frameworks */,
+				5A52B7E53ED74CE78C19326C /* libPods-tdnetviewTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8574ECD8DD6624B606018505 /* Frameworks */ = {
+		00F2557BC5FDD75B6DCB412A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE5E1E0AB5FB603187406FB8 /* libPods-tdnetview.a */,
-				7D8740A3B0818194F9351774 /* libPods-tdnetviewTests.a */,
+				49347B096F64E220D53A95DD /* libPods-tdnetview.a */,
+				3EE8D7A6967E24E0E27B9022 /* libPods-tdnetviewTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,8 +112,8 @@
 				89ACACD31AD8D7E900AAF967 /* tdnetview */,
 				89ACACEB1AD8D7E900AAF967 /* tdnetviewTests */,
 				89ACACD21AD8D7E900AAF967 /* Products */,
-				BF43D8E4E4B2FC5313DB2643 /* Pods */,
-				8574ECD8DD6624B606018505 /* Frameworks */,
+				EF0422FAAD8FB2213C70DC45 /* Pods */,
+				00F2557BC5FDD75B6DCB412A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -178,15 +178,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BF43D8E4E4B2FC5313DB2643 /* Pods */ = {
+		EF0422FAAD8FB2213C70DC45 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				05779E3FE49326E419E3F99D /* Pods-tdnetview.debug.xcconfig */,
-				84FBCA881E54669794052DBA /* Pods-tdnetview.release.xcconfig */,
-				C5BA8713BE2036331D4E71F9 /* Pods-tdnetviewTests.debug.xcconfig */,
-				3262ACBEF5EF40A5FC119CF5 /* Pods-tdnetviewTests.release.xcconfig */,
+				543BAAEE553DCAEC52FF3C4C /* Pods-tdnetview.debug.xcconfig */,
+				8F7CF3347D56D76AE85CC27A /* Pods-tdnetview.release.xcconfig */,
+				753E7592997603FB321F78A6 /* Pods-tdnetviewTests.debug.xcconfig */,
+				FC51940F40D1CC1CA3FD95F9 /* Pods-tdnetviewTests.release.xcconfig */,
 			);
-			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,12 +196,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89ACACF21AD8D7E900AAF967 /* Build configuration list for PBXNativeTarget "tdnetview" */;
 			buildPhases = (
-				6F2CEE55A06C0D8331590945 /* [CP] Check Pods Manifest.lock */,
+				2A8B83699AE686FDFB748BD1 /* [CP] Check Pods Manifest.lock */,
 				89ACACCD1AD8D7E900AAF967 /* Sources */,
 				89ACACCE1AD8D7E900AAF967 /* Frameworks */,
 				89ACACCF1AD8D7E900AAF967 /* Resources */,
-				4BB082117081C4C12887E747 /* [CP] Embed Pods Frameworks */,
-				C181ADC0458D4BF5DFB4D614 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -216,12 +214,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89ACACF51AD8D7E900AAF967 /* Build configuration list for PBXNativeTarget "tdnetviewTests" */;
 			buildPhases = (
-				C20DEEA9BB67FF8360DD02D5 /* [CP] Check Pods Manifest.lock */,
+				A792B07CE43F4771888B10E3 /* [CP] Check Pods Manifest.lock */,
 				89ACACE41AD8D7E900AAF967 /* Sources */,
 				89ACACE51AD8D7E900AAF967 /* Frameworks */,
 				89ACACE61AD8D7E900AAF967 /* Resources */,
-				FCED0DC1C642CC8727DE2BCE /* [CP] Embed Pods Frameworks */,
-				A9332AF6E8B616CC2444950A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -307,94 +303,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4BB082117081C4C12887E747 /* [CP] Embed Pods Frameworks */ = {
+		2A8B83699AE686FDFB748BD1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tdnetview/Pods-tdnetview-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6F2CEE55A06C0D8331590945 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tdnetview-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A9332AF6E8B616CC2444950A /* [CP] Copy Pods Resources */ = {
+		A792B07CE43F4771888B10E3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C181ADC0458D4BF5DFB4D614 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tdnetview/Pods-tdnetview-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C20DEEA9BB67FF8360DD02D5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tdnetviewTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FCED0DC1C642CC8727DE2BCE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tdnetviewTests/Pods-tdnetviewTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -505,7 +455,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -556,7 +506,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -568,14 +518,13 @@
 		};
 		89ACACF31AD8D7E900AAF967 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05779E3FE49326E419E3F99D /* Pods-tdnetview.debug.xcconfig */;
+			baseConfigurationReference = 543BAAEE553DCAEC52FF3C4C /* Pods-tdnetview.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8HT39MV6J6;
 				INFOPLIST_FILE = tdnetview/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "biz.abars.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -588,14 +537,13 @@
 		};
 		89ACACF41AD8D7E900AAF967 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84FBCA881E54669794052DBA /* Pods-tdnetview.release.xcconfig */;
+			baseConfigurationReference = 8F7CF3347D56D76AE85CC27A /* Pods-tdnetview.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8HT39MV6J6;
 				INFOPLIST_FILE = tdnetview/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "biz.abars.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -608,7 +556,7 @@
 		};
 		89ACACF61AD8D7E900AAF967 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5BA8713BE2036331D4E71F9 /* Pods-tdnetviewTests.debug.xcconfig */;
+			baseConfigurationReference = 753E7592997603FB321F78A6 /* Pods-tdnetviewTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -631,7 +579,7 @@
 		};
 		89ACACF71AD8D7E900AAF967 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3262ACBEF5EF40A5FC119CF5 /* Pods-tdnetviewTests.release.xcconfig */;
+			baseConfigurationReference = FC51940F40D1CC1CA3FD95F9 /* Pods-tdnetviewTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

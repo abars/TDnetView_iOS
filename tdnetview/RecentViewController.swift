@@ -93,11 +93,14 @@ class RecentViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     fileprivate func analyticsTrack(){
+        /*
+        // TBD
         let tracker = GAI.sharedInstance().defaultTracker
         tracker?.set(kGAIScreenName, value: getTabName())
         
         let builder = GAIDictionaryBuilder.createScreenView()
         tracker?.send(builder?.build() as! [AnyHashable: Any])
+         */
     }
     
     fileprivate func getTabName() -> String{

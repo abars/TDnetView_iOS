@@ -9,7 +9,8 @@
 #ifndef BridgeHeader_h
 #define BridgeHeader_h
 
-#import <Google/Analytics.h>
+//#import <GoogleAnalytics/GAI.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 
 @import GoogleMobileAds;
 
