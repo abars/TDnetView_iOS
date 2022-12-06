@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Register for Push Notifications before iOS 8
             application.registerForRemoteNotificationTypes([.Alert, .Sound, .Badge])
         }
- */
+        */
     }
     
     func sendNotification(_ message:String,url:String) {

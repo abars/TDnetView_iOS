@@ -74,7 +74,6 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         bannerView.frame = CGRect(x: x, y: y, width: bannerView.frame.size.width, height: bannerView.frame.size.height);
         
         let request=GADRequest()
-        //request.testDevices = [ "9bdf501780072be275b683e5449b231b", GADSimulatorID ]
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ GADSimulatorID ]
         bannerView.load(request)
         
