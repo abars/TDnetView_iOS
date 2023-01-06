@@ -7,16 +7,7 @@
 //
 
 import UIKit
-
-extension UIApplication {
-    class var statusBarBackgroundColor: UIColor? {
-        get {
-            return (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor
-        } set {
-            (shared.value(forKey: "statusBar") as? UIView)?.backgroundColor = newValue
-        }
-    }
-}
+import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -46,46 +37,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         analyticsBegin();
 
-        if(isDarkMode()){
-            DarkMode();
-        }
-        
         return true
     }
     
     func isDarkMode() -> Bool{
-        let userDefaults = UserDefaults.standard
-        if(userDefaults.object(forKey: "dark_mode") != nil){
-            let dark_mode:Bool = (userDefaults.object(forKey: "dark_mode")! as AnyObject).boolValue
-            return dark_mode;
+        // os default dark mode
+        if (UITraitCollection.current.userInterfaceStyle == .dark) {
+            return true;
+        }else{
+            return false;
         }
-        return false;
     }
 
-    fileprivate func DarkMode(){
-        let r:CGFloat = 32
-        let bg_color:UIColor=UIColor(red: r/255, green: r/255, blue: r/255, alpha: 1.0)
-        
-        let font_color:UIColor=DarkModeFontColor();
-        
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-        UIApplication.statusBarBackgroundColor = bg_color;
-        
-        UITabBar.appearance().backgroundColor = bg_color
-        UITabBar.appearance().barTintColor = bg_color
-        UITabBar.appearance().tintColor = UIColor(red: 24*4/255, green: 31*4/255, blue: 71*4/255, alpha: 1.0)
-        
-        UITableView.appearance().backgroundColor = bg_color
-        UITableView.appearance().tintColor = font_color
-
-        UISearchBar.appearance().backgroundColor = bg_color
-        UISearchBar.appearance().barTintColor = bg_color
-        UISearchBar.appearance().tintColor = font_color
-
-        UITextField.appearance().backgroundColor = font_color
-        UITextField.appearance().tintColor = font_color
-    }
-    
     func DarkModeFontColor() -> UIColor{
         let r2:CGFloat = 224
         let font_color:UIColor=UIColor(red: r2/255, green: r2/255, blue: r2/255, alpha: 1.0)
@@ -97,15 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     fileprivate func analyticsBegin(){
-        // Configure tracker from GoogleService-Info.plist.
-        var configureError:NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        // Firebase Analytics Tracker
+        FirebaseApp.configure();
         
-        // Optional: configure GAI options.
-        let gai = GAI.sharedInstance()
-        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
-        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
+        // Admob
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
 
     func registNotification(_ application: UIApplication) {
@@ -129,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Register for Push Notifications before iOS 8
             application.registerForRemoteNotificationTypes([.Alert, .Sound, .Badge])
         }
- */
+        */
     }
     
     func sendNotification(_ message:String,url:String) {

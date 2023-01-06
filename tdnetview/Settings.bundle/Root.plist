@@ -4,18 +4,5 @@
 <dict>
 	<key>StringsTable</key>
 	<string>Root</string>
-	<key>PreferenceSpecifiers</key>
-	<array>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Dark Mode</string>
-			<key>Key</key>
-			<string>dark_mode</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-	</array>
 </dict>
 </plist>

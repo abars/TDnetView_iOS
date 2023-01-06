@@ -9,8 +9,6 @@
 #ifndef BridgeHeader_h
 #define BridgeHeader_h
 
-#import <Google/Analytics.h>
-
 @import GoogleMobileAds;
 
 #endif /* BridgeHeader_h */

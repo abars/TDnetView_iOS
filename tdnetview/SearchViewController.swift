@@ -64,7 +64,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
             return nil
         }
         var bannerView: GADBannerView = GADBannerView()
-        bannerView = GADBannerView(adSize:kGADAdSizeBanner)
+        bannerView = GADBannerView(adSize:GADAdSizeBanner)
         bannerView.adUnitID = "ca-app-pub-8699119390634135/7750253209"
         bannerView.delegate = self
         bannerView.rootViewController = self
@@ -74,7 +74,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         bannerView.frame = CGRect(x: x, y: y, width: bannerView.frame.size.width, height: bannerView.frame.size.height);
         
         let request=GADRequest()
-        request.testDevices = [ "9bdf501780072be275b683e5449b231b",kDFPSimulatorID ]
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ GADSimulatorID ]
         bannerView.load(request)
         
         return bannerView
