@@ -143,7 +143,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
         
         if(update_history){
             if(search_cache.contains(text)){
-                let idx:Int = search_cache.index(of: text)!
+                let idx:Int = search_cache.firstIndex(of: text)!
                 search_cache.remove(at: idx)
             }
             search_cache.insert(text, at: 0)
@@ -179,7 +179,7 @@ class SearchViewController: RecentViewController,UISearchBarDelegate , GADBanner
     override func remove(_ idx:Int){
         let text:String = self.texts[idx].cell
         if(search_cache.contains(text)){
-            let idx:Int = search_cache.index(of: text)!
+            let idx:Int = search_cache.firstIndex(of: text)!
             search_cache.remove(at: idx)
         }
         userDefaults.set(search_cache, forKey: "search")

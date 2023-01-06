@@ -21,7 +21,7 @@ class Mark{
     
     func add_remove(_ company_id:String){
         if(mark_list.contains(company_id)){
-            let idx:Int = mark_list.index(of: company_id)!
+            let idx:Int = mark_list.firstIndex(of: company_id)!
             mark_list.remove(at: idx)
         }else{
             mark_list.insert(company_id, at: 0)
